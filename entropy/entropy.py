@@ -123,9 +123,9 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False):
     Notes
     -----
     Spectral Entropy is defined to be the Shannon Entropy of the Power
-    Spectrum of the data.
+    Spectral Density (PSD) of the data:
 
-    .. math:: H(x) =  -\sum_{f=0}^{f = f_s/2} PSD(f) log_2[PSD(f)]
+    .. math:: H(x, sf) =  -\sum_{f=0}^{f_s/2} PSD(f) log_2[PSD(f)]
 
     Where :math:`PSD` is the normalised PSD, and :math:`f_s` is the sampling
     frequency.

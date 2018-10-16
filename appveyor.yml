@@ -28,7 +28,7 @@ install:
   - "activate testenv"
   - "python -m pip install --upgrade pip"
   # Install dependencies :
-  - "pip install pytest"
+  - "pip install pytest scikit-learn"
   - "dir"
   # ------------------- ENTROPY -------------------
   - "python setup.py develop"

@@ -31,6 +31,12 @@ def check_dependencies():
     except ImportError:
         install_requires.append('scipy')
 
+    try:
+        import sklearn
+    except ImportError:
+        install_requires.append('scikit-learn')
+
+
     return install_requires
 
 

@@ -1,7 +1,8 @@
 import numpy as np
 import unittest
 
-from entropy import perm_entropy, spectral_entropy, svd_entropy
+from entropy import (perm_entropy, spectral_entropy, svd_entropy,
+                     sample_entropy, app_entropy)
 
 np.random.seed(1234567)
 RANDOM_TS = np.random.rand(3000)
@@ -37,6 +38,29 @@ class TestEntropy(unittest.TestCase):
         svd_entropy(RANDOM_TS, order=3, delay=1, normalize=True)
         svd_entropy(RANDOM_TS, order=2, delay=1, normalize=False)
         svd_entropy(RANDOM_TS, order=3, delay=2, normalize=False)
+
+    def test_sample_entropy(self):
+        se = sample_entropy(RANDOM_TS, order=2)
+        se_eu_3 = sample_entropy(RANDOM_TS, order=3, metric='euclidean')
+        # Compare with MNE-features
+        self.assertEqual(np.round(se, 3), 2.192)
+        self.assertEqual(np.round(se_eu_3, 3), 2.725)
+        sample_entropy(RANDOM_TS, order=3)
+        sample_entropy(RANDOM_TS, order=2, metric='euclidean')
+        with self.assertRaises(ValueError):
+            sample_entropy(RANDOM_TS, order=2, metric='wrong')
+        with self.assertRaises(ValueError):
+            sample_entropy(BANDT_PERM, order=2)
+
+    def test_app_entropy(self):
+        ae = app_entropy(RANDOM_TS, order=2)
+        ae_eu_3 = app_entropy(RANDOM_TS, order=3, metric='euclidean')
+        # Compare with MNE-features
+        self.assertEqual(np.round(ae, 3), 2.075)
+        self.assertEqual(np.round(ae_eu_3, 3), 0.956)
+        app_entropy(RANDOM_TS, order=3)
+        with self.assertRaises(ValueError):
+            app_entropy(RANDOM_TS, order=2, metric='wrong')
 
 
 if __name__ == '__main__':

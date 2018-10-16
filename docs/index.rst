@@ -37,6 +37,7 @@ Installation
 
 - numpy
 - scipy
+- scikit-learn
 
 Functions
 =========
@@ -79,6 +80,34 @@ Functions
 
     0.421
 
+**4. Approximate entropy**
+
+.. code-block:: python
+
+    from entropy import app_entropy
+    import numpy as np
+    np.random.seed(1234567)
+    x = np.random.rand(3000)
+    print(app_entropy(x, order=2, metric='chebyshev'))
+
+.. parsed-literal::
+
+    2.075
+
+**5. Sample entropy**
+
+.. code-block:: python
+
+    from entropy import sample_entropy
+    import numpy as np
+    np.random.seed(1234567)
+    x = np.random.rand(3000)
+    print(sample_entropy(x, order=2, metric='chebyshev'))
+
+.. parsed-literal::
+
+    2.191
+
 Execution time
 ==============
 
@@ -93,13 +122,16 @@ Some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8 Go of RA
     %timeit perm_entropy(x, order=3, delay=1)
     %timeit spectral_entropy(x, 100, method='fft')
     %timeit svd_entropy(x, order=3, delay=1)
+    %timeit app_entropy(x, order=2)
+    %timeit sample_entropy(x, order=2)
 
 .. parsed-literal::
 
     126 µs ± 3.8 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
     137 µs ± 2.1 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
     43 µs ± 462 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-
+    4.86 ms ± 107 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+    5 ms ± 277 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 
 Development
 ===========

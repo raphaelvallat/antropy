@@ -19,6 +19,10 @@ class TestEntropy(unittest.TestCase):
         # Compare with Bandt and Pompe 2002
         self.assertEqual(np.round(perm_entropy(BANDT_PERM, order=2), 3), 0.918)
         self.assertEqual(np.round(perm_entropy(BANDT_PERM, order=3), 3), 1.522)
+        # Error
+        with self.assertRaises(ValueError):
+            perm_entropy(BANDT_PERM, order=4, delay=3)
+            perm_entropy(BANDT_PERM, order=3, delay=0.5)
 
     def test_spectral_entropy(self):
         spectral_entropy(RANDOM_TS, SF_TS, method='fft')

@@ -126,14 +126,19 @@ and 1. Otherwise, return the permutation entropy in bit.</p>
 introduced by Bandt and Pompe in 2002 <a class="reference internal" href="#r4295615302d9-1" id="id1">[1]</a>.</p>
 <p>The permutation entropy of a signal <span class="math notranslate nohighlight">\(x\)</span> is defined as:</p>
 <div class="math notranslate nohighlight">
-\[H(n) = -\sum p(\pi)log(\pi)\]</div>
+\[H = -\sum p(\pi)log_2(\pi)\]</div>
 <p>where the sum runs over all <span class="math notranslate nohighlight">\(n!\)</span> permutations <span class="math notranslate nohighlight">\(\pi\)</span> of order
 <span class="math notranslate nohighlight">\(n\)</span>. This is the information contained in comparing <span class="math notranslate nohighlight">\(n\)</span>
 consecutive values of the time series. It is clear that
-<span class="math notranslate nohighlight">\(0 ≤ H (n) ≤ log(n!)\)</span> where the lower bound is attained for an
+<span class="math notranslate nohighlight">\(0 ≤ H (n) ≤ log_2(n!)\)</span> where the lower bound is attained for an
 increasing or decreasing sequence of values, and the upper bound for a
 completely random system where all <span class="math notranslate nohighlight">\(n!\)</span> possible permutations appear
 with the same probability.</p>
+<p>The embedded matrix <span class="math notranslate nohighlight">\(Y\)</span> is created by:</p>
+<div class="math notranslate nohighlight">
+\[y(i)=[x_i,x_{i+delay}, ...,x_{i+(order-1) * delay}]\]</div>
+<div class="math notranslate nohighlight">
+\[Y=[y(1),y(2),...,y(N-(order-1))*delay)]^T\]</div>
 <p class="rubric">References</p>
 <table class="docutils citation" frame="void" id="r4295615302d9-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>

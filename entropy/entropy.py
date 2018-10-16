@@ -36,15 +36,21 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
 
     The permutation entropy of a signal :math:`x` is defined as:
 
-    .. math:: H(n) = -\sum p(\pi)log(\pi)
+    .. math:: H = -\sum p(\pi)log_2(\pi)
 
     where the sum runs over all :math:`n!` permutations :math:`\pi` of order
     :math:`n`. This is the information contained in comparing :math:`n`
     consecutive values of the time series. It is clear that
-    :math:`0 ≤ H (n) ≤ log(n!)` where the lower bound is attained for an
+    :math:`0 ≤ H (n) ≤ log_2(n!)` where the lower bound is attained for an
     increasing or decreasing sequence of values, and the upper bound for a
     completely random system where all :math:`n!` possible permutations appear
     with the same probability.
+
+    The embedded matrix :math:`Y` is created by:
+
+    .. math:: y(i)=[x_i,x_{i+delay}, ...,x_{i+(order-1) * delay}]
+
+    .. math:: Y=[y(1),y(2),...,y(N-(order-1))*delay)]^T
 
 
     References
@@ -195,6 +201,21 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
     SVD entropy is an indicator of the number of eigenvectors that are needed
     for an adequate explanation of the data set. In other words, it measures
     the dimensionality of the data.
+
+    The SVD entropy of a signal :math:`x` is defined as:
+
+    .. math::
+        H = -\sum_{i=1}^{M} \overline{\sigma}_i log_2(\overline{\sigma}_i)
+
+    where :math:`M` is the number of singular values of the embedded matrix
+    :math:`Y` and :math:`\sigma_1, \sigma_2, ..., \sigma_M` are the
+    normalized singular values of :math:`Y`.
+
+    The embedded matrix :math:`Y` is created by:
+
+    .. math:: y(i)=[x_i,x_{i+delay}, ...,x_{i+(order-1) * delay}]
+
+    .. math:: Y=[y(1),y(2),...,y(N-(order-1))*delay)]^T
 
     Examples
     --------

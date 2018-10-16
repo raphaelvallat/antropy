@@ -125,6 +125,17 @@ and 1. Otherwise, return the permutation entropy in bit.</p>
 <p>SVD entropy is an indicator of the number of eigenvectors that are needed
 for an adequate explanation of the data set. In other words, it measures
 the dimensionality of the data.</p>
+<p>The SVD entropy of a signal <span class="math notranslate nohighlight">\(x\)</span> is defined as:</p>
+<div class="math notranslate nohighlight">
+\[H = -\sum_{i=1}^{M} \overline{\sigma}_i log_2(\overline{\sigma}_i)\]</div>
+<p>where <span class="math notranslate nohighlight">\(M\)</span> is the number of singular values of the embedded matrix
+<span class="math notranslate nohighlight">\(Y\)</span> and <span class="math notranslate nohighlight">\(\sigma_1, \sigma_2, ..., \sigma_M\)</span> are the
+normalized singular values of <span class="math notranslate nohighlight">\(Y\)</span>.</p>
+<p>The embedded matrix <span class="math notranslate nohighlight">\(Y\)</span> is created by:</p>
+<div class="math notranslate nohighlight">
+\[y(i)=[x_i,x_{i+delay}, ...,x_{i+(order-1) * delay}]\]</div>
+<div class="math notranslate nohighlight">
+\[Y=[y(1),y(2),...,y(N-(order-1))*delay)]^T\]</div>
 <p class="rubric">Examples</p>
 <ol class="arabic">
 <li><p class="first">SVD entropy with order 2</p>

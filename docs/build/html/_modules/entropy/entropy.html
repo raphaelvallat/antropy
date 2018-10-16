@@ -124,15 +124,21 @@
 
 <span class="sd">    The permutation entropy of a signal :math:`x` is defined as:</span>
 
-<span class="sd">    .. math:: H(n) = -\sum p(\pi)log(\pi)</span>
+<span class="sd">    .. math:: H = -\sum p(\pi)log_2(\pi)</span>
 
 <span class="sd">    where the sum runs over all :math:`n!` permutations :math:`\pi` of order</span>
 <span class="sd">    :math:`n`. This is the information contained in comparing :math:`n`</span>
 <span class="sd">    consecutive values of the time series. It is clear that</span>
-<span class="sd">    :math:`0 ≤ H (n) ≤ log(n!)` where the lower bound is attained for an</span>
+<span class="sd">    :math:`0 ≤ H (n) ≤ log_2(n!)` where the lower bound is attained for an</span>
 <span class="sd">    increasing or decreasing sequence of values, and the upper bound for a</span>
 <span class="sd">    completely random system where all :math:`n!` possible permutations appear</span>
 <span class="sd">    with the same probability.</span>
+
+<span class="sd">    The embedded matrix :math:`Y` is created by:</span>
+
+<span class="sd">    .. math:: y(i)=[x_i,x_{i+delay}, ...,x_{i+(order-1) * delay}]</span>
+
+<span class="sd">    .. math:: Y=[y(1),y(2),...,y(N-(order-1))*delay)]^T</span>
 
 
 <span class="sd">    References</span>
@@ -283,6 +289,21 @@
 <span class="sd">    SVD entropy is an indicator of the number of eigenvectors that are needed</span>
 <span class="sd">    for an adequate explanation of the data set. In other words, it measures</span>
 <span class="sd">    the dimensionality of the data.</span>
+
+<span class="sd">    The SVD entropy of a signal :math:`x` is defined as:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        H = -\sum_{i=1}^{M} \overline{\sigma}_i log_2(\overline{\sigma}_i)</span>
+
+<span class="sd">    where :math:`M` is the number of singular values of the embedded matrix</span>
+<span class="sd">    :math:`Y` and :math:`\sigma_1, \sigma_2, ..., \sigma_M` are the</span>
+<span class="sd">    normalized singular values of :math:`Y`.</span>
+
+<span class="sd">    The embedded matrix :math:`Y` is created by:</span>
+
+<span class="sd">    .. math:: y(i)=[x_i,x_{i+delay}, ...,x_{i+(order-1) * delay}]</span>
+
+<span class="sd">    .. math:: Y=[y(1),y(2),...,y(N-(order-1))*delay)]^T</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>

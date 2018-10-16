@@ -118,7 +118,7 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False):
     Returns
     -------
     se : float
-        Permutation Entropy
+        Spectral Entropy
 
     Notes
     -----

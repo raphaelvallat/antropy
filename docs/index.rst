@@ -1,7 +1,22 @@
 .. -*- mode: rst -*-
 
+|
+
+.. image:: https://img.shields.io/github/license/raphaelvallat/entropy.svg
+  :target: https://github.com/raphaelvallat/entropy/blob/master/LICENSE
+
+.. image:: https://travis-ci.org/raphaelvallat/entropy.svg?branch=master
+    :target: https://travis-ci.org/raphaelvallat/entropy
+
+.. image:: https://ci.appveyor.com/api/projects/status/mukj36n939ftu4io?svg=true
+    :target: https://ci.appveyor.com/project/raphaelvallat/entropy
+
+.. image:: https://codecov.io/gh/raphaelvallat/entropy/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/raphaelvallat/entropy
+
+
 .. figure::  https://github.com/raphaelvallat/entropy/blob/master/docs/pictures/logo.png
-   :align:   center
+    :align: center
 
  EntroPy is a Python 3 package for computing several entropy metrics of time series.
 

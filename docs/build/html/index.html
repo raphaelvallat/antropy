@@ -97,10 +97,6 @@
 <img alt="https://github.com/raphaelvallat/entropy/blob/master/docs/pictures/logo.png" src="https://github.com/raphaelvallat/entropy/blob/master/docs/pictures/logo.png" />
 </div>
 <p>EntroPy is a Python 3 package for computing several entropy metrics of time series.</p>
-<p>It currently includes</p>
-<ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">perm_entropy</span></code>: Permutation entropy (Bandt and Pompe, 2002)</li>
-</ul>
 <div class="section" id="installation">
 <h1>Installation</h1>
 <p><strong>Develop mode</strong></p>
@@ -115,6 +111,18 @@ python setup.py develop
 <li>numpy</li>
 <li>scipy</li>
 </ul>
+</div>
+<div class="section" id="functions">
+<h1>Functions</h1>
+<p><strong>1. Permutation entropy</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="n">perm_entropy</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.589</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="development">
 <h1>Development</h1>

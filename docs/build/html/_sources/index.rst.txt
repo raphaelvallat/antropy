@@ -21,10 +21,6 @@
 
 EntroPy is a Python 3 package for computing several entropy metrics of time series.
 
-It currently includes
-
-- ``perm_entropy``: Permutation entropy (Bandt and Pompe, 2002)
-
 Installation
 ============
 
@@ -41,6 +37,21 @@ Installation
 
 - numpy
 - scipy
+
+Functions
+=========
+
+**1. Permutation entropy**
+
+.. code-block:: python
+
+    from entropy import perm_entropy
+    x = [4, 7, 9, 10, 6, 11, 3]
+    print(perm_entropy(x, order=3, normalize=True))
+
+.. parsed-literal::
+
+    0.589
 
 Development
 ===========

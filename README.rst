@@ -47,6 +47,21 @@ Installation
 - numpy
 - scipy
 
+Functions
+=========
+
+**1. Permutation entropy**
+
+.. code-block:: python
+
+    from entropy import perm_entropy
+    x = [4, 7, 9, 10, 6, 11, 3]
+    print(perm_entropy(x, order=3, normalize=True))
+
+.. parsed-literal::
+
+    0.589
+
 Development
 ===========
 

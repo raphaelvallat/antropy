@@ -1,7 +1,7 @@
 .. -*- mode: rst -*-
 
 
-.. figure::  docs/pictures/logo.png
+.. figure::  https://github.com/raphaelvallat/entropy/blob/master/docs/pictures/logo.png
    :align:   center
 
  EntroPy is a Python 3 package for computing several entropy metrics of time series.
@@ -23,3 +23,5 @@ Acknowledgement
 ===============
 
 Several functions of EntroPy were borrowed from:
+- pyEntropy
+- MNE-features

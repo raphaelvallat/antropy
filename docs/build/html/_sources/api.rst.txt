@@ -11,3 +11,4 @@ API reference
    :toctree: generated/
 
     perm_entropy
+    spectral_entropy

@@ -87,20 +87,21 @@
       
   <h1>Source code for entropy.entropy</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="k">import</span> <span class="n">periodogram</span><span class="p">,</span> <span class="n">welch</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">factorial</span>
 
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">_embed</span>
 
-<span class="nb">all</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;perm_entropy&#39;</span><span class="p">]</span>
+<span class="nb">all</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;perm_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;spectral_entropy&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="perm_entropy"><a class="viewcode-back" href="../../generated/entropy.perm_entropy.html#entropy.perm_entropy">[docs]</a><span class="k">def</span> <span class="nf">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Permutation Entropy (Bandt and Pompe 2002)</span>
+    <span class="sd">&quot;&quot;&quot;Permutation Entropy.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    x : list or np.array</span>
-<span class="sd">        Time series</span>
+<span class="sd">        One-dimensional time series of shape (n_times)</span>
 <span class="sd">    order : int</span>
 <span class="sd">        Order of permutation entropy</span>
 <span class="sd">    delay : int</span>
@@ -117,17 +118,21 @@
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    .. [1] Bandt, Christoph, and Bernd Pompe. &quot;Permutation entropy: a</span>
-<span class="sd">       natural complexity measure for time series.&quot; Physical review letters</span>
-<span class="sd">       88.17 (2002): 174102.</span>
+<span class="sd">           natural complexity measure for time series.&quot; Physical review letters</span>
+<span class="sd">           88.17 (2002): 174102.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    1. Permutation entropy with order 2</span>
+
+<span class="sd">        &gt;&gt;&gt; from entropy import perm_entropy</span>
 <span class="sd">        &gt;&gt;&gt; x = [4, 7, 9, 10, 6, 11, 3]</span>
 <span class="sd">        &gt;&gt;&gt; # Return a value in bit between 0 and log2(factorial(order))</span>
 <span class="sd">        &gt;&gt;&gt; print(perm_entropy(x, order=2))</span>
 <span class="sd">            0.918</span>
 <span class="sd">    2. Normalized permutation entropy with order 3</span>
+
+<span class="sd">        &gt;&gt;&gt; from entropy import perm_entropy</span>
 <span class="sd">        &gt;&gt;&gt; x = [4, 7, 9, 10, 6, 11, 3]</span>
 <span class="sd">        &gt;&gt;&gt; # Return a value comprised between 0 and 1.</span>
 <span class="sd">        &gt;&gt;&gt; print(perm_entropy(x, order=3, normalize=True))</span>
@@ -148,6 +153,91 @@
     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
         <span class="n">pe</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">factorial</span><span class="p">(</span><span class="n">order</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">pe</span></div>
+
+
+<div class="viewcode-block" id="spectral_entropy"><a class="viewcode-back" href="../../generated/entropy.spectral_entropy.html#entropy.spectral_entropy">[docs]</a><span class="k">def</span> <span class="nf">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fft&#39;</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Spectral Entropy.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : list or np.array</span>
+<span class="sd">        One-dimensional time series of shape (n_times)</span>
+<span class="sd">    sf : float</span>
+<span class="sd">        Sampling frequency</span>
+<span class="sd">    method : str</span>
+<span class="sd">        Spectral estimation method ::</span>
+
+<span class="sd">        &#39;fft&#39; : Fourier Transform (via scipy.signal.periodogram)</span>
+<span class="sd">        &#39;welch&#39; : Welch periodogram (via scipy.signal.welch)</span>
+
+<span class="sd">    nperseg : str or int</span>
+<span class="sd">        Length of each FFT segment for Welch method.</span>
+<span class="sd">        If None, uses scipy default of 256 samples.</span>
+<span class="sd">    normalize : bool</span>
+<span class="sd">        If True, divide by log2(psd.size) to normalize the spectral entropy</span>
+<span class="sd">        between 0 and 1. Otherwise, return the spectral entropy in bit.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    se : float</span>
+<span class="sd">        Permutation Entropy</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Spectral Entropy is defined to be the Shannon Entropy of the Power</span>
+<span class="sd">    Spectrum of the data.</span>
+
+<span class="sd">    .. math:: H(x) =  -\sum_{f=0}^{f = f_s/2} PSD(f) log_2[PSD(f)]</span>
+
+<span class="sd">    Where :math:`PSD` is the normalised PSD, and :math:`f_s` is the sampling</span>
+<span class="sd">    frequency.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Inouye, T. et al. (1991). Quantification of EEG irregularity by</span>
+<span class="sd">       use of the entropy of the power spectrum. Electroencephalography</span>
+<span class="sd">       and clinical neurophysiology, 79(3), 204-210.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    1. Spectral entropy of a pure sine using FFT</span>
+
+<span class="sd">        &gt;&gt;&gt; from entropy import spectral_entropy</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; sf, f, dur = 100, 1, 4</span>
+<span class="sd">        &gt;&gt;&gt; N = sf * duration # Total number of discrete samples</span>
+<span class="sd">        &gt;&gt;&gt; t = np.arange(N) / sf # Time vector</span>
+<span class="sd">        &gt;&gt;&gt; x = np.sin(2 * np.pi * f * t)</span>
+<span class="sd">        &gt;&gt;&gt; print(np.round(spectral_entropy(x, sf, method=&#39;fft&#39;), 2)</span>
+<span class="sd">            0.0</span>
+
+<span class="sd">    2. Spectral entropy of a random signal using Welch&#39;s method</span>
+
+<span class="sd">        &gt;&gt;&gt; from entropy import spectral_entropy</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">        &gt;&gt;&gt; x = np.random.rand(3000)</span>
+<span class="sd">        &gt;&gt;&gt; print(spectral_entropy(x, sf=100, method=&#39;welch&#39;))</span>
+<span class="sd">            9.939</span>
+
+<span class="sd">    3. Normlized spectral entropy</span>
+
+<span class="sd">        &gt;&gt;&gt; print(spectral_entropy(x, sf=100, method=&#39;welch&#39;, normalize=True))</span>
+<span class="sd">            0.995</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># Compute and normalize power spectrum</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;fft&#39;</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">periodogram</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;welch&#39;</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">welch</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="n">nperseg</span><span class="p">)</span>
+    <span class="n">psd_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">psd</span><span class="p">,</span> <span class="n">psd</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">psd_norm</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">psd_norm</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">se</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">psd_norm</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">se</span></div>
 </pre></div>
 
     </div>

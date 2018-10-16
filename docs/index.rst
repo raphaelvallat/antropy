@@ -25,15 +25,6 @@ It currently includes
 
 - ``perm_entropy``: Permutation entropy (Bandt and Pompe, 2002)
 
-Contents
-========
-
-.. toctree::
-   :maxdepth: 1
-
-   api
-   changelog
-
 Installation
 ============
 

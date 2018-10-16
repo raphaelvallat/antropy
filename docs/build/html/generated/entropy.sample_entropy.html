@@ -120,6 +120,13 @@ metric functions is given by: <cite>KDTree.valid_metrics</cite>.</p>
 </table>
 <p class="rubric">Notes</p>
 <p>Original code from the mne-features package.</p>
+<p>Sample entropy is a modification of approximate entropy, used for assessing
+the complexity of physiological time-series signals.</p>
+<p>Sample entropy has two advantages over approximate entropy: data length
+independence and a relatively trouble-free implementation.</p>
+<p>Sample entropy will be always either be zero or positive value.
+Smaller values indicates more self-similarity in data set or less noise.</p>
+<p>The value of <span class="math notranslate nohighlight">\(r\)</span> is set to <span class="math notranslate nohighlight">\(0.2 * std(x)\)</span>.</p>
 <p class="rubric">References</p>
 <table class="docutils citation" frame="void" id="ra05fe78bc240-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>

@@ -351,6 +351,13 @@
 <span class="sd">    -----</span>
 <span class="sd">    Original code from the mne-features package.</span>
 
+<span class="sd">    Approximate entropy is a technique used to quantify the amount of</span>
+<span class="sd">    regularity and the unpredictability of fluctuations over time-series data.</span>
+
+<span class="sd">    Smaller values indicates that the data is more regular and predictable.</span>
+
+<span class="sd">    The value of :math:`r` is set to :math:`0.2 * std(x)`.</span>
+
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    .. [1] Richman, J. S. et al. (2000). Physiological time-series analysis</span>
@@ -391,6 +398,17 @@
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    Original code from the mne-features package.</span>
+
+<span class="sd">    Sample entropy is a modification of approximate entropy, used for assessing</span>
+<span class="sd">    the complexity of physiological time-series signals.</span>
+
+<span class="sd">    Sample entropy has two advantages over approximate entropy: data length</span>
+<span class="sd">    independence and a relatively trouble-free implementation.</span>
+
+<span class="sd">    Sample entropy will be always either be zero or positive value.</span>
+<span class="sd">    Smaller values indicates more self-similarity in data set or less noise.</span>
+
+<span class="sd">    The value of :math:`r` is set to :math:`0.2 * std(x)`.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>

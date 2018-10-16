@@ -263,6 +263,13 @@ def app_entropy(x, order=2, metric='chebyshev'):
     -----
     Original code from the mne-features package.
 
+    Approximate entropy is a technique used to quantify the amount of
+    regularity and the unpredictability of fluctuations over time-series data.
+
+    Smaller values indicates that the data is more regular and predictable.
+
+    The value of :math:`r` is set to :math:`0.2 * std(x)`.
+
     References
     ----------
     .. [1] Richman, J. S. et al. (2000). Physiological time-series analysis
@@ -303,6 +310,17 @@ def sample_entropy(x, order=2, metric='chebyshev'):
     Notes
     -----
     Original code from the mne-features package.
+
+    Sample entropy is a modification of approximate entropy, used for assessing
+    the complexity of physiological time-series signals.
+
+    Sample entropy has two advantages over approximate entropy: data length
+    independence and a relatively trouble-free implementation.
+
+    Sample entropy will be always either be zero or positive value.
+    Smaller values indicates more self-similarity in data set or less noise.
+
+    The value of :math:`r` is set to :math:`0.2 * std(x)`.
 
     References
     ----------

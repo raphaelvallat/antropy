@@ -125,11 +125,15 @@ the complexity of physiological time-series signals. It has two advantages
 over approximate entropy: data length independence and a relatively
 trouble-free implementation. Large values indicate high complexity whereas
 smaller values characterize more self-similar and regular signals.</p>
-<p>Sample entropy is defined as:</p>
+<p>Sample entropy of a signal <span class="math notranslate nohighlight">\(x\)</span> is defined as:</p>
 <div class="math notranslate nohighlight">
-\[h_q(m, r) = log(C_q(m, r)/C_q(m + 1, r))\]</div>
-<p>where <span class="math notranslate nohighlight">\(m\)</span> is the embedding dimension (= order) and <span class="math notranslate nohighlight">\(r\)</span> is
-the radius of the neighbourhood (default = <span class="math notranslate nohighlight">\(0.2 * std(x)\)</span>).</p>
+\[H(x, m, r) = -log\dfrac{C(m + 1, r)}{C(m, r)}\]</div>
+<p>where <span class="math notranslate nohighlight">\(m\)</span> is the embedding dimension (= order), <span class="math notranslate nohighlight">\(r\)</span> is
+the radius of the neighbourhood (default = <span class="math notranslate nohighlight">\(0.2 * std(x)\)</span>),
+<span class="math notranslate nohighlight">\(C(m + 1, r)\)</span> is the number of embedded vectors of length
+<span class="math notranslate nohighlight">\(m + 1\)</span> having a Chebyshev distance inferior to <span class="math notranslate nohighlight">\(r\)</span> and
+<span class="math notranslate nohighlight">\(C(m, r)\)</span> is the number of embedded vectors of length
+<span class="math notranslate nohighlight">\(m\)</span> having a Chebyshev distance inferior to <span class="math notranslate nohighlight">\(r\)</span>.</p>
 <p class="rubric">References</p>
 <table class="docutils citation" frame="void" id="ra05fe78bc240-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>

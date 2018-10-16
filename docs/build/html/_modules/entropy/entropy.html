@@ -405,12 +405,17 @@
 <span class="sd">    trouble-free implementation. Large values indicate high complexity whereas</span>
 <span class="sd">    smaller values characterize more self-similar and regular signals.</span>
 
-<span class="sd">    Sample entropy is defined as:</span>
+<span class="sd">    Sample entropy of a signal :math:`x` is defined as:</span>
 
-<span class="sd">    .. math:: h_q(m, r) = log(C_q(m, r)/C_q(m + 1, r))</span>
+<span class="sd">    .. math:: H(x, m, r) = -log\dfrac{C(m + 1, r)}{C(m, r)}</span>
 
-<span class="sd">    where :math:`m` is the embedding dimension (= order) and :math:`r` is</span>
-<span class="sd">    the radius of the neighbourhood (default = :math:`0.2 * std(x)`).</span>
+<span class="sd">    where :math:`m` is the embedding dimension (= order), :math:`r` is</span>
+<span class="sd">    the radius of the neighbourhood (default = :math:`0.2 * std(x)`),</span>
+<span class="sd">    :math:`C(m + 1, r)` is the number of embedded vectors of length</span>
+<span class="sd">    :math:`m + 1` having a Chebyshev distance inferior to :math:`r` and</span>
+<span class="sd">    :math:`C(m, r)` is the number of embedded vectors of length</span>
+<span class="sd">    :math:`m` having a Chebyshev distance inferior to :math:`r`.</span>
+
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>

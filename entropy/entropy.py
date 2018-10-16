@@ -317,12 +317,17 @@ def sample_entropy(x, order=2, metric='chebyshev'):
     trouble-free implementation. Large values indicate high complexity whereas
     smaller values characterize more self-similar and regular signals.
 
-    Sample entropy is defined as:
+    Sample entropy of a signal :math:`x` is defined as:
 
-    .. math:: h_q(m, r) = log(C_q(m, r)/C_q(m + 1, r))
+    .. math:: H(x, m, r) = -log\dfrac{C(m + 1, r)}{C(m, r)}
 
-    where :math:`m` is the embedding dimension (= order) and :math:`r` is
-    the radius of the neighbourhood (default = :math:`0.2 * std(x)`).
+    where :math:`m` is the embedding dimension (= order), :math:`r` is
+    the radius of the neighbourhood (default = :math:`0.2 * std(x)`),
+    :math:`C(m + 1, r)` is the number of embedded vectors of length
+    :math:`m + 1` having a Chebyshev distance inferior to :math:`r` and
+    :math:`C(m, r)` is the number of embedded vectors of length
+    :math:`m` having a Chebyshev distance inferior to :math:`r`.
+
 
     References
     ----------

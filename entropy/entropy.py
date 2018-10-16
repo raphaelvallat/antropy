@@ -192,7 +192,7 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
         >>> x = [4, 7, 9, 10, 6, 11, 3]
         >>> # Return a value comprised between 0 and 1.
         >>> print(svd_entropy(x, order=3, normalize=True))
-            0.421
+            0.687
     """
     x = np.array(x)
     mat = _embed(x, order=order, delay=delay)
@@ -201,5 +201,5 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
     W /= sum(W)
     svd_e = -np.multiply(W, np.log2(W)).sum()
     if normalize:
-        svd_e /= np.log2(factorial(order))
+        svd_e /= np.log2(order)
     return svd_e

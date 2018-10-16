@@ -136,8 +136,6 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False):
 
         >>> print(spectral_entropy(x, sf=100, method='welch', normalize=True))
             0.995
-
-
     """
     x = np.array(x)
     # Compute and normalize power spectrum

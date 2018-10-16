@@ -9,6 +9,14 @@
 
  - ``perm_entropy``: Permutation entropy (Bandt and Pompe, 2002)
 
+Documentation
+=============
+
+.. toctree::
+   :maxdepth: 1
+
+   api
+   changelog
 
 Installation
 ============

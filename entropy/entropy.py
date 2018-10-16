@@ -28,19 +28,15 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
 
     References
     ----------
-    .. [1] Massimiliano Zanin et al. Permutation Entropy and Its Main
-        Biomedical and Econophysics Applications: A Review.
-
-        http://www.mdpi.com/1099-4300/14/8/1553/pdf
-    .. [2] Christoph Bandt and Bernd Pompe. Permutation entropy — a natural
-        complexity measure for time series.
-        http://stubber.math-inf.uni-greifswald.de/pub/full/prep/2001/11.pdf
+    .. [1] Bandt, Christoph, and Bernd Pompe. "Permutation entropy: a
+       natural complexity measure for time series." Physical review letters
+       88.17 (2002): 174102.
 
     Examples
     --------
     1. Permutation entropy with order 2
         >>> x = [4, 7, 9, 10, 6, 11, 3]
-        >>> # Return a value between 0 and log2(factorial(order))
+        >>> # Return a value in bit between 0 and log2(factorial(order))
         >>> print(perm_entropy(x, order=2))
             0.918
     2. Normalized permutation entropy with order 3

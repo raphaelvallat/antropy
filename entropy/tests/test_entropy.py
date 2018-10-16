@@ -23,6 +23,7 @@ class TestEntropy(unittest.TestCase):
         # Error
         with self.assertRaises(ValueError):
             perm_entropy(BANDT_PERM, order=4, delay=3)
+        with self.assertRaises(ValueError):
             perm_entropy(BANDT_PERM, order=3, delay=0.5)
 
     def test_spectral_entropy(self):
@@ -61,7 +62,3 @@ class TestEntropy(unittest.TestCase):
         app_entropy(RANDOM_TS, order=3)
         with self.assertRaises(ValueError):
             app_entropy(RANDOM_TS, order=2, metric='wrong')
-
-
-if __name__ == '__main__':
-    unittest.main()

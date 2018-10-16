@@ -21,10 +21,6 @@
 
 EntroPy is a Python 3 package for computing several entropy metrics of one-dimensional time series.
 
-It currently includes
-
-- ``perm_entropy``: Permutation entropy (Bandt and Pompe, 2002)
-
 Documentation
 =============
 

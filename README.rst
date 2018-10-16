@@ -28,7 +28,7 @@
 Documentation
 =============
 
- - `Link to documentation <https://raphaelvallat.github.io/entropy/build/html/index.html>`_
+- `Link to documentation <https://raphaelvallat.github.io/entropy/build/html/index.html>`_
 
 Installation
 ============

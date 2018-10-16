@@ -12,3 +12,4 @@ API reference
 
     perm_entropy
     spectral_entropy
+    svd_entropy

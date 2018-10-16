@@ -92,7 +92,7 @@
 
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">_embed</span>
 
-<span class="nb">all</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;perm_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;spectral_entropy&#39;</span><span class="p">]</span>
+<span class="nb">all</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;perm_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;spectral_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;svd_entropy&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="perm_entropy"><a class="viewcode-back" href="../../generated/entropy.perm_entropy.html#entropy.perm_entropy">[docs]</a><span class="k">def</span> <span class="nf">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -220,7 +220,7 @@
 <span class="sd">        &gt;&gt;&gt; print(spectral_entropy(x, sf=100, method=&#39;welch&#39;))</span>
 <span class="sd">            9.939</span>
 
-<span class="sd">    3. Normlized spectral entropy</span>
+<span class="sd">    3. Normalized spectral entropy</span>
 
 <span class="sd">        &gt;&gt;&gt; print(spectral_entropy(x, sf=100, method=&#39;welch&#39;, normalize=True))</span>
 <span class="sd">            0.995</span>
@@ -232,10 +232,65 @@
     <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;welch&#39;</span><span class="p">:</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">welch</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="n">nperseg</span><span class="p">)</span>
     <span class="n">psd_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">psd</span><span class="p">,</span> <span class="n">psd</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-    <span class="n">se</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">psd_norm</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">psd_norm</span><span class="p">)))</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">psd_norm</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">psd_norm</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
         <span class="n">se</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">psd_norm</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">se</span></div>
+
+
+<div class="viewcode-block" id="svd_entropy"><a class="viewcode-back" href="../../generated/entropy.svd_entropy.html#entropy.svd_entropy">[docs]</a><span class="k">def</span> <span class="nf">svd_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Singular Value Decomposition entropy.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : list or np.array</span>
+<span class="sd">        One-dimensional time series of shape (n_times)</span>
+<span class="sd">    order : int</span>
+<span class="sd">        Order of permutation entropy</span>
+<span class="sd">    delay : int</span>
+<span class="sd">        Time delay</span>
+<span class="sd">    normalize : bool</span>
+<span class="sd">        If True, divide by log2(order!) to normalize the entropy between 0</span>
+<span class="sd">        and 1. Otherwise, return the permutation entropy in bit.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    svd_e : float</span>
+<span class="sd">        SVD Entropy</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    SVD entropy is an indicator of the number of eigenvectors that are needed</span>
+<span class="sd">    for an adequate explanation of the data set. In other words, it measures</span>
+<span class="sd">    the dimensionality of the data.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    1. SVD entropy with order 2</span>
+
+<span class="sd">        &gt;&gt;&gt; from entropy import svd_entropy</span>
+<span class="sd">        &gt;&gt;&gt; x = [4, 7, 9, 10, 6, 11, 3]</span>
+<span class="sd">        &gt;&gt;&gt; # Return a value in bit between 0 and log2(factorial(order))</span>
+<span class="sd">        &gt;&gt;&gt; print(svd_entropy(x, order=2))</span>
+<span class="sd">            0.762</span>
+
+<span class="sd">    2. Normalized SVD entropy with order 3</span>
+
+<span class="sd">        &gt;&gt;&gt; from entropy import svd_entropy</span>
+<span class="sd">        &gt;&gt;&gt; x = [4, 7, 9, 10, 6, 11, 3]</span>
+<span class="sd">        &gt;&gt;&gt; # Return a value comprised between 0 and 1.</span>
+<span class="sd">        &gt;&gt;&gt; print(svd_entropy(x, order=3, normalize=True))</span>
+<span class="sd">            0.421</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">_embed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">delay</span><span class="p">)</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">compute_uv</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="c1"># Normalize the singular values</span>
+    <span class="n">W</span> <span class="o">/=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+    <span class="n">svd_e</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">W</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">svd_e</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">factorial</span><span class="p">(</span><span class="n">order</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">svd_e</span></div>
 </pre></div>
 
     </div>

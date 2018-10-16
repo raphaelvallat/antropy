@@ -10,3 +10,4 @@ Initial release.
 
 a. Permutation entropy
 b. Spectral entropy
+c. Singular value decomposition entropy

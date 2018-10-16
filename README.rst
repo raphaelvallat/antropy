@@ -62,6 +62,32 @@ Functions
 
     0.589
 
+**2. Spectral entropy**
+
+.. code-block:: python
+
+    from entropy import spectral_entropy
+    import numpy as np
+    np.random.seed(1234567)
+    x = np.random.rand(3000)
+    print(spectral_entropy(x, 100, method='welch', normalize=True))
+
+.. parsed-literal::
+
+    0.994
+
+**3. Singular value decomposition (SVD) entropy**
+
+.. code-block:: python
+
+    from entropy import svd_entropy
+    x = [4, 7, 9, 10, 6, 11, 3]
+    print(svd_entropy(x, order=3, delay=1, normalize=True))
+
+.. parsed-literal::
+
+    0.421
+
 Development
 ===========
 

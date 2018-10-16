@@ -25,6 +25,11 @@
  - ``perm_entropy``: Permutation entropy (Bandt and Pompe, 2002)
 
 
+Documentation
+=============
+
+ - `Link to documentation <https://raphaelvallat.github.io/entropy/build/html/index.html>`_
+
 Installation
 ============
 

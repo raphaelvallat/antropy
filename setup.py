@@ -10,7 +10,7 @@ URL = 'https://raphaelvallat.github.io/entropy/build/html/index.html'
 LICENSE = 'BSD (3-clause)'
 DOWNLOAD_URL = 'https://github.com/raphaelvallat/entropy/'
 VERSION = '0.1.0'
-# PACKAGE_DATA = {'entropy.data.icons': ['*.svg']}
+PACKAGE_DATA = {'entropy.data.icons': ['*.ico']}
 
 try:
     from setuptools import setup
@@ -44,7 +44,6 @@ if __name__ == "__main__":
           maintainer=MAINTAINER,
           maintainer_email=MAINTAINER_EMAIL,
           description=DESCRIPTION,
-          # long_description=LONG_DESCRIPTION,
           license=LICENSE,
           url=URL,
           version=VERSION,
@@ -52,7 +51,7 @@ if __name__ == "__main__":
           install_requires=install_requires,
           include_package_data=True,
           packages=['entropy'],
-          # package_data=PACKAGE_DATA,
+          package_data=PACKAGE_DATA,
           classifiers=[
               'Intended Audience :: Science/Research',
               'Programming Language :: Python :: 3.6',

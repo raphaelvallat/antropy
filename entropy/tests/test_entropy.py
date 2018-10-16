@@ -25,6 +25,8 @@ class TestEntropy(unittest.TestCase):
             perm_entropy(BANDT_PERM, order=4, delay=3)
         with self.assertRaises(ValueError):
             perm_entropy(BANDT_PERM, order=3, delay=0.5)
+        with self.assertRaises(ValueError):
+            perm_entropy(BANDT_PERM, order=1, delay=1)
 
     def test_spectral_entropy(self):
         spectral_entropy(RANDOM_TS, SF_TS, method='fft')

@@ -24,7 +24,9 @@ def _embed(x, order=3, delay=1):
     if order * delay > N:
         raise ValueError("Error: order * delay should be lower than x.size")
     if delay < 1:
-        raise ValueError("Delay has to be at least 1")
+        raise ValueError("Delay has to be at least 1.")
+    if order < 2:
+        raise ValueError("Order has to be at least 2.")
     Y = np.zeros((order, N - (order - 1) * delay))
     for i in range(order):
         Y[i] = x[i * delay:i * delay + Y.shape[1]]

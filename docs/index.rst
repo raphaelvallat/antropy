@@ -79,6 +79,28 @@ Functions
 
     0.421
 
+Execution time
+==============
+
+Some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8 Go of RAM)
+
+.. code-block:: python
+
+    from entropy import *
+    import numpy as np
+    np.random.seed(1234567)
+    x = np.random.rand(1000)
+    %timeit perm_entropy(x, order=3, delay=1)
+    %timeit spectral_entropy(x, 100, method='fft')
+    %timeit svd_entropy(x, order=3, delay=1)
+
+.. parsed-literal::
+
+    126 µs ± 3.8 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+    137 µs ± 2.1 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+    43 µs ± 462 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+
+
 Development
 ===========
 

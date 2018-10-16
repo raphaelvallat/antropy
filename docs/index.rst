@@ -14,6 +14,7 @@
 .. image:: https://codecov.io/gh/raphaelvallat/entropy/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/raphaelvallat/entropy
 
+|
 
 .. figure::  https://github.com/raphaelvallat/entropy/blob/master/docs/pictures/logo.png
    :align:   center

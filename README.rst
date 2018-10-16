@@ -7,8 +7,18 @@
 
  It currently includes
 
- - `perm_entropy`: Permutation entropy (Bandt and Pompe, 2002)
+ - ``perm_entropy``: Permutation entropy (Bandt and Pompe, 2002)
 
+
+Installation
+============
+
+``python setup.py develop``
+
+**Dependencies**
+
+- numpy
+- scipy
 
 Development
 ===========

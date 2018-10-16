@@ -312,15 +312,17 @@ def sample_entropy(x, order=2, metric='chebyshev'):
     Original code from the mne-features package.
 
     Sample entropy is a modification of approximate entropy, used for assessing
-    the complexity of physiological time-series signals.
+    the complexity of physiological time-series signals. It has two advantages
+    over approximate entropy: data length independence and a relatively
+    trouble-free implementation. Large values indicate high complexity whereas
+    smaller values characterize more self-similar and regular signals.
 
-    Sample entropy has two advantages over approximate entropy: data length
-    independence and a relatively trouble-free implementation.
+    Sample entropy is defined as:
 
-    Sample entropy will be always either be zero or positive value.
-    Smaller values indicates more self-similarity in data set or less noise.
+    .. math:: h_q(m, r) = log(C_q(m, r)/C_q(m + 1, r))
 
-    The value of :math:`r` is set to :math:`0.2 * std(x)`.
+    where :math:`m` is the embedding dimension (= order) and :math:`r` is
+    the radius of the neighbourhood (default = :math:`0.2 * std(x)`).
 
     References
     ----------
@@ -338,6 +340,15 @@ def sample_entropy(x, order=2, metric='chebyshev'):
         >>> x = np.random.rand(3000)
         >>> print(sample_entropy(x, order=2))
             2.192
+
+    2. Sample entropy with order 3 using the Euclidean distance.
+
+        >>> from entropy import sample_entropy
+        >>> import numpy as np
+        >>> np.random.seed(1234567)
+        >>> x = np.random.rand(3000)
+        >>> print(sample_entropy(x, order=3, metric='euclidean'))
+            2.725
     """
     phi = _app_samp_entropy(x, order=order, metric=metric, approximate=False)
     if np.allclose(phi[0], 0) or np.allclose(phi[1], 0):

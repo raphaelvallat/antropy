@@ -400,15 +400,17 @@
 <span class="sd">    Original code from the mne-features package.</span>
 
 <span class="sd">    Sample entropy is a modification of approximate entropy, used for assessing</span>
-<span class="sd">    the complexity of physiological time-series signals.</span>
+<span class="sd">    the complexity of physiological time-series signals. It has two advantages</span>
+<span class="sd">    over approximate entropy: data length independence and a relatively</span>
+<span class="sd">    trouble-free implementation. Large values indicate high complexity whereas</span>
+<span class="sd">    smaller values characterize more self-similar and regular signals.</span>
 
-<span class="sd">    Sample entropy has two advantages over approximate entropy: data length</span>
-<span class="sd">    independence and a relatively trouble-free implementation.</span>
+<span class="sd">    Sample entropy is defined as:</span>
 
-<span class="sd">    Sample entropy will be always either be zero or positive value.</span>
-<span class="sd">    Smaller values indicates more self-similarity in data set or less noise.</span>
+<span class="sd">    .. math:: h_q(m, r) = log(C_q(m, r)/C_q(m + 1, r))</span>
 
-<span class="sd">    The value of :math:`r` is set to :math:`0.2 * std(x)`.</span>
+<span class="sd">    where :math:`m` is the embedding dimension (= order) and :math:`r` is</span>
+<span class="sd">    the radius of the neighbourhood (default = :math:`0.2 * std(x)`).</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -426,6 +428,15 @@
 <span class="sd">        &gt;&gt;&gt; x = np.random.rand(3000)</span>
 <span class="sd">        &gt;&gt;&gt; print(sample_entropy(x, order=2))</span>
 <span class="sd">            2.192</span>
+
+<span class="sd">    2. Sample entropy with order 3 using the Euclidean distance.</span>
+
+<span class="sd">        &gt;&gt;&gt; from entropy import sample_entropy</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; np.random.seed(1234567)</span>
+<span class="sd">        &gt;&gt;&gt; x = np.random.rand(3000)</span>
+<span class="sd">        &gt;&gt;&gt; print(sample_entropy(x, order=3, metric=&#39;euclidean&#39;))</span>
+<span class="sd">            2.725</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">phi</span> <span class="o">=</span> <span class="n">_app_samp_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span> <span class="n">approximate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">):</span>

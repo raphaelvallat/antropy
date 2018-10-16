@@ -18,8 +18,8 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     delay : int
         Time delay
     normalize : bool
-        If True, divide by log2(factorial(order)) to normalize the entropy
-        between 0 and 1. Otherwise, return the permutation entropy in bit.
+        If True, divide by log2(order!) to normalize the entropy between 0
+        and 1. Otherwise, return the permutation entropy in bit.
 
     Returns
     -------
@@ -30,6 +30,7 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     ----------
     .. [1] Massimiliano Zanin et al. Permutation Entropy and Its Main
         Biomedical and Econophysics Applications: A Review.
+
         http://www.mdpi.com/1099-4300/14/8/1553/pdf
     .. [2] Christoph Bandt and Bernd Pompe. Permutation entropy — a natural
         complexity measure for time series.

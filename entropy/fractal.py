@@ -18,12 +18,13 @@ def petrosian_fd(x):
 
     Notes
     -----
-    The Petrosian algorithm [1]_ can be used to provide a fast computation of
+    The Petrosian algorithm can be used to provide a fast computation of
     the FD of a signal by translating the series into a binary sequence.
 
     The Petrosian fractal dimension of a time series :math:`x` is defined by:
 
-    .. math:: \dfrac{log(N)}{log(N) + log(\dfrac{N}{N+0.4N_{\Delta}})}
+    .. math:: \dfrac{log_{10}(N)}{log_{10}(N) +
+       log_{10}(\dfrac{N}{N+0.4N_{\Delta}})}
 
     where :math:`N` is the length of the time series, and
     :math:`N_{\Delta}` is the number of sign changes in the binary sequence.
@@ -57,7 +58,7 @@ def petrosian_fd(x):
     # Number of sign changes in the first derivative of the signal
     diff = np.ediff1d(x)
     N_delta = (diff[1:-1] * diff[0:-2] < 0).sum()
-    return np.log(n) / (np.log(n) + np.log(n / (n + 0.4 * N_delta)))
+    return np.log10(n) / (np.log10(n) + np.log10(n / (n + 0.4 * N_delta)))
 
 
 def katz_fd(x):
@@ -77,7 +78,7 @@ def katz_fd(x):
     -----
     The Katz Fractal dimension is defined by:
 
-    .. math:: FD_{Katz} = \dfrac{log_{10}(n)}{log_{10}(d/L)+log_{10}(n))}
+    .. math:: FD_{Katz} = \dfrac{log_{10}(n)}{log_{10}(d/L)+log_{10}(n)}
 
     where :math:`L` is the total length of the time series and :math:`d`
     is the Euclidean distance between the first point in the

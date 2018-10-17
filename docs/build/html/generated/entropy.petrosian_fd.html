@@ -112,11 +112,12 @@
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>The Petrosian algorithm <a class="reference internal" href="#r2eb627373335-1" id="id1">[1]</a> can be used to provide a fast computation of
+<p>The Petrosian algorithm can be used to provide a fast computation of
 the FD of a signal by translating the series into a binary sequence.</p>
 <p>The Petrosian fractal dimension of a time series <span class="math notranslate nohighlight">\(x\)</span> is defined by:</p>
 <div class="math notranslate nohighlight">
-\[\dfrac{log(N)}{log(N) + log(\dfrac{N}{N+0.4N_{\Delta}})}\]</div>
+\[\dfrac{log_{10}(N)}{log_{10}(N) +
+log_{10}(\dfrac{N}{N+0.4N_{\Delta}})}\]</div>
 <p>where <span class="math notranslate nohighlight">\(N\)</span> is the length of the time series, and
 <span class="math notranslate nohighlight">\(N_{\Delta}\)</span> is the number of sign changes in the binary sequence.</p>
 <p>Original code from the pyrem package by Quentin Geissmann.</p>
@@ -124,7 +125,7 @@ the FD of a signal by translating the series into a binary sequence.</p>
 <table class="docutils citation" frame="void" id="r2eb627373335-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> A. Petrosian, Kolmogorov complexity of finite sequences and
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>A. Petrosian, Kolmogorov complexity of finite sequences and
 recognition of different preictal EEG patterns, in , Proceedings of the
 Eighth IEEE Symposium on Computer-Based Medical Systems, 1995,
 pp. 212-217.</td></tr>
@@ -133,7 +134,7 @@ pp. 212-217.</td></tr>
 <table class="docutils citation" frame="void" id="r2eb627373335-2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>Goh, Cindy, et al. “Comparison of fractal dimension algorithms for
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Goh, Cindy, et al. “Comparison of fractal dimension algorithms for
 the computation of EEG biomarkers for dementia.” 2nd International
 Conference on Computational Intelligence in Medicine and Healthcare
 (CIMED2005). 2005.</td></tr>

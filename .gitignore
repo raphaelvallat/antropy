@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 # Notebooks
-notebooks/
+# notebooks/
 
 # Distribution / packaging
 .Python

@@ -87,8 +87,12 @@
       
   <h1>Source code for entropy.fractal</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numba</span> <span class="k">import</span> <span class="n">jit</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">floor</span>
 
-<span class="nb">all</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;petrosian_fd&#39;</span><span class="p">,</span> <span class="s1">&#39;katz_fd&#39;</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">_slope_lstsq</span>
+
+<span class="nb">all</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;petrosian_fd&#39;</span><span class="p">,</span> <span class="s1">&#39;katz_fd&#39;</span><span class="p">,</span> <span class="s1">&#39;higuchi_fd&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="petrosian_fd"><a class="viewcode-back" href="../../generated/entropy.petrosian_fd.html#entropy.petrosian_fd">[docs]</a><span class="k">def</span> <span class="nf">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -205,6 +209,81 @@
     <span class="n">aux_d</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">aux_d</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">ln</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ln</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">ll</span><span class="p">))))</span></div>
+
+
+<span class="nd">@jit</span><span class="p">(</span><span class="s1">&#39;float64(float64[:], int32)&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Utility function for `higuchi_fd`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_times</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">lk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">kmax</span><span class="p">)</span>
+    <span class="n">x_reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">kmax</span><span class="p">)</span>
+    <span class="n">y_reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">kmax</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">kmax</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">lm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">k</span><span class="p">,))</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+            <span class="n">ll</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">n_max</span> <span class="o">=</span> <span class="n">floor</span><span class="p">((</span><span class="n">n_times</span> <span class="o">-</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">n_max</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_max</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_max</span><span class="p">):</span>
+                <span class="n">ll</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">m</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">m</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">k</span><span class="p">])</span>
+            <span class="n">ll</span> <span class="o">/=</span> <span class="n">k</span>
+            <span class="n">ll</span> <span class="o">*=</span> <span class="p">(</span><span class="n">n_times</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="n">n_max</span><span class="p">)</span>
+            <span class="n">lm</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">ll</span>
+        <span class="c1"># Mean of lm</span>
+        <span class="n">m_lm</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+            <span class="n">m_lm</span> <span class="o">+=</span> <span class="n">lm</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
+        <span class="n">m_lm</span> <span class="o">/=</span> <span class="n">k</span>
+        <span class="n">lk</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_lm</span>
+        <span class="n">x_reg</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">k</span><span class="p">)</span>
+        <span class="n">y_reg</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">m_lm</span><span class="p">)</span>
+    <span class="n">higuchi</span> <span class="o">=</span> <span class="n">_slope_lstsq</span><span class="p">(</span><span class="n">x_reg</span><span class="p">,</span> <span class="n">y_reg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">higuchi</span>
+
+
+<div class="viewcode-block" id="higuchi_fd"><a class="viewcode-back" href="../../generated/entropy.higuchi_fd.html#entropy.higuchi_fd">[docs]</a><span class="k">def</span> <span class="nf">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Higuchi Fractal Dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : list or np.array</span>
+<span class="sd">        One dimensional time series</span>
+<span class="sd">    kmax : int</span>
+<span class="sd">        Maximum delay/offset (in number of samples).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hfd : float</span>
+<span class="sd">        Higuchi Fractal Dimension</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Original code from the mne-features package by Jean-Baptiste Schiratti</span>
+<span class="sd">    and Alexandre Gramfort.</span>
+
+<span class="sd">    The `higuchi_fd` function uses Numba to speed up the computation.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Higuchi, Tomoyuki. &quot;Approach to an irregular time series on the</span>
+<span class="sd">       basis of the fractal theory.&quot; Physica D: Nonlinear Phenomena 31.2</span>
+<span class="sd">       (1988): 277-283.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Higuchi Fractal Dimension</span>
+
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from entropy import higuchi_fd</span>
+<span class="sd">        &gt;&gt;&gt; np.random.seed(123)</span>
+<span class="sd">        &gt;&gt;&gt; x = np.random.rand(100)</span>
+<span class="sd">        &gt;&gt;&gt; print(higuchi_fd(x))</span>
+<span class="sd">            2.051179</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">kmax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kmax</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="p">)</span></div>
 </pre></div>
 
     </div>

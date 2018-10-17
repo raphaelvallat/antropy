@@ -28,5 +28,6 @@ Fractal dimension
 .. autosummary::
    :toctree: generated/
 
+    higuchi_fd
     katz_fd
     petrosian_fd

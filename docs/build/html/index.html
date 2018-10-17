@@ -111,6 +111,7 @@ python setup.py develop
 <li>numpy</li>
 <li>scipy</li>
 <li>scikit-learn</li>
+<li>numba</li>
 </ul>
 </div>
 <div class="section" id="functions">
@@ -188,6 +189,17 @@ python setup.py develop
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">9.4964</span>
 </pre></div>
 </div>
+<p><strong>8. Higuchi fractal dimension</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="n">higuchi_fd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234567</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.9914</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="execution-time">
 <h1>Execution time</h1>
@@ -205,6 +217,7 @@ python setup.py develop
 <span class="c1"># Fractal dimension</span>
 <span class="o">%</span><span class="n">timeit</span> <span class="n">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="o">%</span><span class="n">timeit</span> <span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Entropy
@@ -216,6 +229,7 @@ python setup.py develop
 # Fractal
 16.8 µs ± 99.5 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
 35.4 µs ± 390 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+20.5 µs ± 1.63 µs per loop (mean ± std. dev. of 7 runs, 100000 loops each)
 </pre></div>
 </div>
 </div>

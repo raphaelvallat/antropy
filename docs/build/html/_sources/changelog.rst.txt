@@ -15,3 +15,4 @@ d. Approximate entropy
 e. Sample entropy
 f. Petrosian Fractal Dimension
 g. Katz Fractal Dimension
+h. Higuchi Fractal Dimension

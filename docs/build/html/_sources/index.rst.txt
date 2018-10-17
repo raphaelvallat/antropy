@@ -108,6 +108,34 @@ Functions
 
     2.191
 
+**6. Petrosian fractal dimension**
+
+.. code-block:: python
+
+    from entropy import petrosian_fd
+    import numpy as np
+    np.random.seed(1234567)
+    x = np.random.rand(3000)
+    print(petrosian_fd(x))
+
+.. parsed-literal::
+
+    1.0303
+
+**7. Katz fractal dimension**
+
+.. code-block:: python
+
+    from entropy import katz_fd
+    import numpy as np
+    np.random.seed(1234567)
+    x = np.random.rand(3000)
+    print(katz_fd(x))
+
+.. parsed-literal::
+
+    9.4964
+
 Execution time
 ==============
 
@@ -119,19 +147,27 @@ Some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8 Go of RA
     import numpy as np
     np.random.seed(1234567)
     x = np.random.rand(1000)
+    # Entropy
     %timeit perm_entropy(x, order=3, delay=1)
     %timeit spectral_entropy(x, 100, method='fft')
     %timeit svd_entropy(x, order=3, delay=1)
     %timeit app_entropy(x, order=2)
     %timeit sample_entropy(x, order=2)
+    # Fractal dimension
+    %timeit petrosian_fd(x)
+    %timeit katz_fd(x)
 
 .. parsed-literal::
 
+    # Entropy
     126 µs ± 3.8 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
     137 µs ± 2.1 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
     43 µs ± 462 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
     4.86 ms ± 107 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
     5 ms ± 277 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+    # Fractal
+    16.8 µs ± 99.5 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
+    35.4 µs ± 390 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
 
 Development
 ===========
@@ -147,5 +183,6 @@ Acknowledgement
 
 Several functions of EntroPy were borrowed from:
 
-- pyEntropy: https://github.com/nikdon/pyEntropy
 - MNE-features: https://github.com/mne-tools/mne-features
+- pyEntropy: https://github.com/nikdon/pyEntropy
+- pyrem: https://github.com/gilestrolab/pyrem

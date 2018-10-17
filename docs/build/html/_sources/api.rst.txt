@@ -5,6 +5,9 @@
 API reference
 =============
 
+Entropy
+-------
+
 .. _entrop:
 
 .. autosummary::
@@ -15,3 +18,15 @@ API reference
     sample_entropy
     spectral_entropy
     svd_entropy
+
+
+Fractal dimension
+-----------------
+
+.. _fd:
+
+.. autosummary::
+   :toctree: generated/
+
+    katz_fd
+    petrosian_fd

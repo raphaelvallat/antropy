@@ -309,6 +309,9 @@ def app_entropy(x, order=2, metric='chebyshev'):
 
     The value of :math:`r` is set to :math:`0.2 * std(x)`.
 
+    Code adapted from the mne-features package by Jean-Baptiste Schiratti
+    and Alexandre Gramfort.
+
     References
     ----------
     .. [1] Richman, J. S. et al. (2000). Physiological time-series analysis
@@ -367,6 +370,8 @@ def sample_entropy(x, order=2, metric='chebyshev'):
     :math:`C(m, r)` is the number of embedded vectors of length
     :math:`m` having a Chebyshev distance inferior to :math:`r`.
 
+    Code adapted from the mne-features package by Jean-Baptiste Schiratti
+    and Alexandre Gramfort.
 
     References
     ----------

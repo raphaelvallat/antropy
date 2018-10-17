@@ -31,6 +31,8 @@ install:
   - "pip install pytest scikit-learn numba"
   - "dir"
   # ------------------- ENTROPY -------------------
+  # Disable JIT compilation
+  - "export NUMBA_DISABLE_JIT=1"
   - "python setup.py develop"
 
 test_script:

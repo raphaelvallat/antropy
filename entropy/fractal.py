@@ -1,6 +1,10 @@
 import numpy as np
+from numba import jit
+from math import log, floor
 
-all = ['petrosian_fd', 'katz_fd']
+from .utils import _slope_lstsq
+
+all = ['petrosian_fd', 'katz_fd', 'higuchi_fd']
 
 
 def petrosian_fd(x):
@@ -117,3 +121,78 @@ def katz_fd(x):
     aux_d = x - x[0]
     d = np.max(np.abs(aux_d[1:]))
     return np.divide(ln, np.add(ln, np.log10(np.divide(d, ll))))
+
+
+@jit('float64(float64[:], int32)')
+def _higuchi_fd(x, kmax):
+    """Utility function for `higuchi_fd`.
+    """
+    n_times = x.size
+    lk = np.empty(kmax)
+    x_reg = np.empty(kmax)
+    y_reg = np.empty(kmax)
+    for k in range(1, kmax + 1):
+        lm = np.empty((k,))
+        for m in range(k):
+            ll = 0
+            n_max = floor((n_times - m - 1) / k)
+            n_max = int(n_max)
+            for j in range(1, n_max):
+                ll += abs(x[m + j * k] - x[m + (j - 1) * k])
+            ll /= k
+            ll *= (n_times - 1) / (k * n_max)
+            lm[m] = ll
+        # Mean of lm
+        m_lm = 0
+        for m in range(k):
+            m_lm += lm[m]
+        m_lm /= k
+        lk[k - 1] = m_lm
+        x_reg[k - 1] = log(1. / k)
+        y_reg[k - 1] = log(m_lm)
+    higuchi = _slope_lstsq(x_reg, y_reg)
+    return higuchi
+
+
+def higuchi_fd(x, kmax=10):
+    """Higuchi Fractal Dimension.
+
+    Parameters
+    ----------
+    x : list or np.array
+        One dimensional time series
+    kmax : int
+        Maximum delay/offset (in number of samples).
+
+    Returns
+    -------
+    hfd : float
+        Higuchi Fractal Dimension
+
+    Notes
+    -----
+    Original code from the mne-features package by Jean-Baptiste Schiratti
+    and Alexandre Gramfort.
+
+    The `higuchi_fd` function uses Numba to speed up the computation.
+
+    References
+    ----------
+    .. [1] Higuchi, Tomoyuki. "Approach to an irregular time series on the
+       basis of the fractal theory." Physica D: Nonlinear Phenomena 31.2
+       (1988): 277-283.
+
+    Examples
+    --------
+    Higuchi Fractal Dimension
+
+        >>> import numpy as np
+        >>> from entropy import higuchi_fd
+        >>> np.random.seed(123)
+        >>> x = np.random.rand(100)
+        >>> print(higuchi_fd(x))
+            2.051179
+    """
+    x = np.asarray(x, dtype=np.float64)
+    kmax = int(kmax)
+    return _higuchi_fd(x, kmax)

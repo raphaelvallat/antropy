@@ -38,7 +38,7 @@ install:
     # Install dependencies :
     - if [ "${TEST}" == "standard" ]; then
         pip install codecov pytest pytest-cov pytest-sugar pytest-travis-fold openpyxl;
-        pip install scikit-learn;
+        pip install scikit-learn numba;
       fi;
     - if [ "${TEST}" == "flake" ]; then
         pip install flake8 pep8-naming;

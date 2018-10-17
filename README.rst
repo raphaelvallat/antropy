@@ -43,6 +43,7 @@ Installation
 - numpy
 - scipy
 - scikit-learn
+- numba
 
 Functions
 =========
@@ -141,6 +142,19 @@ Functions
 
     9.4964
 
+**8. Higuchi fractal dimension**
+
+.. code-block:: python
+
+    from entropy import higuchi_fd
+    import numpy as np
+    np.random.seed(1234567)
+    x = np.random.rand(3000)
+    print(higuchi_fd(x, kmax=10))
+
+.. parsed-literal::
+
+    1.9914
 
 Execution time
 ==============
@@ -162,6 +176,7 @@ Some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8 Go of RA
     # Fractal dimension
     %timeit petrosian_fd(x)
     %timeit katz_fd(x)
+    %timeit higuchi_fd(x)
 
 .. parsed-literal::
 
@@ -174,6 +189,7 @@ Some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8 Go of RA
     # Fractal
     16.8 µs ± 99.5 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
     35.4 µs ± 390 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+    20.5 µs ± 1.63 µs per loop (mean ± std. dev. of 7 runs, 100000 loops each)
 
 Development
 ===========

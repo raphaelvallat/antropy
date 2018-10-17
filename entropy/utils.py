@@ -1,6 +1,7 @@
 import numpy as np
+from numba import jit
 
-all = ['_embed']
+all = ['_embed', '_slope_lstsq']
 
 
 def _embed(x, order=3, delay=1):
@@ -31,3 +32,35 @@ def _embed(x, order=3, delay=1):
     for i in range(order):
         Y[i] = x[i * delay:i * delay + Y.shape[1]]
     return Y.T
+
+
+@jit('float64(float64[:], float64[:])', nopython=True)
+def _slope_lstsq(x, y):
+    """Slope of a 1D least-squares regression.
+
+    Utility function which returns the slope of the linear regression
+    between x and y.
+
+    Parameters
+    ----------
+    x, y : ndarray, shape (n_times,)
+        Variables
+
+    Returns
+    -------
+    slope: float
+        Slope of 1D least-square regression.
+    """
+    n_times = x.shape[0]
+    sx2 = 0
+    sx = 0
+    sy = 0
+    sxy = 0
+    for j in range(n_times):
+        sx2 += x[j] ** 2
+        sx += x[j]
+        sxy += x[j] * y[j]
+        sy += y[j]
+    den = n_times * sx2 - (sx ** 2)
+    num = n_times * sxy - sx * sy
+    return num / den

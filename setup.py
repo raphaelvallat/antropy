@@ -36,6 +36,11 @@ def check_dependencies():
     except ImportError:
         install_requires.append('scikit-learn')
 
+    try:
+        import numba
+    except ImportError:
+        install_requires.append('numba')
+
 
     return install_requires
 

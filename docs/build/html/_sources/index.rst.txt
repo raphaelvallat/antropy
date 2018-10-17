@@ -19,7 +19,7 @@
 .. figure::  https://raw.githubusercontent.com/raphaelvallat/entropy/master/docs/pictures/logo.png
    :align:   center
 
-EntroPy is a Python 3 package for computing several entropy metrics of one-dimensional time series.
+EntroPy is a Python 3 package for computing several complexity metrics of one-dimensional time series.
 
 Installation
 ============

@@ -70,7 +70,7 @@ def detrended_fluctuation(x):
         with H = alpha
 
         alpha > 1: non-stationary process similar to fractional Brownian
-        motion with H = alpha - 1)
+        motion with H = alpha - 1
 
     Notes
     -----

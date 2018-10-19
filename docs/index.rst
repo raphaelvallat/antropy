@@ -52,11 +52,11 @@ Entropy
     import numpy as np
     np.random.seed(1234567)
     x = np.random.rand(3000)
-    print(perm_entropy(x, order=3, normalize=True)) # Permutation entropy
+    print(perm_entropy(x, order=3, normalize=True))                 # Permutation entropy
     print(spectral_entropy(x, 100, method='welch', normalize=True)) # Spectral entropy
-    print(svd_entropy(x, order=3, delay=1, normalize=True)) # Singular value decomposition entropy
-    print(app_entropy(x, order=2, metric='chebyshev')) # Approximate entropy
-    print(sample_entropy(x, order=2, metric='chebyshev')) # Sample entropy
+    print(svd_entropy(x, order=3, delay=1, normalize=True))         # Singular value decomposition entropy
+    print(app_entropy(x, order=2, metric='chebyshev'))              # Approximate entropy
+    print(sample_entropy(x, order=2, metric='chebyshev'))           # Sample entropy
 
 .. parsed-literal::
 
@@ -95,10 +95,7 @@ Other measures
 Execution time
 ==============
 
-One of the main goal of EntroPy is to provide **fast** and efficient function to
-measure the complexity of time-series. Therefore, we try to optimize the code
-(e.g. by using Numba). Here are some benchmarks computed on an average
-PC (i7-7700HQ CPU @ 2.80 Ghz - 8 Go of RAM).
+Here are some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8 Go of RAM).
 
 .. code-block:: python
 
@@ -110,8 +107,8 @@ PC (i7-7700HQ CPU @ 2.80 Ghz - 8 Go of RAM).
     %timeit perm_entropy(x, order=3, delay=1)
     %timeit spectral_entropy(x, 100, method='fft')
     %timeit svd_entropy(x, order=3, delay=1)
-    %timeit app_entropy(x, order=2)
-    %timeit sample_entropy(x, order=2)
+    %timeit app_entropy(x, order=2) # Slow
+    %timeit sample_entropy(x, order=2) # Slow
     # Fractal dimension
     %timeit petrosian_fd(x)
     %timeit katz_fd(x)
@@ -138,7 +135,7 @@ EntroPy was created and is maintained by `Raphael Vallat <https://raphaelvallat.
 
 To see the code or report a bug, please visit the `GitHub repository <https://github.com/raphaelvallat/entropy>`_.
 
-Note that this program is provided with NO WARRANTY OF ANY KIND. If you can, always double check the results with another software.
+Note that this program is provided with NO WARRANTY OF ANY KIND. If you can, always double check the results.
 
 Acknowledgement
 ===============

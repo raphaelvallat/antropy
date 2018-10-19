@@ -59,29 +59,32 @@ def detrended_fluctuation(x):
     Parameters
     ----------
     x : list or np.array
-        One-dimensional time series.
+        One-dimensional time-series.
 
     Returns
     -------
     dfa : float
-        the estimate alpha for the Hurst parameter (alpha < 1: stationary
-        process similar to fractional Gaussian noise with H = alpha,
+        the estimate alpha for the Hurst parameter:
+
+        alpha < 1: stationary process similar to fractional Gaussian noise
+        with H = alpha
+
         alpha > 1: non-stationary process similar to fractional Brownian
         motion with H = alpha - 1)
 
     Notes
     -----
-    Detrended fluctuation analysis, much like the Hurst exponent, is used to
-    find long-term statistical dependencies in time series.
+    Detrended fluctuation analysis (DFA) is used to find long-term statistical
+    dependencies in time series.
 
     The idea behind DFA originates from the definition of self-affine
-    processes. A process X is said to be self-affine if the standard deviation
-    of the values within a window of length n changes with the window length
-    factor L in a power law:
+    processes. A process :math:`X` is said to be self-affine if the standard
+    deviation of the values within a window of length n changes with the window
+    length factor L in a power law:
 
     .. math:: std(X, L * n) = L^H * std(X, n)
 
-    where :math:`std(X, k)`` is the standard deviation of the process X
+    where :math:`std(X, k)` is the standard deviation of the process :math:`X`
     calculated over windows of size :math:`k`. In this equation, :math:`H` is
     called the Hurst parameter, which behaves indeed very similar to the Hurst
     exponent.
@@ -90,10 +93,13 @@ def detrended_fluctuation(x):
     Python package by Christopher Scholzel, from which this function is taken:
     https://cschoel.github.io/nolds/nolds.html#detrended-fluctuation-analysis
 
-    The default subseries size is entropy.utils._log_n(4, 0.1 * len(x), 1.2)).
+    Note that the default subseries size is set to
+    entropy.utils._log_n(4, 0.1 * len(x), 1.2)). The current implementation
+    does not allow to manually specify the subseries size or use overlapping
+    windows.
 
-    The code is a Numba adaptation of the original code by Christopher
-    Scholzel in order to improve the speed of execution.
+    The code is a faster (Numba) adaptation of the original code by Christopher
+    Scholzel.
 
     References
     ----------
@@ -103,7 +109,7 @@ def detrended_fluctuation(x):
 
     .. [2] R. Hardstone, S.-S. Poil, G. Schiavone, R. Jansen,
            V. V. Nikulin, H. D. Mansvelder, and K. Linkenkaer-Hansen,
-          “Detrended fluctuation analysis: A scale-free view on neuronal
+           “Detrended fluctuation analysis: A scale-free view on neuronal
            oscillations,” Frontiers in Physiology, vol. 30, 2012.
 
     Examples

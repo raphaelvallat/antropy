@@ -21,6 +21,9 @@ class TestEntropy(unittest.TestCase):
         self.assertEqual(np.round(katz_fd(data), 3), 5.783)
 
     def test_higuchi_fd(self):
+        """Test for function `higuchi_fd`.
+        Results have been tested against the MNE-features and pyrem packages.
+        """
         # Compare with MNE-features
         self.assertEqual(np.round(higuchi_fd(RANDOM_TS), 8), 1.9914198)
         higuchi_fd(list(RANDOM_TS), kmax=20)

@@ -43,119 +43,62 @@ Installation
 Functions
 =========
 
-**1. Permutation entropy**
+Entropy
+-------
 
 .. code-block:: python
 
-    from entropy import perm_entropy
-    x = [4, 7, 9, 10, 6, 11, 3]
-    print(perm_entropy(x, order=3, normalize=True))
-
-.. parsed-literal::
-
-    0.589
-
-**2. Spectral entropy**
-
-.. code-block:: python
-
-    from entropy import spectral_entropy
+    from entropy import *
     import numpy as np
     np.random.seed(1234567)
     x = np.random.rand(3000)
-    print(spectral_entropy(x, 100, method='welch', normalize=True))
+    print(perm_entropy(x, order=3, normalize=True)) # Permutation entropy
+    print(spectral_entropy(x, 100, method='welch', normalize=True)) # Spectral entropy
+    print(svd_entropy(x, order=3, delay=1, normalize=True)) # Singular value decomposition entropy
+    print(app_entropy(x, order=2, metric='chebyshev')) # Approximate entropy
+    print(sample_entropy(x, order=2, metric='chebyshev')) # Sample entropy
 
 .. parsed-literal::
 
-    0.994
+    0.9995858289645746
+    0.9945519071575192
+    0.8482185855709181
+    2.0754913760787277
+    2.1919237573930315
 
-**3. Singular value decomposition (SVD) entropy**
+Fractal dimension
+-----------------
 
 .. code-block:: python
 
-    from entropy import svd_entropy
-    x = [4, 7, 9, 10, 6, 11, 3]
-    print(svd_entropy(x, order=3, delay=1, normalize=True))
+    print(petrosian_fd(x))        # Petrosian fractal dimension
+    print(katz_fd(x))             # Katz fractal dimension
+    print(higuchi_fd(x, kmax=10)) # Higuchi fractal dimension
 
 .. parsed-literal::
 
-    0.421
+    1.0303256054255618
+    9.496389529050981
+    1.9914197968462963
 
-**4. Approximate entropy**
+Other measures
+--------------
 
 .. code-block:: python
 
-    from entropy import app_entropy
-    import numpy as np
-    np.random.seed(1234567)
-    x = np.random.rand(3000)
-    print(app_entropy(x, order=2, metric='chebyshev'))
+    print(detrended_fluctuation(x)) # Detrended fluctuation analysis
 
 .. parsed-literal::
 
-    2.075
-
-**5. Sample entropy**
-
-.. code-block:: python
-
-    from entropy import sample_entropy
-    import numpy as np
-    np.random.seed(1234567)
-    x = np.random.rand(3000)
-    print(sample_entropy(x, order=2, metric='chebyshev'))
-
-.. parsed-literal::
-
-    2.191
-
-**6. Petrosian fractal dimension**
-
-.. code-block:: python
-
-    from entropy import petrosian_fd
-    import numpy as np
-    np.random.seed(1234567)
-    x = np.random.rand(3000)
-    print(petrosian_fd(x))
-
-.. parsed-literal::
-
-    1.0303
-
-**7. Katz fractal dimension**
-
-.. code-block:: python
-
-    from entropy import katz_fd
-    import numpy as np
-    np.random.seed(1234567)
-    x = np.random.rand(3000)
-    print(katz_fd(x))
-
-.. parsed-literal::
-
-    9.4964
-
-**8. Higuchi fractal dimension**
-
-.. code-block:: python
-
-    from entropy import higuchi_fd
-    import numpy as np
-    np.random.seed(1234567)
-    x = np.random.rand(3000)
-    print(higuchi_fd(x, kmax=10))
-
-.. parsed-literal::
-
-    1.9914
-
+    0.5082304865081877
 
 Execution time
 ==============
 
-Some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8 Go of RAM)
+One of the main goal of EntroPy is to provide **fast** and efficient function to
+measure the complexity of time-series. Therefore, we try to optimize the code
+(e.g. by using Numba). Here are some benchmarks computed on an average
+PC (i7-7700HQ CPU @ 2.80 Ghz - 8 Go of RAM).
 
 .. code-block:: python
 
@@ -172,20 +115,21 @@ Some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8 Go of RA
     # Fractal dimension
     %timeit petrosian_fd(x)
     %timeit katz_fd(x)
-    %timeit higuchi_fd(x)
+    %timeit higuchi_fd(x) # Numba (fast)
+    # Other
+    %timeit detrended_fluctuation(x) # Numba (fast)
 
 .. parsed-literal::
 
-    # Entropy
-    126 µs ± 3.8 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-    137 µs ± 2.1 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-    43 µs ± 462 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-    4.86 ms ± 107 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-    5 ms ± 277 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-    # Fractal
-    16.8 µs ± 99.5 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
-    35.4 µs ± 390 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-    20.5 µs ± 1.63 µs per loop (mean ± std. dev. of 7 runs, 100000 loops each)
+    127 µs ± 3.86 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+    150 µs ± 859 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+    42.4 µs ± 306 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+    4.59 ms ± 62.2 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+    4.61 ms ± 163 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+    16.4 µs ± 251 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
+    32.4 µs ± 578 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+    17.4 µs ± 274 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
+    755 µs ± 17.1 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
 
 Development
 ===========
@@ -204,3 +148,6 @@ Several functions of EntroPy were borrowed from:
 - MNE-features: https://github.com/mne-tools/mne-features
 - pyEntropy: https://github.com/nikdon/pyEntropy
 - pyrem: https://github.com/gilestrolab/pyrem
+- nolds: https://github.com/CSchoel/nolds
+
+All the credit goes to the author of these excellent packages.

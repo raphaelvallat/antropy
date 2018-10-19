@@ -31,3 +31,13 @@ Fractal dimension
     higuchi_fd
     katz_fd
     petrosian_fd
+
+Others
+------
+
+.. _others:
+
+.. autosummary::
+   :toctree: generated/
+
+    detrended_fluctuation

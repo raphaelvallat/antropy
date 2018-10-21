@@ -1,5 +1,6 @@
 import numpy as np
-from math import factorial
+from numba import jit
+from math import factorial, log
 from sklearn.neighbors import KDTree
 from scipy.signal import periodogram, welch
 
@@ -279,6 +280,61 @@ def _app_samp_entropy(x, order, metric='chebyshev', approximate=True):
     return phi
 
 
+@jit('f8(f8[:], i4, f8)', nopython=True)
+def _numba_sampen(x, mm=2, r=0.2):
+    """
+    Fast evaluation of the sample entropy using Numba.
+    """
+    n = x.size
+    n1 = n - 1
+    mm += 1
+    mm_dbld = 2 * mm
+
+    # Define threshold
+    r *= x.std()
+
+    # initialize the lists
+    run = [0] * n
+    run1 = run[:]
+    r1 = [0] * (n * mm_dbld)
+    a = [0] * mm
+    b = a[:]
+    p = a[:]
+
+    for i in range(n1):
+        nj = n1 - i
+
+        for jj in range(nj):
+            j = jj + i + 1
+            if abs(x[j] - x[i]) < r:
+                run[jj] = run1[jj] + 1
+                m1 = mm if mm < run[jj] else run[jj]
+                for m in range(m1):
+                    a[m] += 1
+                    if j < n1:
+                        b[m] += 1
+            else:
+                run[jj] = 0
+        for j in range(mm_dbld):
+            run1[j] = run[j]
+            r1[i + n * j] = run[j]
+        if nj > mm_dbld - 1:
+            for j in range(mm_dbld, nj):
+                run1[j] = run[j]
+
+    m = mm - 1
+
+    while m > 0:
+        b[m] = b[m - 1]
+        m -= 1
+
+    b[0] = n * n1 / 2
+    a = np.array([float(aa) for aa in a])
+    b = np.array([float(bb) for bb in b])
+    p = np.true_divide(a, b)
+    return -log(p[-1])
+
+
 def app_entropy(x, order=2, metric='chebyshev'):
     """Approximate Entropy.
 
@@ -351,8 +407,6 @@ def sample_entropy(x, order=2, metric='chebyshev'):
 
     Notes
     -----
-    Original code from the mne-features package.
-
     Sample entropy is a modification of approximate entropy, used for assessing
     the complexity of physiological time-series signals. It has two advantages
     over approximate entropy: data length independence and a relatively
@@ -370,8 +424,11 @@ def sample_entropy(x, order=2, metric='chebyshev'):
     :math:`C(m, r)` is the number of embedded vectors of length
     :math:`m` having a Chebyshev distance inferior to :math:`r`.
 
-    Code adapted from the mne-features package by Jean-Baptiste Schiratti
-    and Alexandre Gramfort.
+    Note that if metric == 'chebyshev' and x.size < 5000 points, then the
+    sample entropy is computed using a fast custom Numba script. For other
+    metric types or longer time-series, the sample entropy is computed using
+    a code from the mne-features package by Jean-Baptiste Schiratti
+    and Alexandre Gramfort (requires sklearn).
 
     References
     ----------
@@ -399,8 +456,10 @@ def sample_entropy(x, order=2, metric='chebyshev'):
         >>> print(sample_entropy(x, order=3, metric='euclidean'))
             2.725
     """
-    phi = _app_samp_entropy(x, order=order, metric=metric, approximate=False)
-    if np.allclose(phi[0], 0) or np.allclose(phi[1], 0):
-        raise ValueError('Sample Entropy is not defined.')
+    x = np.asarray(x, dtype=np.float64)
+    if metric == 'chebyshev' and x.size < 5000:
+        return _numba_sampen(x, mm=order, r=0.2)
     else:
+        phi = _app_samp_entropy(x, order=order, metric=metric,
+                                approximate=False)
         return -np.log(np.divide(phi[1], phi[0]))

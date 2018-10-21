@@ -119,7 +119,6 @@ metric functions is given by: <cite>KDTree.valid_metrics</cite>.</p>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>Original code from the mne-features package.</p>
 <p>Sample entropy is a modification of approximate entropy, used for assessing
 the complexity of physiological time-series signals. It has two advantages
 over approximate entropy: data length independence and a relatively
@@ -134,8 +133,11 @@ the radius of the neighbourhood (default = <span class="math notranslate nohighl
 <span class="math notranslate nohighlight">\(m + 1\)</span> having a Chebyshev distance inferior to <span class="math notranslate nohighlight">\(r\)</span> and
 <span class="math notranslate nohighlight">\(C(m, r)\)</span> is the number of embedded vectors of length
 <span class="math notranslate nohighlight">\(m\)</span> having a Chebyshev distance inferior to <span class="math notranslate nohighlight">\(r\)</span>.</p>
-<p>Code adapted from the mne-features package by Jean-Baptiste Schiratti
-and Alexandre Gramfort.</p>
+<p>Note that if metric == ‘chebyshev’ and x.size &lt; 5000 points, then the
+sample entropy is computed using a fast custom Numba script. For other
+metric types or longer time-series, the sample entropy is computed using
+a code from the mne-features package by Jean-Baptiste Schiratti
+and Alexandre Gramfort (requires sklearn).</p>
 <p class="rubric">References</p>
 <table class="docutils citation" frame="void" id="ra05fe78bc240-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>

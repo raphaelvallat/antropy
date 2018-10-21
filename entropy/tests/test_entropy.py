@@ -6,6 +6,7 @@ from entropy import (perm_entropy, spectral_entropy, svd_entropy,
 
 np.random.seed(1234567)
 RANDOM_TS = np.random.rand(3000)
+RANDOM_TS_LONG = np.random.rand(6000)
 SF_TS = 100
 BANDT_PERM = [4, 7, 9, 10, 6, 11, 3]
 PURE_SINE = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
@@ -44,6 +45,7 @@ class TestEntropy(unittest.TestCase):
 
     def test_sample_entropy(self):
         se = sample_entropy(RANDOM_TS, order=2)
+        sample_entropy(RANDOM_TS_LONG, order=2)
         se_eu_3 = sample_entropy(RANDOM_TS, order=3, metric='euclidean')
         # Compare with MNE-features
         self.assertEqual(np.round(se, 3), 2.192)
@@ -52,8 +54,6 @@ class TestEntropy(unittest.TestCase):
         sample_entropy(RANDOM_TS, order=2, metric='euclidean')
         with self.assertRaises(ValueError):
             sample_entropy(RANDOM_TS, order=2, metric='wrong')
-        with self.assertRaises(ValueError):
-            sample_entropy(BANDT_PERM, order=2)
 
     def test_app_entropy(self):
         ae = app_entropy(RANDOM_TS, order=2)

@@ -70,7 +70,7 @@ Entropy
     0.9945519071575192
     0.8482185855709181
     2.0754913760787277
-    2.1919237573930315
+    2.192416747827227
 
 Fractal dimension
 -----------------
@@ -114,13 +114,13 @@ Here are some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8
     %timeit spectral_entropy(x, 100, method='fft')
     %timeit svd_entropy(x, order=3, delay=1)
     %timeit app_entropy(x, order=2) # Slow
-    %timeit sample_entropy(x, order=2) # Slow
+    %timeit sample_entropy(x, order=2) # Numba
     # Fractal dimension
     %timeit petrosian_fd(x)
     %timeit katz_fd(x)
-    %timeit higuchi_fd(x) # Numba (fast)
+    %timeit higuchi_fd(x) # Numba
     # Other
-    %timeit detrended_fluctuation(x) # Numba (fast)
+    %timeit detrended_fluctuation(x) # Numba
 
 .. parsed-literal::
 
@@ -128,7 +128,7 @@ Here are some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8
     150 µs ± 859 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
     42.4 µs ± 306 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
     4.59 ms ± 62.2 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-    4.61 ms ± 163 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+    2.03 ms ± 39.5 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
     16.4 µs ± 251 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
     32.4 µs ± 578 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
     17.4 µs ± 274 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)

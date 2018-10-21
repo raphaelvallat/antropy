@@ -2,7 +2,7 @@ import numpy as np
 from numba import jit
 from math import log, floor
 
-all = ['_embed', '_slope_lstsq', '_log_n']
+all = ['_embed', '_linear_regression', '_log_n']
 
 
 def _embed(x, order=3, delay=1):
@@ -35,12 +35,9 @@ def _embed(x, order=3, delay=1):
     return Y.T
 
 
-@jit('float64(float64[:], float64[:])', nopython=True)
-def _slope_lstsq(x, y):
-    """Slope of a 1D least-squares regression.
-
-    Utility function which returns the slope of the linear regression
-    between x and y.
+@jit('UniTuple(float64, 2)(float64[:], float64[:])', nopython=True)
+def _linear_regression(x, y):
+    """Fast linear regression using Numba.
 
     Parameters
     ----------
@@ -49,10 +46,12 @@ def _slope_lstsq(x, y):
 
     Returns
     -------
-    slope: float
+    slope : float
         Slope of 1D least-square regression.
+    intercept : float
+        Intercept
     """
-    n_times = x.shape[0]
+    n_times = x.size
     sx2 = 0
     sx = 0
     sy = 0
@@ -64,7 +63,9 @@ def _slope_lstsq(x, y):
         sy += y[j]
     den = n_times * sx2 - (sx ** 2)
     num = n_times * sxy - sx * sy
-    return num / den
+    slope = num / den
+    intercept = np.mean(y) - slope * np.mean(x)
+    return slope, intercept
 
 
 @jit('i8[:](f8, f8, f8)', nopython=True)

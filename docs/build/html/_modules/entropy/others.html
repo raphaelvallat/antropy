@@ -89,7 +89,7 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numba</span> <span class="k">import</span> <span class="n">jit</span>
 
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">_slope_lstsq</span><span class="p">,</span> <span class="n">_log_n</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">_linear_regression</span><span class="p">,</span> <span class="n">_log_n</span>
 
 <span class="nb">all</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;detrended_fluctuation&#39;</span><span class="p">]</span>
 
@@ -107,20 +107,15 @@
     <span class="k">for</span> <span class="n">i_n</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nvals</span><span class="p">):</span>
         <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">walk</span><span class="p">[:</span><span class="n">N</span> <span class="o">-</span> <span class="p">(</span><span class="n">N</span> <span class="o">%</span> <span class="n">n</span><span class="p">)],</span> <span class="p">(</span><span class="n">N</span> <span class="o">//</span> <span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
         <span class="n">ran_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">na</span><span class="p">)</span> <span class="k">for</span> <span class="n">na</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>
-        <span class="n">ran_n_mean</span> <span class="o">=</span> <span class="n">ran_n</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
         <span class="n">d_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
         <span class="n">slope</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">d_len</span><span class="p">)</span>
         <span class="n">intercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">d_len</span><span class="p">)</span>
         <span class="n">trend</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">d_len</span><span class="p">,</span> <span class="n">ran_n</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d_len</span><span class="p">):</span>
-            <span class="n">sl</span> <span class="o">=</span> <span class="n">_slope_lstsq</span><span class="p">(</span><span class="n">ran_n</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            <span class="n">di_mean</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-            <span class="n">inter</span> <span class="o">=</span> <span class="n">di_mean</span> <span class="o">-</span> <span class="n">sl</span> <span class="o">*</span> <span class="n">ran_n_mean</span>
-            <span class="n">slope</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sl</span>
-            <span class="n">intercept</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">inter</span>
+            <span class="n">slope</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">intercept</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">_linear_regression</span><span class="p">(</span><span class="n">ran_n</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">ran_n</span><span class="p">)</span>
             <span class="c1"># Equivalent to np.polyval function</span>
-            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">sl</span><span class="p">,</span> <span class="n">inter</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">slope</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">intercept</span><span class="p">[</span><span class="n">i</span><span class="p">]]:</span>
                 <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="n">ran_n</span> <span class="o">+</span> <span class="n">p</span>
             <span class="n">trend</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">y</span>
         <span class="c1"># calculate standard deviation (fluctuation) of walks in d around trend</span>
@@ -136,7 +131,7 @@
         <span class="c1"># all fluctuations are zero =&gt; we cannot fit a line</span>
         <span class="n">dfa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">dfa</span> <span class="o">=</span> <span class="n">_slope_lstsq</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">nvals</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">fluctuations</span><span class="p">))</span>
+        <span class="n">dfa</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_linear_regression</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">nvals</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">fluctuations</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">dfa</span>
 
 

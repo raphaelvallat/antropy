@@ -90,7 +90,7 @@
 <span class="kn">from</span> <span class="nn">numba</span> <span class="k">import</span> <span class="n">jit</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">floor</span>
 
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">_slope_lstsq</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">_linear_regression</span>
 
 <span class="nb">all</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;petrosian_fd&#39;</span><span class="p">,</span> <span class="s1">&#39;katz_fd&#39;</span><span class="p">,</span> <span class="s1">&#39;higuchi_fd&#39;</span><span class="p">]</span>
 
@@ -238,7 +238,7 @@
         <span class="n">lk</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_lm</span>
         <span class="n">x_reg</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">k</span><span class="p">)</span>
         <span class="n">y_reg</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">m_lm</span><span class="p">)</span>
-    <span class="n">higuchi</span> <span class="o">=</span> <span class="n">_slope_lstsq</span><span class="p">(</span><span class="n">x_reg</span><span class="p">,</span> <span class="n">y_reg</span><span class="p">)</span>
+    <span class="n">higuchi</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_linear_regression</span><span class="p">(</span><span class="n">x_reg</span><span class="p">,</span> <span class="n">y_reg</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">higuchi</span>
 
 

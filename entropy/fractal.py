@@ -2,7 +2,7 @@ import numpy as np
 from numba import jit
 from math import log, floor
 
-from .utils import _slope_lstsq
+from .utils import _linear_regression
 
 all = ['petrosian_fd', 'katz_fd', 'higuchi_fd']
 
@@ -150,7 +150,7 @@ def _higuchi_fd(x, kmax):
         lk[k - 1] = m_lm
         x_reg[k - 1] = log(1. / k)
         y_reg[k - 1] = log(m_lm)
-    higuchi = _slope_lstsq(x_reg, y_reg)
+    higuchi, _ = _linear_regression(x_reg, y_reg)
     return higuchi
 
 

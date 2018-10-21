@@ -1,7 +1,7 @@
 import numpy as np
 from numba import jit
 
-from .utils import _slope_lstsq, _log_n
+from .utils import _linear_regression, _log_n
 
 all = ['detrended_fluctuation']
 
@@ -19,20 +19,15 @@ def _dfa(x):
     for i_n, n in enumerate(nvals):
         d = np.reshape(walk[:N - (N % n)], (N // n, n))
         ran_n = np.array([float(na) for na in range(n)])
-        ran_n_mean = ran_n.mean()
         d_len = len(d)
         slope = np.empty(d_len)
         intercept = np.empty(d_len)
         trend = np.empty((d_len, ran_n.size))
         for i in range(d_len):
-            sl = _slope_lstsq(ran_n, d[i])
-            di_mean = d[i].mean()
-            inter = di_mean - sl * ran_n_mean
-            slope[i] = sl
-            intercept[i] = inter
+            slope[i], intercept[i] = _linear_regression(ran_n, d[i])
             y = np.zeros_like(ran_n)
             # Equivalent to np.polyval function
-            for p in [sl, inter]:
+            for p in [slope[i], intercept[i]]:
                 y = y * ran_n + p
             trend[i, :] = y
         # calculate standard deviation (fluctuation) of walks in d around trend
@@ -48,7 +43,7 @@ def _dfa(x):
         # all fluctuations are zero => we cannot fit a line
         dfa = np.nan
     else:
-        dfa = _slope_lstsq(np.log(nvals), np.log(fluctuations))
+        dfa, _ = _linear_regression(np.log(nvals), np.log(fluctuations))
     return dfa
 
 

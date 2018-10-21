@@ -19,7 +19,8 @@
 .. figure::  https://github.com/raphaelvallat/entropy/blob/master/docs/pictures/logo.png
    :align:   center
 
-EntroPy is a Python 3 package for computing several complexity metrics of one-dimensional time series.
+EntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of one-dimensional time series.
+It can be used for example to extract features from EEG signals.
 
 Documentation
 =============

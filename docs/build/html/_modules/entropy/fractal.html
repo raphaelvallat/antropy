@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>entropy.fractal &#8212; entropy 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="../../_static/entropy.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/entropy_128x128.png"></span>
+          entropy</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../api.html">API</a></li>
+                <li><a href="../../changelog.html">What's new</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for entropy.fractal</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numba</span> <span class="k">import</span> <span class="n">jit</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">floor</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">_linear_regression</span>
+
+<span class="nb">all</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;petrosian_fd&#39;</span><span class="p">,</span> <span class="s1">&#39;katz_fd&#39;</span><span class="p">,</span> <span class="s1">&#39;higuchi_fd&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="petrosian_fd"><a class="viewcode-back" href="../../generated/entropy.petrosian_fd.html#entropy.petrosian_fd">[docs]</a><span class="k">def</span> <span class="nf">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Petrosian fractal dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : list or np.array</span>
+<span class="sd">        One dimensional time series</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pfd : float</span>
+<span class="sd">        Petrosian fractal dimension</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The Petrosian algorithm can be used to provide a fast computation of</span>
+<span class="sd">    the FD of a signal by translating the series into a binary sequence.</span>
+
+<span class="sd">    The Petrosian fractal dimension of a time series :math:`x` is defined by:</span>
+
+<span class="sd">    .. math:: \dfrac{log_{10}(N)}{log_{10}(N) +</span>
+<span class="sd">       log_{10}(\dfrac{N}{N+0.4N_{\Delta}})}</span>
+
+<span class="sd">    where :math:`N` is the length of the time series, and</span>
+<span class="sd">    :math:`N_{\Delta}` is the number of sign changes in the binary sequence.</span>
+
+<span class="sd">    Original code from the pyrem package by Quentin Geissmann.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] A. Petrosian, Kolmogorov complexity of finite sequences and</span>
+<span class="sd">       recognition of different preictal EEG patterns, in , Proceedings of the</span>
+<span class="sd">       Eighth IEEE Symposium on Computer-Based Medical Systems, 1995,</span>
+<span class="sd">       pp. 212-217.</span>
+
+<span class="sd">    .. [2] Goh, Cindy, et al. &quot;Comparison of fractal dimension algorithms for</span>
+<span class="sd">       the computation of EEG biomarkers for dementia.&quot; 2nd International</span>
+<span class="sd">       Conference on Computational Intelligence in Medicine and Healthcare</span>
+<span class="sd">       (CIMED2005). 2005.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Petrosian fractal dimension.</span>
+
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from entropy import petrosian_fd</span>
+<span class="sd">        &gt;&gt;&gt; np.random.seed(123)</span>
+<span class="sd">        &gt;&gt;&gt; x = np.random.rand(100)</span>
+<span class="sd">        &gt;&gt;&gt; print(petrosian_fd(x))</span>
+<span class="sd">            1.0505</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># Number of sign changes in the first derivative of the signal</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ediff1d</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">N_delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">diff</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">diff</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="n">N_delta</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="katz_fd"><a class="viewcode-back" href="../../generated/entropy.katz_fd.html#entropy.katz_fd">[docs]</a><span class="k">def</span> <span class="nf">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Katz Fractal Dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : list or np.array</span>
+<span class="sd">        One dimensional time series</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kfd : float</span>
+<span class="sd">        Katz fractal dimension</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The Katz Fractal dimension is defined by:</span>
+
+<span class="sd">    .. math:: FD_{Katz} = \dfrac{log_{10}(n)}{log_{10}(d/L)+log_{10}(n)}</span>
+
+<span class="sd">    where :math:`L` is the total length of the time series and :math:`d`</span>
+<span class="sd">    is the Euclidean distance between the first point in the</span>
+<span class="sd">    series and the point that provides the furthest distance</span>
+<span class="sd">    with respect to the first point.</span>
+
+<span class="sd">    Original code from the mne-features package by Jean-Baptiste Schiratti</span>
+<span class="sd">    and Alexandre Gramfort.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Esteller, R. et al. (2001). A comparison of waveform fractal</span>
+<span class="sd">           dimension algorithms. IEEE Transactions on Circuits and Systems I:</span>
+<span class="sd">           Fundamental Theory and Applications, 48(2), 177-183.</span>
+
+<span class="sd">    .. [2] Goh, Cindy, et al. &quot;Comparison of fractal dimension algorithms for</span>
+<span class="sd">           the computation of EEG biomarkers for dementia.&quot; 2nd International</span>
+<span class="sd">           Conference on Computational Intelligence in Medicine and Healthcare</span>
+<span class="sd">           (CIMED2005). 2005.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Katz fractal dimension.</span>
+
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from entropy import katz_fd</span>
+<span class="sd">        &gt;&gt;&gt; np.random.seed(123)</span>
+<span class="sd">        &gt;&gt;&gt; x = np.random.rand(100)</span>
+<span class="sd">        &gt;&gt;&gt; print(katz_fd(x))</span>
+<span class="sd">            5.1214</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ediff1d</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">ll</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">ln</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">ll</span><span class="p">,</span> <span class="n">dists</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+    <span class="n">aux_d</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">aux_d</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">ln</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ln</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">ll</span><span class="p">))))</span></div>
+
+
+<span class="nd">@jit</span><span class="p">(</span><span class="s1">&#39;float64(float64[:], int32)&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Utility function for `higuchi_fd`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_times</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">lk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">kmax</span><span class="p">)</span>
+    <span class="n">x_reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">kmax</span><span class="p">)</span>
+    <span class="n">y_reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">kmax</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">kmax</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">lm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">k</span><span class="p">,))</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+            <span class="n">ll</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">n_max</span> <span class="o">=</span> <span class="n">floor</span><span class="p">((</span><span class="n">n_times</span> <span class="o">-</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">n_max</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_max</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_max</span><span class="p">):</span>
+                <span class="n">ll</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">m</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">m</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">k</span><span class="p">])</span>
+            <span class="n">ll</span> <span class="o">/=</span> <span class="n">k</span>
+            <span class="n">ll</span> <span class="o">*=</span> <span class="p">(</span><span class="n">n_times</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="n">n_max</span><span class="p">)</span>
+            <span class="n">lm</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">ll</span>
+        <span class="c1"># Mean of lm</span>
+        <span class="n">m_lm</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+            <span class="n">m_lm</span> <span class="o">+=</span> <span class="n">lm</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
+        <span class="n">m_lm</span> <span class="o">/=</span> <span class="n">k</span>
+        <span class="n">lk</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_lm</span>
+        <span class="n">x_reg</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">k</span><span class="p">)</span>
+        <span class="n">y_reg</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">m_lm</span><span class="p">)</span>
+    <span class="n">higuchi</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_linear_regression</span><span class="p">(</span><span class="n">x_reg</span><span class="p">,</span> <span class="n">y_reg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">higuchi</span>
+
+
+<div class="viewcode-block" id="higuchi_fd"><a class="viewcode-back" href="../../generated/entropy.higuchi_fd.html#entropy.higuchi_fd">[docs]</a><span class="k">def</span> <span class="nf">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Higuchi Fractal Dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : list or np.array</span>
+<span class="sd">        One dimensional time series</span>
+<span class="sd">    kmax : int</span>
+<span class="sd">        Maximum delay/offset (in number of samples).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hfd : float</span>
+<span class="sd">        Higuchi Fractal Dimension</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Original code from the mne-features package by Jean-Baptiste Schiratti</span>
+<span class="sd">    and Alexandre Gramfort.</span>
+
+<span class="sd">    The `higuchi_fd` function uses Numba to speed up the computation.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Higuchi, Tomoyuki. &quot;Approach to an irregular time series on the</span>
+<span class="sd">       basis of the fractal theory.&quot; Physica D: Nonlinear Phenomena 31.2</span>
+<span class="sd">       (1988): 277-283.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Higuchi Fractal Dimension</span>
+
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from entropy import higuchi_fd</span>
+<span class="sd">        &gt;&gt;&gt; np.random.seed(123)</span>
+<span class="sd">        &gt;&gt;&gt; x = np.random.rand(100)</span>
+<span class="sd">        &gt;&gt;&gt; print(higuchi_fd(x))</span>
+<span class="sd">            2.051179</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">kmax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kmax</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2018-2018, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

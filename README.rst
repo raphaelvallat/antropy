@@ -25,7 +25,7 @@ It can be used for example to extract features from EEG signals.
 Documentation
 =============
 
-- `Link to documentation <https://raphaelvallat.github.io/entropy/build/html/index.html>`_
+- `Link to documentation <https://raphaelvallat.com/entropy/build/html/index.html>`_
 
 Installation
 ============
@@ -137,7 +137,7 @@ Here are some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8
 Development
 ===========
 
-EntroPy was created and is maintained by `Raphael Vallat <https://raphaelvallat.github.io>`_. Contributions are more than welcome so feel free to contact me, open an issue or submit a pull request!
+EntroPy was created and is maintained by `Raphael Vallat <https://raphaelvallat.com>`_. Contributions are more than welcome so feel free to contact me, open an issue or submit a pull request!
 
 To see the code or report a bug, please visit the `GitHub repository <https://github.com/raphaelvallat/entropy>`_.
 

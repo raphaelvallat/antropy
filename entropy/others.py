@@ -77,12 +77,12 @@ def detrended_fluctuation(x):
     deviation of the values within a window of length n changes with the window
     length factor L in a power law:
 
-    .. math:: std(X, L * n) = L^H * std(X, n)
+    .. math:: \\text{std}(X, L * n) = L^H * \\text{std}(X, n)
 
-    where :math:`std(X, k)` is the standard deviation of the process :math:`X`
-    calculated over windows of size :math:`k`. In this equation, :math:`H` is
-    called the Hurst parameter, which behaves indeed very similar to the Hurst
-    exponent.
+    where :math:`\\text{std}(X, k)` is the standard deviation of the process
+    :math:`X` calculated over windows of size :math:`k`. In this equation,
+    :math:`H` is called the Hurst parameter, which behaves indeed very similar
+    to the Hurst exponent.
 
     For more details, please refer to the excellent documentation of the nolds
     Python package by Christopher Scholzel, from which this function is taken:

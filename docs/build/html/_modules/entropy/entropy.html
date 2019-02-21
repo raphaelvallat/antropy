@@ -12,8 +12,9 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
@@ -125,9 +126,9 @@
 
 <span class="sd">    The permutation entropy of a signal :math:`x` is defined as:</span>
 
-<span class="sd">    .. math:: H = -\sum p(\pi)log_2(\pi)</span>
+<span class="sd">    .. math:: H = -\\sum p(\\pi)log_2(\\pi)</span>
 
-<span class="sd">    where the sum runs over all :math:`n!` permutations :math:`\pi` of order</span>
+<span class="sd">    where the sum runs over all :math:`n!` permutations :math:`\\pi` of order</span>
 <span class="sd">    :math:`n`. This is the information contained in comparing :math:`n`</span>
 <span class="sd">    consecutive values of the time series. It is clear that</span>
 <span class="sd">    :math:`0 ≤ H (n) ≤ log_2(n!)` where the lower bound is attained for an</span>
@@ -214,7 +215,7 @@
 <span class="sd">    Spectral Entropy is defined to be the Shannon Entropy of the Power</span>
 <span class="sd">    Spectral Density (PSD) of the data:</span>
 
-<span class="sd">    .. math:: H(x, sf) =  -\sum_{f=0}^{f_s/2} PSD(f) log_2[PSD(f)]</span>
+<span class="sd">    .. math:: H(x, sf) =  -\\sum_{f=0}^{f_s/2} PSD(f) log_2[PSD(f)]</span>
 
 <span class="sd">    Where :math:`PSD` is the normalised PSD, and :math:`f_s` is the sampling</span>
 <span class="sd">    frequency.</span>
@@ -294,10 +295,10 @@
 <span class="sd">    The SVD entropy of a signal :math:`x` is defined as:</span>
 
 <span class="sd">    .. math::</span>
-<span class="sd">        H = -\sum_{i=1}^{M} \overline{\sigma}_i log_2(\overline{\sigma}_i)</span>
+<span class="sd">        H = -\\sum_{i=1}^{M} \\overline{\\sigma}_i log_2(\\overline{\\sigma}_i)</span>
 
 <span class="sd">    where :math:`M` is the number of singular values of the embedded matrix</span>
-<span class="sd">    :math:`Y` and :math:`\sigma_1, \sigma_2, ..., \sigma_M` are the</span>
+<span class="sd">    :math:`Y` and :math:`\\sigma_1, \\sigma_2, ..., \\sigma_M` are the</span>
 <span class="sd">    normalized singular values of :math:`Y`.</span>
 
 <span class="sd">    The embedded matrix :math:`Y` is created by:</span>
@@ -451,7 +452,7 @@
 
 <span class="sd">    Smaller values indicates that the data is more regular and predictable.</span>
 
-<span class="sd">    The value of :math:`r` is set to :math:`0.2 * std(x)`.</span>
+<span class="sd">    The value of :math:`r` is set to :math:`0.2 * \\text{std}(x)`.</span>
 
 <span class="sd">    Code adapted from the mne-features package by Jean-Baptiste Schiratti</span>
 <span class="sd">    and Alexandre Gramfort.</span>
@@ -503,10 +504,10 @@
 
 <span class="sd">    Sample entropy of a signal :math:`x` is defined as:</span>
 
-<span class="sd">    .. math:: H(x, m, r) = -log\dfrac{C(m + 1, r)}{C(m, r)}</span>
+<span class="sd">    .. math:: H(x, m, r) = -log\\frac{C(m + 1, r)}{C(m, r)}</span>
 
 <span class="sd">    where :math:`m` is the embedding dimension (= order), :math:`r` is</span>
-<span class="sd">    the radius of the neighbourhood (default = :math:`0.2 * std(x)`),</span>
+<span class="sd">    the radius of the neighbourhood (default = :math:`0.2 * \\text{std}(x)`),</span>
 <span class="sd">    :math:`C(m + 1, r)` is the number of embedded vectors of length</span>
 <span class="sd">    :math:`m + 1` having a Chebyshev distance inferior to :math:`r` and</span>
 <span class="sd">    :math:`C(m, r)` is the number of embedded vectors of length</span>
@@ -567,8 +568,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2018-2018, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.<br/>
+        &copy; Copyright 2018-2019, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.<br/>
     </p>
   </div>
 </footer>

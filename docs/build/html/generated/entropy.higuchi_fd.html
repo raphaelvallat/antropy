@@ -12,8 +12,9 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
@@ -95,20 +96,21 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : list or np.array</p>
-<blockquote>
-<div><p>One dimensional time series</p>
-</div></blockquote>
-<p><strong>kmax</strong> : int</p>
-<blockquote>
-<div><p>Maximum delay/offset (in number of samples).</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list or np.array</span></dt>
+<dd><p class="first last">One dimensional time series</p>
+</dd>
+<dt><strong>kmax</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Maximum delay/offset (in number of samples).</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>hfd</strong> : float</p>
-<blockquote class="last">
-<div><p>Higuchi Fractal Dimension</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>hfd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Higuchi Fractal Dimension</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -118,10 +120,10 @@
 and Alexandre Gramfort.</p>
 <p>The <cite>higuchi_fd</cite> function uses Numba to speed up the computation.</p>
 <p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="r15" rules="none">
+<table class="docutils citation" frame="void" id="r767bfea9db64-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R15]</a></td><td>Higuchi, Tomoyuki. “Approach to an irregular time series on the
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Higuchi, Tomoyuki. “Approach to an irregular time series on the
 basis of the fractal theory.” Physica D: Nonlinear Phenomena 31.2
 (1988): 277-283.</td></tr>
 </tbody>
@@ -155,8 +157,8 @@ basis of the fractal theory.” Physica D: Nonlinear Phenomena 31.2
       
     </p>
     <p>
-        &copy; Copyright 2018-2018, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.<br/>
+        &copy; Copyright 2018-2019, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.<br/>
     </p>
   </div>
 </footer>

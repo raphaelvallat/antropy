@@ -12,8 +12,9 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
@@ -95,26 +96,26 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : list or np.array</p>
-<blockquote>
-<div><p>One-dimensional time series of shape (n_times)</p>
-</div></blockquote>
-<p><strong>order</strong> : int (default: 2)</p>
-<blockquote>
-<div><p>Embedding dimension.</p>
-</div></blockquote>
-<p><strong>metric</strong> : str (default: chebyshev)</p>
-<blockquote>
-<div><p>Name of the metric function used with
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list or np.array</span></dt>
+<dd><p class="first last">One-dimensional time series of shape (n_times)</p>
+</dd>
+<dt><strong>order</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int (default: 2)</span></dt>
+<dd><p class="first last">Embedding dimension.</p>
+</dd>
+<dt><strong>metric</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str (default: chebyshev)</span></dt>
+<dd><p class="first last">Name of the metric function used with
 <code class="xref py py-class docutils literal notranslate"><span class="pre">KDTree</span></code>. The list of available
 metric functions is given by: <code class="docutils literal notranslate"><span class="pre">KDTree.valid_metrics</span></code>.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>ae</strong> : float</p>
-<blockquote class="last">
-<div><p>Approximate Entropy.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>ae</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Approximate Entropy.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -124,14 +125,14 @@ metric functions is given by: <code class="docutils literal notranslate"><span c
 <p>Approximate entropy is a technique used to quantify the amount of
 regularity and the unpredictability of fluctuations over time-series data.</p>
 <p>Smaller values indicates that the data is more regular and predictable.</p>
-<p>The value of <span class="math notranslate nohighlight">\(r\)</span> is set to <span class="math notranslate nohighlight">\(0.2 * std(x)\)</span>.</p>
+<p>The value of <span class="math notranslate nohighlight">\(r\)</span> is set to <span class="math notranslate nohighlight">\(0.2 * \text{std}(x)\)</span>.</p>
 <p>Code adapted from the mne-features package by Jean-Baptiste Schiratti
 and Alexandre Gramfort.</p>
 <p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="r12" rules="none">
+<table class="docutils citation" frame="void" id="r0b068f1e49f1-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R12]</a></td><td>Richman, J. S. et al. (2000). Physiological time-series analysis
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Richman, J. S. et al. (2000). Physiological time-series analysis
 using approximate entropy and sample entropy. American Journal of
 Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</td></tr>
 </tbody>
@@ -167,8 +168,8 @@ Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</td></tr>
       
     </p>
     <p>
-        &copy; Copyright 2018-2018, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.<br/>
+        &copy; Copyright 2018-2019, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.<br/>
     </p>
   </div>
 </footer>

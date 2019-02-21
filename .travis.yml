@@ -30,7 +30,6 @@ before_install:
     - conda info -a
     - SRC_DIR=$(pwd)
 
-
 install:
     # Create the py3 environnement ;
     - conda create -q -n testenv python=$TRAVIS_PYTHON_VERSION numpy scipy pip cython
@@ -46,13 +45,6 @@ install:
     - cd ${SRC_DIR}
     - export NUMBA_DISABLE_JIT=1 # Disable JIT
     - pip install -e .
-
-
-before_script:
-    - "export DISPLAY=:99.0"
-    - "sh -e /etc/init.d/xvfb start"
-    - sleep 3 # give xvfb some time to start
-
 
 script:
     - if [[ "${TEST}" == "standard" ]]; then

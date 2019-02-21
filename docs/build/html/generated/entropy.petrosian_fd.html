@@ -12,8 +12,9 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
@@ -95,16 +96,18 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : list or np.array</p>
-<blockquote>
-<div><p>One dimensional time series</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list or np.array</span></dt>
+<dd><p class="first last">One dimensional time series</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pfd</strong> : float</p>
-<blockquote class="last">
-<div><p>Petrosian fractal dimension</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>pfd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Petrosian fractal dimension</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -114,25 +117,25 @@
 the FD of a signal by translating the series into a binary sequence.</p>
 <p>The Petrosian fractal dimension of a time series <span class="math notranslate nohighlight">\(x\)</span> is defined by:</p>
 <div class="math notranslate nohighlight">
-\[\dfrac{log_{10}(N)}{log_{10}(N) +
-log_{10}(\dfrac{N}{N+0.4N_{\Delta}})}\]</div>
+\[\frac{log_{10}(N)}{log_{10}(N) +
+log_{10}(\frac{N}{N+0.4N_{\Delta}})}\]</div>
 <p>where <span class="math notranslate nohighlight">\(N\)</span> is the length of the time series, and
 <span class="math notranslate nohighlight">\(N_{\Delta}\)</span> is the number of sign changes in the binary sequence.</p>
 <p>Original code from the pyrem package by Quentin Geissmann.</p>
 <p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="r19" rules="none">
+<table class="docutils citation" frame="void" id="r2eb627373335-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R19]</a></td><td>A. Petrosian, Kolmogorov complexity of finite sequences and
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>A. Petrosian, Kolmogorov complexity of finite sequences and
 recognition of different preictal EEG patterns, in , Proceedings of the
 Eighth IEEE Symposium on Computer-Based Medical Systems, 1995,
 pp. 212-217.</td></tr>
 </tbody>
 </table>
-<table class="docutils citation" frame="void" id="r20" rules="none">
+<table class="docutils citation" frame="void" id="r2eb627373335-2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[R20]</a></td><td>Goh, Cindy, et al. “Comparison of fractal dimension algorithms for
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Goh, Cindy, et al. “Comparison of fractal dimension algorithms for
 the computation of EEG biomarkers for dementia.” 2nd International
 Conference on Computational Intelligence in Medicine and Healthcare
 (CIMED2005). 2005.</td></tr>
@@ -167,8 +170,8 @@ Conference on Computational Intelligence in Medicine and Healthcare
       
     </p>
     <p>
-        &copy; Copyright 2018-2018, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.<br/>
+        &copy; Copyright 2018-2019, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.<br/>
     </p>
   </div>
 </footer>

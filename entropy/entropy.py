@@ -37,9 +37,9 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
 
     The permutation entropy of a signal :math:`x` is defined as:
 
-    .. math:: H = -\sum p(\pi)log_2(\pi)
+    .. math:: H = -\\sum p(\\pi)log_2(\\pi)
 
-    where the sum runs over all :math:`n!` permutations :math:`\pi` of order
+    where the sum runs over all :math:`n!` permutations :math:`\\pi` of order
     :math:`n`. This is the information contained in comparing :math:`n`
     consecutive values of the time series. It is clear that
     :math:`0 ≤ H (n) ≤ log_2(n!)` where the lower bound is attained for an
@@ -126,7 +126,7 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False):
     Spectral Entropy is defined to be the Shannon Entropy of the Power
     Spectral Density (PSD) of the data:
 
-    .. math:: H(x, sf) =  -\sum_{f=0}^{f_s/2} PSD(f) log_2[PSD(f)]
+    .. math:: H(x, sf) =  -\\sum_{f=0}^{f_s/2} PSD(f) log_2[PSD(f)]
 
     Where :math:`PSD` is the normalised PSD, and :math:`f_s` is the sampling
     frequency.
@@ -206,10 +206,10 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
     The SVD entropy of a signal :math:`x` is defined as:
 
     .. math::
-        H = -\sum_{i=1}^{M} \overline{\sigma}_i log_2(\overline{\sigma}_i)
+        H = -\\sum_{i=1}^{M} \\overline{\\sigma}_i log_2(\\overline{\\sigma}_i)
 
     where :math:`M` is the number of singular values of the embedded matrix
-    :math:`Y` and :math:`\sigma_1, \sigma_2, ..., \sigma_M` are the
+    :math:`Y` and :math:`\\sigma_1, \\sigma_2, ..., \\sigma_M` are the
     normalized singular values of :math:`Y`.
 
     The embedded matrix :math:`Y` is created by:
@@ -363,7 +363,7 @@ def app_entropy(x, order=2, metric='chebyshev'):
 
     Smaller values indicates that the data is more regular and predictable.
 
-    The value of :math:`r` is set to :math:`0.2 * std(x)`.
+    The value of :math:`r` is set to :math:`0.2 * \\text{std}(x)`.
 
     Code adapted from the mne-features package by Jean-Baptiste Schiratti
     and Alexandre Gramfort.
@@ -415,10 +415,10 @@ def sample_entropy(x, order=2, metric='chebyshev'):
 
     Sample entropy of a signal :math:`x` is defined as:
 
-    .. math:: H(x, m, r) = -log\dfrac{C(m + 1, r)}{C(m, r)}
+    .. math:: H(x, m, r) = -log\\frac{C(m + 1, r)}{C(m, r)}
 
     where :math:`m` is the embedding dimension (= order), :math:`r` is
-    the radius of the neighbourhood (default = :math:`0.2 * std(x)`),
+    the radius of the neighbourhood (default = :math:`0.2 * \\text{std}(x)`),
     :math:`C(m + 1, r)` is the number of embedded vectors of length
     :math:`m + 1` having a Chebyshev distance inferior to :math:`r` and
     :math:`C(m, r)` is the number of embedded vectors of length

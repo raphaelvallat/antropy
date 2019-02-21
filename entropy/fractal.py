@@ -27,11 +27,11 @@ def petrosian_fd(x):
 
     The Petrosian fractal dimension of a time series :math:`x` is defined by:
 
-    .. math:: \dfrac{log_{10}(N)}{log_{10}(N) +
-       log_{10}(\dfrac{N}{N+0.4N_{\Delta}})}
+    .. math:: \\frac{log_{10}(N)}{log_{10}(N) +
+       log_{10}(\\frac{N}{N+0.4N_{\\Delta}})}
 
     where :math:`N` is the length of the time series, and
-    :math:`N_{\Delta}` is the number of sign changes in the binary sequence.
+    :math:`N_{\\Delta}` is the number of sign changes in the binary sequence.
 
     Original code from the pyrem package by Quentin Geissmann.
 
@@ -82,7 +82,7 @@ def katz_fd(x):
     -----
     The Katz Fractal dimension is defined by:
 
-    .. math:: FD_{Katz} = \dfrac{log_{10}(n)}{log_{10}(d/L)+log_{10}(n)}
+    .. math:: FD_{Katz} = \\frac{log_{10}(n)}{log_{10}(d/L)+log_{10}(n)}
 
     where :math:`L` is the total length of the time series and :math:`d`
     is the Euclidean distance between the first point in the

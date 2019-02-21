@@ -12,8 +12,9 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
@@ -115,11 +116,11 @@
 
 <span class="sd">    The Petrosian fractal dimension of a time series :math:`x` is defined by:</span>
 
-<span class="sd">    .. math:: \dfrac{log_{10}(N)}{log_{10}(N) +</span>
-<span class="sd">       log_{10}(\dfrac{N}{N+0.4N_{\Delta}})}</span>
+<span class="sd">    .. math:: \\frac{log_{10}(N)}{log_{10}(N) +</span>
+<span class="sd">       log_{10}(\\frac{N}{N+0.4N_{\\Delta}})}</span>
 
 <span class="sd">    where :math:`N` is the length of the time series, and</span>
-<span class="sd">    :math:`N_{\Delta}` is the number of sign changes in the binary sequence.</span>
+<span class="sd">    :math:`N_{\\Delta}` is the number of sign changes in the binary sequence.</span>
 
 <span class="sd">    Original code from the pyrem package by Quentin Geissmann.</span>
 
@@ -170,7 +171,7 @@
 <span class="sd">    -----</span>
 <span class="sd">    The Katz Fractal dimension is defined by:</span>
 
-<span class="sd">    .. math:: FD_{Katz} = \dfrac{log_{10}(n)}{log_{10}(d/L)+log_{10}(n)}</span>
+<span class="sd">    .. math:: FD_{Katz} = \\frac{log_{10}(n)}{log_{10}(d/L)+log_{10}(n)}</span>
 
 <span class="sd">    where :math:`L` is the total length of the time series and :math:`d`</span>
 <span class="sd">    is the Euclidean distance between the first point in the</span>
@@ -300,8 +301,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2018-2018, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.<br/>
+        &copy; Copyright 2018-2019, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.<br/>
     </p>
   </div>
 </footer>

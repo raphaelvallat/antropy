@@ -2,9 +2,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>entropy.app_entropy &#8212; entropy 0.1.0 documentation</title>
+    <meta charset="utf-8" />
+    <title>entropy.app_entropy &#8212; entropy 0.1.1 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -15,10 +14,6 @@
     <script type="text/javascript" src="../_static/language_data.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
     <link rel="shortcut icon" href="../_static/entropy.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -26,6 +21,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
 
@@ -40,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../index.html"><span><img src="../_static/entropy_128x128.png"></span>
           entropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -84,42 +83,34 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12 content">
+    <div class="body col-md-12 content" role="main">
       
   <div class="section" id="entropy-app-entropy">
 <h1>entropy.app_entropy</h1>
 <dl class="function">
 <dt id="entropy.app_entropy">
-<code class="descclassname">entropy.</code><code class="descname">app_entropy</code><span class="sig-paren">(</span><em>x</em>, <em>order=2</em>, <em>metric='chebyshev'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/entropy/entropy.html#app_entropy"><span class="viewcode-link">[source]</span></a></dt>
+<code class="sig-prename descclassname">entropy.</code><code class="sig-name descname">app_entropy</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">order=2</em>, <em class="sig-param">metric='chebyshev'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/entropy/entropy.html#app_entropy"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Approximate Entropy.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list or np.array</span></dt>
-<dd><p class="first last">One-dimensional time series of shape (n_times)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One-dimensional time series of shape (n_times)</p>
 </dd>
-<dt><strong>order</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int (default: 2)</span></dt>
-<dd><p class="first last">Embedding dimension.</p>
+<dt><strong>order</strong><span class="classifier">int (default: 2)</span></dt><dd><p>Embedding dimension.</p>
 </dd>
-<dt><strong>metric</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str (default: chebyshev)</span></dt>
-<dd><p class="first last">Name of the metric function used with
+<dt><strong>metric</strong><span class="classifier">str (default: chebyshev)</span></dt><dd><p>Name of the metric function used with
 <code class="xref py py-class docutils literal notranslate"><span class="pre">KDTree</span></code>. The list of available
 metric functions is given by: <code class="docutils literal notranslate"><span class="pre">KDTree.valid_metrics</span></code>.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>ae</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">Approximate Entropy.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ae</strong><span class="classifier">float</span></dt><dd><p>Approximate Entropy.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>Original code from the mne-features package.</p>
 <p>Approximate entropy is a technique used to quantify the amount of
@@ -129,26 +120,23 @@ regularity and the unpredictability of fluctuations over time-series data.</p>
 <p>Code adapted from the mne-features package by Jean-Baptiste Schiratti
 and Alexandre Gramfort.</p>
 <p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="r0b068f1e49f1-1" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Richman, J. S. et al. (2000). Physiological time-series analysis
+<dl class="citation">
+<dt class="label" id="r0b068f1e49f1-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Richman, J. S. et al. (2000). Physiological time-series analysis
 using approximate entropy and sample entropy. American Journal of
-Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</td></tr>
-</tbody>
-</table>
-<ol class="arabic">
-<li><p class="first">Approximate entropy with order 2.</p>
+Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Approximate entropy with order 2.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">app_entropy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234567</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
-<span class="go">    2.075</span>
+<span class="go">2.0754913760787277</span>
 </pre></div>
 </div>
-</li>
-</ol>
 </dd></dl>
 
 </div>
@@ -169,7 +157,7 @@ Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</td></tr>
     </p>
     <p>
         &copy; Copyright 2018-2019, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.<br/>
     </p>
   </div>
 </footer>

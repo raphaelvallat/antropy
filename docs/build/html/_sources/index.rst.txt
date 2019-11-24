@@ -58,6 +58,7 @@ Entropy
     print(svd_entropy(x, order=3, delay=1, normalize=True))         # Singular value decomposition entropy
     print(app_entropy(x, order=2, metric='chebyshev'))              # Approximate entropy
     print(sample_entropy(x, order=2, metric='chebyshev'))           # Sample entropy
+    print(lziv_complexity('01111000011001', normalize=True))                        # Lempel-Ziv complexity
 
 .. parsed-literal::
 
@@ -66,31 +67,23 @@ Entropy
     0.8482185855709181
     2.0754913760787277
     2.192416747827227
+    0.9425204748625924
 
 Fractal dimension
 -----------------
 
 .. code-block:: python
 
-    print(petrosian_fd(x))        # Petrosian fractal dimension
-    print(katz_fd(x))             # Katz fractal dimension
-    print(higuchi_fd(x, kmax=10)) # Higuchi fractal dimension
+    print(petrosian_fd(x))            # Petrosian fractal dimension
+    print(katz_fd(x))                 # Katz fractal dimension
+    print(higuchi_fd(x, kmax=10))     # Higuchi fractal dimension
+    print(detrended_fluctuation(x))   # Detrended fluctuation analysis
 
 .. parsed-literal::
 
     1.0303256054255618
     9.496389529050981
     1.9914197968462963
-
-Other measures
---------------
-
-.. code-block:: python
-
-    print(detrended_fluctuation(x)) # Detrended fluctuation analysis
-
-.. parsed-literal::
-
     0.5082304865081877
 
 Execution time

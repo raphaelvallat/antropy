@@ -1,0 +1,6 @@
+entropy.lziv\_complexity
+========================
+
+.. currentmodule:: entropy
+
+.. autofunction:: lziv_complexity

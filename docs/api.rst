@@ -14,6 +14,7 @@ Entropy
    :toctree: generated/
 
     app_entropy
+    lziv_complexity
     perm_entropy
     sample_entropy
     spectral_entropy
@@ -28,16 +29,7 @@ Fractal dimension
 .. autosummary::
    :toctree: generated/
 
+    detrended_fluctuation
     higuchi_fd
     katz_fd
     petrosian_fd
-
-Others
-------
-
-.. _others:
-
-.. autosummary::
-   :toctree: generated/
-
-    detrended_fluctuation

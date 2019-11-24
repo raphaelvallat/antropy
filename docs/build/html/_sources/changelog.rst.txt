@@ -3,6 +3,11 @@
 What's new
 ##########
 
+v0.1.1 (November 2019)
+----------------------
+
+a. Added Lempel-Ziv complexity (:py:func:`entropy.lziv_complexity`) for binary sequence.
+
 v0.1.0 (October 2018)
 ---------------------
 

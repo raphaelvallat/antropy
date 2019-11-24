@@ -1,7 +1,7 @@
 import numpy as np
 import unittest
 
-from entropy import petrosian_fd, katz_fd, higuchi_fd
+from entropy import petrosian_fd, katz_fd, higuchi_fd, detrended_fluctuation
 
 np.random.seed(1234567)
 RANDOM_TS = np.random.rand(3000)
@@ -27,3 +27,10 @@ class TestEntropy(unittest.TestCase):
         # Compare with MNE-features
         self.assertEqual(np.round(higuchi_fd(RANDOM_TS), 8), 1.9914198)
         higuchi_fd(list(RANDOM_TS), kmax=20)
+
+    def test_detrended_fluctuation(self):
+        """Test for function `detrended_fluctuation`.
+        Results have been tested against the NOLDS Python package.
+        """
+        self.assertEqual(np.round(detrended_fluctuation(RANDOM_TS), 4), 0.5082)
+        self.assertEqual(np.round(detrended_fluctuation(PURE_SINE), 4), 1.6158)

@@ -2,7 +2,7 @@ import numpy as np
 import unittest
 
 from entropy import (perm_entropy, spectral_entropy, svd_entropy,
-                     sample_entropy, app_entropy)
+                     sample_entropy, app_entropy, lziv_complexity)
 
 np.random.seed(1234567)
 RANDOM_TS = np.random.rand(3000)
@@ -64,3 +64,22 @@ class TestEntropy(unittest.TestCase):
         app_entropy(RANDOM_TS, order=3)
         with self.assertRaises(ValueError):
             app_entropy(RANDOM_TS, order=2, metric='wrong')
+
+    def test_lziv_complexity(self):
+        """Compare to:
+        https://www.mathworks.com/matlabcentral/fileexchange/38211-calc_lz_complexity
+        """
+        s = '010101010101'
+        n = len(s)
+        assert lziv_complexity(s) == 3
+        assert lziv_complexity(s, True) == 3 / (n / np.log2(n))
+        assert round(lziv_complexity(s, True), 5) == 0.89624
+        assert lziv_complexity([True, False, True, False]) == 3
+        assert lziv_complexity(np.array([1, 0, 1, 0, 1, 0])) == 3
+        assert lziv_complexity(['1', '0', '1', '0']) == 3
+
+        assert lziv_complexity('11111') == lziv_complexity('00') == 2
+        assert lziv_complexity(np.ones(10000), normalize=True) < 0.01
+
+        random_seq = np.random.randint(0, 2, 1000)
+        assert lziv_complexity(random_seq, normalize=True) > 0.5

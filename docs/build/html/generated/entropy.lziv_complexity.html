@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>entropy.lziv_complexity &#8212; entropy 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../_static/entropy.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html"><span><img src="../_static/entropy_128x128.png"></span>
+          entropy</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../api.html">API</a></li>
+                <li><a href="../changelog.html">What's new</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <div class="section" id="entropy-lziv-complexity">
+<h1>entropy.lziv_complexity</h1>
+<dl class="function">
+<dt id="entropy.lziv_complexity">
+<code class="sig-prename descclassname">entropy.</code><code class="sig-name descname">lziv_complexity</code><span class="sig-paren">(</span><em class="sig-param">binary_sequence</em>, <em class="sig-param">normalize=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/entropy/entropy.html#lziv_complexity"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Lempel-Ziv (LZ) complexity of binary sequence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>binary_sequence</strong><span class="classifier">str or array</span></dt><dd><p>A sequence of 0 and 1, e.g. <code class="docutils literal notranslate"><span class="pre">'1001111011000010'</span></code> or
+<code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">1]</span></code>.</p>
+</dd>
+<dt><strong>normalize</strong><span class="classifier">bool</span></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, returns the normalized LZ (see Notes).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>lz</strong><span class="classifier">int or float</span></dt><dd><p>LZ complexity, which corresponds to the number of different
+substrings encountered as the stream is viewed from the
+beginning to the end. If <code class="docutils literal notranslate"><span class="pre">normalize=False</span></code>, the output is an
+integer (counts), otherwise the output is a float.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>LZ complexity is defined as the number of different substrings encountered
+as the sequence is viewed from begining to the end.</p>
+<p>Although the raw LZ is an important complexity indicator, it is heavily
+influenced by sequence length (longer sequence will result in higher LZ).
+Zhang and colleagues (2009) have therefore proposed the normalized LZ,
+which is defined by</p>
+<div class="math notranslate nohighlight">
+\[LZn = \frac{LZ}{(n / \log_2{n})}\]</div>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is the length of the binary sequence.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r6f5c02d513e6-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Lempel, A., &amp; Ziv, J. (1976). On the Complexity of Finite Sequences.
+IEEE Transactions on Information Theory / Professional Technical
+Group on Information Theory, 22(1), 75–81.
+<a class="reference external" href="https://doi.org/10.1109/TIT.1976.1055501">https://doi.org/10.1109/TIT.1976.1055501</a></p>
+</dd>
+<dt class="label" id="r6f5c02d513e6-2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Zhang, Y., Hao, J., Zhou, C., &amp; Chang, K. (2009). Normalized
+Lempel-Ziv complexity and its application in bio-sequence analysis.
+Journal of Mathematical Chemistry, 46(4), 1203–1212.
+<a class="reference external" href="https://doi.org/10.1007/s10910-008-9512-2">https://doi.org/10.1007/s10910-008-9512-2</a></p>
+</dd>
+<dt class="label" id="r6f5c02d513e6-3"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Lempel-Ziv_complexity">https://en.wikipedia.org/wiki/Lempel-Ziv_complexity</a></p>
+</dd>
+<dt class="label" id="r6f5c02d513e6-4"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p><a class="reference external" href="https://github.com/Naereen/Lempel-Ziv_Complexity">https://github.com/Naereen/Lempel-Ziv_Complexity</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">lziv_complexity</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Substrings = 1 / 0 / 01 / 1110 / 1100 / 0010</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;1001111011000010&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lziv_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+<p>Using a list of integer / boolean instead of a string:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># 1 / 0 / 10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lziv_complexity</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<p>With normalization:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lziv_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">1.5</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2018-2019, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

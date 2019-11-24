@@ -7,7 +7,7 @@ from scipy.signal import periodogram, welch
 from .utils import _embed
 
 all = ['perm_entropy', 'spectral_entropy', 'svd_entropy', 'app_entropy',
-       'sample_entropy']
+       'sample_entropy', 'lziv_complexity']
 
 
 def perm_entropy(x, order=3, delay=1, normalize=False):
@@ -62,20 +62,21 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
 
     Examples
     --------
-    1. Permutation entropy with order 2
+    Permutation entropy with order 2
 
-        >>> from entropy import perm_entropy
-        >>> x = [4, 7, 9, 10, 6, 11, 3]
-        >>> # Return a value in bit between 0 and log2(factorial(order))
-        >>> print(perm_entropy(x, order=2))
-            0.918
-    2. Normalized permutation entropy with order 3
+    >>> from entropy import perm_entropy
+    >>> x = [4, 7, 9, 10, 6, 11, 3]
+    >>> # Return a value in bit between 0 and log2(factorial(order))
+    >>> print(perm_entropy(x, order=2))
+    0.9182958340544896
 
-        >>> from entropy import perm_entropy
-        >>> x = [4, 7, 9, 10, 6, 11, 3]
-        >>> # Return a value comprised between 0 and 1.
-        >>> print(perm_entropy(x, order=3, normalize=True))
-            0.589
+    Normalized permutation entropy with order 3
+
+    >>> from entropy import perm_entropy
+    >>> x = [4, 7, 9, 10, 6, 11, 3]
+    >>> # Return a value comprised between 0 and 1.
+    >>> print(perm_entropy(x, order=3, normalize=True))
+    0.5887621559162939
     """
     x = np.array(x)
     ran_order = range(order)
@@ -139,30 +140,30 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False):
 
     Examples
     --------
-    1. Spectral entropy of a pure sine using FFT
+    Spectral entropy of a pure sine using FFT
 
-        >>> from entropy import spectral_entropy
-        >>> import numpy as np
-        >>> sf, f, dur = 100, 1, 4
-        >>> N = sf * duration # Total number of discrete samples
-        >>> t = np.arange(N) / sf # Time vector
-        >>> x = np.sin(2 * np.pi * f * t)
-        >>> print(np.round(spectral_entropy(x, sf, method='fft'), 2)
-            0.0
+    >>> from entropy import spectral_entropy
+    >>> import numpy as np
+    >>> sf, f, dur = 100, 1, 4
+    >>> N = sf * dur # Total number of discrete samples
+    >>> t = np.arange(N) / sf # Time vector
+    >>> x = np.sin(2 * np.pi * f * t)
+    >>> np.round(spectral_entropy(x, sf, method='fft'), 2)
+    0.0
 
-    2. Spectral entropy of a random signal using Welch's method
+    Spectral entropy of a random signal using Welch's method
 
-        >>> from entropy import spectral_entropy
-        >>> import numpy as np
-        >>> np.random.seed(42)
-        >>> x = np.random.rand(3000)
-        >>> print(spectral_entropy(x, sf=100, method='welch'))
-            9.939
+    >>> from entropy import spectral_entropy
+    >>> import numpy as np
+    >>> np.random.seed(42)
+    >>> x = np.random.rand(3000)
+    >>> spectral_entropy(x, sf=100, method='welch')
+    6.980045662371389
 
-    3. Normalized spectral entropy
+    Normalized spectral entropy
 
-        >>> print(spectral_entropy(x, sf=100, method='welch', normalize=True))
-            0.995
+    >>> spectral_entropy(x, sf=100, method='welch', normalize=True)
+    0.9955526198316071
     """
     x = np.array(x)
     # Compute and normalize power spectrum
@@ -220,21 +221,21 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
 
     Examples
     --------
-    1. SVD entropy with order 2
+    SVD entropy with order 2
 
-        >>> from entropy import svd_entropy
-        >>> x = [4, 7, 9, 10, 6, 11, 3]
-        >>> # Return a value in bit between 0 and log2(factorial(order))
-        >>> print(svd_entropy(x, order=2))
-            0.762
+    >>> from entropy import svd_entropy
+    >>> x = [4, 7, 9, 10, 6, 11, 3]
+    >>> # Return a value in bit between 0 and log2(factorial(order))
+    >>> print(svd_entropy(x, order=2))
+    0.7618909465130066
 
-    2. Normalized SVD entropy with order 3
+    Normalized SVD entropy with order 3
 
-        >>> from entropy import svd_entropy
-        >>> x = [4, 7, 9, 10, 6, 11, 3]
-        >>> # Return a value comprised between 0 and 1.
-        >>> print(svd_entropy(x, order=3, normalize=True))
-            0.687
+    >>> from entropy import svd_entropy
+    >>> x = [4, 7, 9, 10, 6, 11, 3]
+    >>> # Return a value comprised between 0 and 1.
+    >>> print(svd_entropy(x, order=3, normalize=True))
+    0.6870083043946692
     """
     x = np.array(x)
     mat = _embed(x, order=order, delay=delay)
@@ -374,14 +375,16 @@ def app_entropy(x, order=2, metric='chebyshev'):
            using approximate entropy and sample entropy. American Journal of
            Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.
 
-    1. Approximate entropy with order 2.
+    Examples
+    --------
+    Approximate entropy with order 2.
 
-        >>> from entropy import app_entropy
-        >>> import numpy as np
-        >>> np.random.seed(1234567)
-        >>> x = np.random.rand(3000)
-        >>> print(app_entropy(x, order=2))
-            2.075
+    >>> from entropy import app_entropy
+    >>> import numpy as np
+    >>> np.random.seed(1234567)
+    >>> x = np.random.rand(3000)
+    >>> print(app_entropy(x, order=2))
+    2.0754913760787277
     """
     phi = _app_samp_entropy(x, order=order, metric=metric, approximate=True)
     return np.subtract(phi[0], phi[1])
@@ -438,23 +441,23 @@ def sample_entropy(x, order=2, metric='chebyshev'):
 
     Examples
     --------
-    1. Sample entropy with order 2.
+    Sample entropy with order 2.
 
-        >>> from entropy import sample_entropy
-        >>> import numpy as np
-        >>> np.random.seed(1234567)
-        >>> x = np.random.rand(3000)
-        >>> print(sample_entropy(x, order=2))
-            2.192
+    >>> from entropy import sample_entropy
+    >>> import numpy as np
+    >>> np.random.seed(1234567)
+    >>> x = np.random.rand(3000)
+    >>> print(sample_entropy(x, order=2))
+    2.192416747827227
 
-    2. Sample entropy with order 3 using the Euclidean distance.
+    Sample entropy with order 3 using the Euclidean distance.
 
-        >>> from entropy import sample_entropy
-        >>> import numpy as np
-        >>> np.random.seed(1234567)
-        >>> x = np.random.rand(3000)
-        >>> print(sample_entropy(x, order=3, metric='euclidean'))
-            2.725
+    >>> from entropy import sample_entropy
+    >>> import numpy as np
+    >>> np.random.seed(1234567)
+    >>> x = np.random.rand(3000)
+    >>> print(sample_entropy(x, order=3, metric='euclidean'))
+    2.7246543561542453
     """
     x = np.asarray(x, dtype=np.float64)
     if metric == 'chebyshev' and x.size < 5000:
@@ -463,3 +466,137 @@ def sample_entropy(x, order=2, metric='chebyshev'):
         phi = _app_samp_entropy(x, order=order, metric=metric,
                                 approximate=False)
         return -np.log(np.divide(phi[1], phi[0]))
+
+
+@jit('u8(unicode_type)', nopython=True)
+def _lz_complexity(binary_string):
+    """
+    Internal Numba implementation of the Lempel-Ziv (LZ) complexity.
+    https://github.com/Naereen/Lempel-Ziv_Complexity/blob/master/src/lziv_complexity.py
+    """
+    u, v, w = 0, 1, 1
+    v_max = 1
+    length = len(binary_string)
+    complexity = 1
+    while True:
+        if binary_string[u + v - 1] == binary_string[w + v - 1]:
+            v += 1
+            if w + v >= length:
+                complexity += 1
+                break
+        else:
+            if v > v_max:
+                v_max = v
+            u += 1
+            if u == w:
+                complexity += 1
+                w += v_max
+                if w > length:
+                    break
+                else:
+                    u = 0
+                    v = 1
+                    v_max = 1
+            else:
+                v = 1
+    return complexity
+
+
+def lziv_complexity(binary_sequence, normalize=False):
+    """
+    Lempel-Ziv (LZ) complexity of binary sequence.
+
+    Parameters
+    ----------
+    binary_sequence : str or array
+        A sequence of 0 and 1, e.g. ``'1001111011000010'`` or
+        ``[0, 1, 0, 1, 1]``.
+    normalize : bool
+        If ``True``, returns the normalized LZ (see Notes).
+
+    Returns
+    -------
+    lz : int or float
+        LZ complexity, which corresponds to the number of different
+        substrings encountered as the stream is viewed from the
+        beginning to the end. If ``normalize=False``, the output is an
+        integer (counts), otherwise the output is a float.
+
+    Notes
+    -----
+    LZ complexity is defined as the number of different substrings encountered
+    as the sequence is viewed from begining to the end.
+
+    Although the raw LZ is an important complexity indicator, it is heavily
+    influenced by sequence length (longer sequence will result in higher LZ).
+    Zhang and colleagues (2009) have therefore proposed the normalized LZ,
+    which is defined by
+
+    .. math:: LZn = \\frac{LZ}{(n / \\log_2{n})}
+
+    where :math:`n` is the length of the binary sequence.
+
+    References
+    ----------
+    .. [1] Lempel, A., & Ziv, J. (1976). On the Complexity of Finite Sequences.
+           IEEE Transactions on Information Theory / Professional Technical
+           Group on Information Theory, 22(1), 75–81.
+           https://doi.org/10.1109/TIT.1976.1055501
+
+    .. [2] Zhang, Y., Hao, J., Zhou, C., & Chang, K. (2009). Normalized
+           Lempel-Ziv complexity and its application in bio-sequence analysis.
+           Journal of Mathematical Chemistry, 46(4), 1203–1212.
+           https://doi.org/10.1007/s10910-008-9512-2
+
+    .. [3] https://en.wikipedia.org/wiki/Lempel-Ziv_complexity
+
+    .. [4] https://github.com/Naereen/Lempel-Ziv_Complexity
+
+    Examples
+    --------
+    >>> from entropy import lziv_complexity
+    >>> # Substrings = 1 / 0 / 01 / 1110 / 1100 / 0010
+    >>> s = '1001111011000010'
+    >>> lziv_complexity(s)
+    6
+
+    Using a list of integer / boolean instead of a string:
+
+    >>> # 1 / 0 / 10
+    >>> lziv_complexity([1, 0, 1, 0, 1, 0, 1, 0, 1, 0])
+    3
+
+    With normalization:
+
+    >>> lziv_complexity(s, normalize=True)
+    1.5
+    """
+    assert isinstance(binary_sequence, (str, list, np.ndarray))
+    assert isinstance(normalize, bool)
+    if isinstance(binary_sequence, (list, np.ndarray)):
+        binary_sequence = np.asarray(binary_sequence, dtype=int)
+        s = ''.join(binary_sequence.astype(str))
+    else:
+        s = binary_sequence
+
+    # Check that string only contains 0 and/or 1
+    unique_chars = sorted(list(set(s)))
+    if len(unique_chars) == 2:
+        assert unique_chars == ['0', '1']
+
+    if normalize:
+        # 1) Timmermann et al. 2019
+        # The sequence is randomly shuffled, and the normalized LZ
+        # is calculated as the ratio of the LZ of the original sequence
+        # divided by the LZ of the randomly shuffled LZ. However, the final
+        # output is dependent on the random seed.
+        # sl_shuffled = list(s)
+        # rng = np.random.RandomState(None)
+        # rng.shuffle(sl_shuffled)
+        # s_shuffled = ''.join(sl_shuffled)
+        # return _lz_complexity(s) / _lz_complexity(s_shuffled)
+        # 2) Zhang et al. 2009
+        n = len(s)
+        return _lz_complexity(s) / (n / np.log2(n))
+    else:
+        return _lz_complexity(s)

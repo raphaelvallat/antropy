@@ -26,4 +26,4 @@ install:
   - "python setup.py develop"
 
 test_script:
-  - "pytest"
+  - "pytest --doctest-modules"

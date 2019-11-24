@@ -2,9 +2,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>API reference &#8212; entropy 0.1.0 documentation</title>
+    <meta charset="utf-8" />
+    <title>API reference &#8212; entropy 0.1.1 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/style.css" />
@@ -15,10 +14,6 @@
     <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/copybutton.js"></script>
     <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="shortcut icon" href="_static/entropy.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -26,6 +21,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
 
   </head><body>
 
@@ -40,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="index.html"><span><img src="_static/entropy_128x128.png"></span>
           entropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -84,66 +83,58 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12 content">
+    <div class="body col-md-12 content" role="main">
       
   <div class="section" id="api-reference">
 <span id="api-ref"></span><h1>API reference</h1>
 <div class="section" id="entropy">
 <h2>Entropy</h2>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/entropy.app_entropy.html#entropy.app_entropy" title="entropy.app_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">app_entropy</span></code></a>(x[,&nbsp;order,&nbsp;metric])</td>
-<td>Approximate Entropy.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/entropy.app_entropy.html#entropy.app_entropy" title="entropy.app_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">app_entropy</span></code></a>(x[, order, metric])</p></td>
+<td><p>Approximate Entropy.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/entropy.perm_entropy.html#entropy.perm_entropy" title="entropy.perm_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">perm_entropy</span></code></a>(x[,&nbsp;order,&nbsp;delay,&nbsp;normalize])</td>
-<td>Permutation Entropy.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/entropy.lziv_complexity.html#entropy.lziv_complexity" title="entropy.lziv_complexity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lziv_complexity</span></code></a>(binary_sequence[, normalize])</p></td>
+<td><p>Lempel-Ziv (LZ) complexity of binary sequence.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/entropy.sample_entropy.html#entropy.sample_entropy" title="entropy.sample_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_entropy</span></code></a>(x[,&nbsp;order,&nbsp;metric])</td>
-<td>Sample Entropy.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/entropy.perm_entropy.html#entropy.perm_entropy" title="entropy.perm_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">perm_entropy</span></code></a>(x[, order, delay, normalize])</p></td>
+<td><p>Permutation Entropy.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/entropy.spectral_entropy.html#entropy.spectral_entropy" title="entropy.spectral_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_entropy</span></code></a>(x,&nbsp;sf[,&nbsp;method,&nbsp;nperseg,&nbsp;…])</td>
-<td>Spectral Entropy.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/entropy.sample_entropy.html#entropy.sample_entropy" title="entropy.sample_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_entropy</span></code></a>(x[, order, metric])</p></td>
+<td><p>Sample Entropy.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/entropy.svd_entropy.html#entropy.svd_entropy" title="entropy.svd_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">svd_entropy</span></code></a>(x[,&nbsp;order,&nbsp;delay,&nbsp;normalize])</td>
-<td>Singular Value Decomposition entropy.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/entropy.spectral_entropy.html#entropy.spectral_entropy" title="entropy.spectral_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_entropy</span></code></a>(x, sf[, method, nperseg, …])</p></td>
+<td><p>Spectral Entropy.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/entropy.svd_entropy.html#entropy.svd_entropy" title="entropy.svd_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">svd_entropy</span></code></a>(x[, order, delay, normalize])</p></td>
+<td><p>Singular Value Decomposition entropy.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="fractal-dimension">
 <h2>Fractal dimension</h2>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/entropy.higuchi_fd.html#entropy.higuchi_fd" title="entropy.higuchi_fd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">higuchi_fd</span></code></a>(x[,&nbsp;kmax])</td>
-<td>Higuchi Fractal Dimension.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/entropy.detrended_fluctuation.html#entropy.detrended_fluctuation" title="entropy.detrended_fluctuation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detrended_fluctuation</span></code></a>(x)</p></td>
+<td><p>Detrended fluctuation analysis (DFA).</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/entropy.katz_fd.html#entropy.katz_fd" title="entropy.katz_fd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">katz_fd</span></code></a>(x)</td>
-<td>Katz Fractal Dimension.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/entropy.higuchi_fd.html#entropy.higuchi_fd" title="entropy.higuchi_fd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">higuchi_fd</span></code></a>(x[, kmax])</p></td>
+<td><p>Higuchi Fractal Dimension.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/entropy.petrosian_fd.html#entropy.petrosian_fd" title="entropy.petrosian_fd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">petrosian_fd</span></code></a>(x)</td>
-<td>Petrosian fractal dimension.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/entropy.katz_fd.html#entropy.katz_fd" title="entropy.katz_fd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">katz_fd</span></code></a>(x)</p></td>
+<td><p>Katz Fractal Dimension.</p></td>
 </tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="others">
-<h2>Others</h2>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/entropy.detrended_fluctuation.html#entropy.detrended_fluctuation" title="entropy.detrended_fluctuation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detrended_fluctuation</span></code></a>(x)</td>
-<td>Detrended fluctuation analysis (DFA).</td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/entropy.petrosian_fd.html#entropy.petrosian_fd" title="entropy.petrosian_fd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">petrosian_fd</span></code></a>(x)</p></td>
+<td><p>Petrosian fractal dimension.</p></td>
 </tr>
 </tbody>
 </table>
@@ -166,7 +157,7 @@
     </p>
     <p>
         &copy; Copyright 2018-2019, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.<br/>
     </p>
   </div>
 </footer>

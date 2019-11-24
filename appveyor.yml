@@ -16,14 +16,10 @@ install:
   - "conda update -q conda"
   - "conda info -a"
   - "conda create -q -n testenv python=%PYTHON_VERSION% numpy scipy matplotlib pip cython"
-  # Activate testing environnement :
-  - "activate testenv"
-  - "python -m pip install --upgrade pip"
-  # Install dependencies :
-  - "pip install pytest scikit-learn numba"
-  - "dir"
-  # ------------------- ENTROPY -------------------
-  - "python setup.py develop"
+  - activate test_env
+  - pip install -r requirements.txt
+  - pip install -r requirements-test.txt
+  - pip install .
 
 test_script:
-  - "pytest --doctest-modules"
+  - "pytest"

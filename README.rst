@@ -63,7 +63,7 @@ Entropy
     print(svd_entropy(x, order=3, delay=1, normalize=True))         # Singular value decomposition entropy
     print(app_entropy(x, order=2, metric='chebyshev'))              # Approximate entropy
     print(sample_entropy(x, order=2, metric='chebyshev'))           # Sample entropy
-    print(lziv_complexity('01111000011001', normalize=True))                        # Lempel-Ziv complexity
+    print(lziv_complexity('01111000011001', normalize=True))        # Lempel-Ziv complexity
 
 .. parsed-literal::
 
@@ -112,7 +112,6 @@ Here are some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8
     %timeit petrosian_fd(x)
     %timeit katz_fd(x)
     %timeit higuchi_fd(x) # Numba
-    # Other
     %timeit detrended_fluctuation(x) # Numba
 
 .. parsed-literal::
@@ -139,7 +138,7 @@ Note that this program is provided with NO WARRANTY OF ANY KIND. If you can, alw
 Acknowledgement
 ===============
 
-Several functions of EntroPy were borrowed from:
+Several functions of EntroPy were adapted from:
 
 - MNE-features: https://github.com/mne-tools/mne-features
 - pyEntropy: https://github.com/nikdon/pyEntropy

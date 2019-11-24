@@ -506,6 +506,8 @@ def lziv_complexity(binary_sequence, normalize=False):
     """
     Lempel-Ziv (LZ) complexity of binary sequence.
 
+    .. versionadded:: 0.1.1
+
     Parameters
     ----------
     binary_sequence : str or array

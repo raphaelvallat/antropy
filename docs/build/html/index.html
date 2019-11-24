@@ -128,7 +128,7 @@ python setup.py develop
 <span class="k">print</span><span class="p">(</span><span class="n">svd_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>         <span class="c1"># Singular value decomposition entropy</span>
 <span class="k">print</span><span class="p">(</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">))</span>              <span class="c1"># Approximate entropy</span>
 <span class="k">print</span><span class="p">(</span><span class="n">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">))</span>           <span class="c1"># Sample entropy</span>
-<span class="k">print</span><span class="p">(</span><span class="n">lziv_complexity</span><span class="p">(</span><span class="s1">&#39;01111000011001&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>                        <span class="c1"># Lempel-Ziv complexity</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lziv_complexity</span><span class="p">(</span><span class="s1">&#39;01111000011001&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>        <span class="c1"># Lempel-Ziv complexity</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.9995858289645746</span>
@@ -173,7 +173,6 @@ python setup.py develop
 <span class="o">%</span><span class="n">timeit</span> <span class="n">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="o">%</span><span class="n">timeit</span> <span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="o">%</span><span class="n">timeit</span> <span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># Numba (fast)</span>
-<span class="c1"># Other</span>
 <span class="o">%</span><span class="n">timeit</span> <span class="n">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># Numba (fast)</span>
 </pre></div>
 </div>
@@ -197,7 +196,7 @@ python setup.py develop
 </div>
 <div class="section" id="acknowledgement">
 <h1>Acknowledgement</h1>
-<p>Several functions of EntroPy were borrowed from:</p>
+<p>Several functions of EntroPy were adapted from:</p>
 <ul class="simple">
 <li><p>MNE-features: <a class="reference external" href="https://github.com/mne-tools/mne-features">https://github.com/mne-tools/mne-features</a></p></li>
 <li><p>pyEntropy: <a class="reference external" href="https://github.com/nikdon/pyEntropy">https://github.com/nikdon/pyEntropy</a></p></li>

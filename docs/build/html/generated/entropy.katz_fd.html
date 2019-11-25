@@ -94,27 +94,28 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One dimensional time series</p>
+<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One dimensional time series.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>kfd</strong><span class="classifier">float</span></dt><dd><p>Katz fractal dimension</p>
+<dt><strong>kfd</strong><span class="classifier">float</span></dt><dd><p>Katz fractal dimension.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>The Katz Fractal dimension is defined by:</p>
+<p>The Katz fractal dimension is defined by:</p>
 <div class="math notranslate nohighlight">
-\[FD_{Katz} = \frac{log_{10}(n)}{log_{10}(d/L)+log_{10}(n)}\]</div>
+\[K = \frac{\log_{10}(n)}{\log_{10}(d/L)+\log_{10}(n)}\]</div>
 <p>where <span class="math notranslate nohighlight">\(L\)</span> is the total length of the time series and <span class="math notranslate nohighlight">\(d\)</span>
-is the Euclidean distance between the first point in the
-series and the point that provides the furthest distance
-with respect to the first point.</p>
-<p>Original code from the mne-features package by Jean-Baptiste Schiratti
-and Alexandre Gramfort.</p>
+is the
+<a class="reference external" href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean distance</a>
+between the first point in the series and the point that provides the
+furthest distance with respect to the first point.</p>
+<p>Original code from the <a class="reference external" href="https://mne.tools/mne-features/">mne-features</a>
+package by Jean-Baptiste Schiratti and Alexandre Gramfort.</p>
 <p class="rubric">References</p>
 <dl class="citation">
 <dt class="label" id="r90f3369c27d5-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>

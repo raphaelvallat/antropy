@@ -96,9 +96,9 @@
 <dd class="field-odd"><dl class="simple">
 <dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One-dimensional time series of shape (n_times)</p>
 </dd>
-<dt><strong>order</strong><span class="classifier">int</span></dt><dd><p>Order of permutation entropy</p>
+<dt><strong>order</strong><span class="classifier">int</span></dt><dd><p>Order of permutation entropy. Default is 3.</p>
 </dd>
-<dt><strong>delay</strong><span class="classifier">int</span></dt><dd><p>Time delay</p>
+<dt><strong>delay</strong><span class="classifier">int</span></dt><dd><p>Time delay (lag). Default is 1.</p>
 </dd>
 <dt><strong>normalize</strong><span class="classifier">bool</span></dt><dd><p>If True, divide by log2(order!) to normalize the entropy between 0
 and 1. Otherwise, return the permutation entropy in bit.</p>
@@ -107,14 +107,14 @@ and 1. Otherwise, return the permutation entropy in bit.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>pe</strong><span class="classifier">float</span></dt><dd><p>Permutation Entropy</p>
+<dt><strong>pe</strong><span class="classifier">float</span></dt><dd><p>Permutation Entropy.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
 <p>The permutation entropy is a complexity measure for time-series first
-introduced by Bandt and Pompe in 2002 <a class="reference internal" href="#r4295615302d9-1" id="id1">[1]</a>.</p>
+introduced by Bandt and Pompe in 2002.</p>
 <p>The permutation entropy of a signal <span class="math notranslate nohighlight">\(x\)</span> is defined as:</p>
 <div class="math notranslate nohighlight">
 \[H = -\sum p(\pi)log_2(\pi)\]</div>
@@ -131,13 +131,9 @@ with the same probability.</p>
 <div class="math notranslate nohighlight">
 \[Y=[y(1),y(2),...,y(N-(order-1))*delay)]^T\]</div>
 <p class="rubric">References</p>
-<dl class="citation">
-<dt class="label" id="r4295615302d9-1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
-<dd><p>Bandt, Christoph, and Bernd Pompe. “Permutation entropy: a
+<p>Bandt, Christoph, and Bernd Pompe. “Permutation entropy: a
 natural complexity measure for time series.” Physical review letters
 88.17 (2002): 174102.</p>
-</dd>
-</dl>
 <p class="rubric">Examples</p>
 <p>Permutation entropy with order 2</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">perm_entropy</span>

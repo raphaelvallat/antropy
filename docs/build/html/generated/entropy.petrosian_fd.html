@@ -94,27 +94,26 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One dimensional time series</p>
+<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One dimensional time series.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>pfd</strong><span class="classifier">float</span></dt><dd><p>Petrosian fractal dimension</p>
+<dt><strong>pfd</strong><span class="classifier">float</span></dt><dd><p>Petrosian fractal dimension.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>The Petrosian algorithm can be used to provide a fast computation of
-the FD of a signal by translating the series into a binary sequence.</p>
-<p>The Petrosian fractal dimension of a time series <span class="math notranslate nohighlight">\(x\)</span> is defined by:</p>
+<p>The Petrosian fractal dimension of a time-series <span class="math notranslate nohighlight">\(x\)</span> is defined by:</p>
 <div class="math notranslate nohighlight">
-\[\frac{log_{10}(N)}{log_{10}(N) +
-log_{10}(\frac{N}{N+0.4N_{\Delta}})}\]</div>
+\[P = \frac{\log_{10}(N)}{\log_{10}(N) +
+\log_{10}(\frac{N}{N+0.4N_{\delta}})}\]</div>
 <p>where <span class="math notranslate nohighlight">\(N\)</span> is the length of the time series, and
-<span class="math notranslate nohighlight">\(N_{\Delta}\)</span> is the number of sign changes in the binary sequence.</p>
-<p>Original code from the pyrem package by Quentin Geissmann.</p>
+<span class="math notranslate nohighlight">\(N_{\delta}\)</span> is the number of sign changes in the signal derivative.</p>
+<p>Original code from the <a class="reference external" href="https://github.com/gilestrolab/pyrem">pyrem</a>
+package by Quentin Geissmann.</p>
 <p class="rubric">References</p>
 <dl class="citation">
 <dt class="label" id="r2eb627373335-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>

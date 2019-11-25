@@ -18,9 +18,9 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     x : list or np.array
         One-dimensional time series of shape (n_times)
     order : int
-        Order of permutation entropy
+        Order of permutation entropy. Default is 3.
     delay : int
-        Time delay
+        Time delay (lag). Default is 1.
     normalize : bool
         If True, divide by log2(order!) to normalize the entropy between 0
         and 1. Otherwise, return the permutation entropy in bit.
@@ -28,12 +28,12 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     Returns
     -------
     pe : float
-        Permutation Entropy
+        Permutation Entropy.
 
     Notes
     -----
     The permutation entropy is a complexity measure for time-series first
-    introduced by Bandt and Pompe in 2002 [1]_.
+    introduced by Bandt and Pompe in 2002.
 
     The permutation entropy of a signal :math:`x` is defined as:
 
@@ -53,12 +53,11 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
 
     .. math:: Y=[y(1),y(2),...,y(N-(order-1))*delay)]^T
 
-
     References
     ----------
-    .. [1] Bandt, Christoph, and Bernd Pompe. "Permutation entropy: a
-           natural complexity measure for time series." Physical review letters
-           88.17 (2002): 174102.
+    Bandt, Christoph, and Bernd Pompe. "Permutation entropy: a
+    natural complexity measure for time series." Physical review letters
+    88.17 (2002): 174102.
 
     Examples
     --------
@@ -103,16 +102,15 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False):
     x : list or np.array
         One-dimensional time series of shape (n_times)
     sf : float
-        Sampling frequency
+        Sampling frequency, in Hz.
     method : str
-        Spectral estimation method ::
+        Spectral estimation method:
 
-        'fft' : Fourier Transform (via scipy.signal.periodogram)
-        'welch' : Welch periodogram (via scipy.signal.welch)
-
-    nperseg : str or int
+        * ``'fft'`` : Fourier Transform (:py:func:`scipy.signal.periodogram`)
+        * ``'welch'`` : Welch periodogram (:py:func:`scipy.signal.welch`)
+    nperseg : int or None
         Length of each FFT segment for Welch method.
-        If None, uses scipy default of 256 samples.
+        If None (default), uses scipy default of 256 samples.
     normalize : bool
         If True, divide by log2(psd.size) to normalize the spectral entropy
         between 0 and 1. Otherwise, return the spectral entropy in bit.
@@ -124,19 +122,23 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False):
 
     Notes
     -----
-    Spectral Entropy is defined to be the Shannon Entropy of the Power
-    Spectral Density (PSD) of the data:
+    Spectral Entropy is defined to be the Shannon entropy of the power
+    spectral density (PSD) of the data:
 
-    .. math:: H(x, sf) =  -\\sum_{f=0}^{f_s/2} PSD(f) log_2[PSD(f)]
+    .. math:: H(x, sf) =  -\\sum_{f=0}^{f_s/2} P(f) log_2[P(f)]
 
-    Where :math:`PSD` is the normalised PSD, and :math:`f_s` is the sampling
+    Where :math:`P` is the normalised PSD, and :math:`f_s` is the sampling
     frequency.
 
     References
     ----------
-    .. [1] Inouye, T. et al. (1991). Quantification of EEG irregularity by
-       use of the entropy of the power spectrum. Electroencephalography
-       and clinical neurophysiology, 79(3), 204-210.
+    Inouye, T. et al. (1991). Quantification of EEG irregularity by
+    use of the entropy of the power spectrum. Electroencephalography
+    and clinical neurophysiology, 79(3), 204-210.
+
+    https://en.wikipedia.org/wiki/Spectral_density
+
+    https://en.wikipedia.org/wiki/Welch%27s_method
 
     Examples
     --------
@@ -186,9 +188,10 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
     x : list or np.array
         One-dimensional time series of shape (n_times)
     order : int
-        Order of permutation entropy
+        Order of SVD entropy (= length of the embedding dimension).
+        Default is 3.
     delay : int
-        Time delay
+        Time delay (lag). Default is 1.
     normalize : bool
         If True, divide by log2(order!) to normalize the entropy between 0
         and 1. Otherwise, return the permutation entropy in bit.
@@ -342,13 +345,13 @@ def app_entropy(x, order=2, metric='chebyshev'):
     Parameters
     ----------
     x : list or np.array
-        One-dimensional time series of shape (n_times)
-    order : int (default: 2)
-        Embedding dimension.
-    metric : str (default: chebyshev)
-        Name of the metric function used with
-        :class:`~sklearn.neighbors.KDTree`. The list of available
-        metric functions is given by: ``KDTree.valid_metrics``.
+        One-dimensional time series of shape (n_times).
+    order : int
+        Embedding dimension. Default is 2.
+    metric : str
+        Name of the distance metric function used with
+        :py:class:`sklearn.neighbors.KDTree`. Default is
+        `Chebyshev <https://en.wikipedia.org/wiki/Chebyshev_distance>`_.
 
     Returns
     -------
@@ -357,28 +360,25 @@ def app_entropy(x, order=2, metric='chebyshev'):
 
     Notes
     -----
-    Original code from the mne-features package.
-
     Approximate entropy is a technique used to quantify the amount of
     regularity and the unpredictability of fluctuations over time-series data.
-
     Smaller values indicates that the data is more regular and predictable.
 
-    The value of :math:`r` is set to :math:`0.2 * \\text{std}(x)`.
+    The value of :math:`r` is set to :math:`0.2 * \\texttt{std}(x)`.
 
-    Code adapted from the mne-features package by Jean-Baptiste Schiratti
-    and Alexandre Gramfort.
+    Code adapted from the `mne-features <https://mne.tools/mne-features/>`_
+    package by Jean-Baptiste Schiratti and Alexandre Gramfort.
 
     References
     ----------
-    .. [1] Richman, J. S. et al. (2000). Physiological time-series analysis
-           using approximate entropy and sample entropy. American Journal of
-           Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.
+    Richman, J. S. et al. (2000). Physiological time-series analysis
+    using approximate entropy and sample entropy. American Journal of
+    Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.
+
+    https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html
 
     Examples
     --------
-    Approximate entropy with order 2.
-
     >>> from entropy import app_entropy
     >>> import numpy as np
     >>> np.random.seed(1234567)
@@ -396,12 +396,13 @@ def sample_entropy(x, order=2, metric='chebyshev'):
     Parameters
     ----------
     x : list or np.array
-        One-dimensional time series of shape (n_times)
-    order : int (default: 2)
-        Embedding dimension.
-    metric : str (default: chebyshev)
-        Name of the metric function used with KDTree. The list of available
-        metric functions is given by: `KDTree.valid_metrics`.
+        One-dimensional time series of shape (n_times).
+    order : int
+        Embedding dimension. Default is 2.
+    metric : str
+        Name of the distance metric function used with
+        :py:class:`sklearn.neighbors.KDTree`. Default is
+        `Chebyshev <https://en.wikipedia.org/wiki/Chebyshev_distance>`_.
 
     Returns
     -------
@@ -416,28 +417,33 @@ def sample_entropy(x, order=2, metric='chebyshev'):
     trouble-free implementation. Large values indicate high complexity whereas
     smaller values characterize more self-similar and regular signals.
 
-    Sample entropy of a signal :math:`x` is defined as:
+    The sample entropy of a signal :math:`x` is defined as:
 
     .. math:: H(x, m, r) = -log\\frac{C(m + 1, r)}{C(m, r)}
 
     where :math:`m` is the embedding dimension (= order), :math:`r` is
     the radius of the neighbourhood (default = :math:`0.2 * \\text{std}(x)`),
     :math:`C(m + 1, r)` is the number of embedded vectors of length
-    :math:`m + 1` having a Chebyshev distance inferior to :math:`r` and
-    :math:`C(m, r)` is the number of embedded vectors of length
-    :math:`m` having a Chebyshev distance inferior to :math:`r`.
+    :math:`m + 1` having a
+    `Chebyshev distance <https://en.wikipedia.org/wiki/Chebyshev_distance>`_
+    inferior to :math:`r` and :math:`C(m, r)` is the number of embedded
+    vectors of length :math:`m` having a Chebyshev distance inferior to
+    :math:`r`.
 
-    Note that if metric == 'chebyshev' and x.size < 5000 points, then the
-    sample entropy is computed using a fast custom Numba script. For other
-    metric types or longer time-series, the sample entropy is computed using
-    a code from the mne-features package by Jean-Baptiste Schiratti
-    and Alexandre Gramfort (requires sklearn).
+    Note that if ``metric == 'chebyshev'`` and ``len(x) < 5000`` points,
+    then the sample entropy is computed using a fast custom Numba script.
+    For other distance metric or longer time-series, the sample entropy is
+    computed using a code from the
+    `mne-features <https://mne.tools/mne-features/>`_ package by Jean-Baptiste
+    Schiratti and Alexandre Gramfort (requires sklearn).
 
     References
     ----------
-    .. [1] Richman, J. S. et al. (2000). Physiological time-series analysis
-           using approximate entropy and sample entropy. American Journal of
-           Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.
+    Richman, J. S. et al. (2000). Physiological time-series analysis
+    using approximate entropy and sample entropy. American Journal of
+    Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.
+
+    https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html
 
     Examples
     --------

@@ -100,29 +100,31 @@
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl>
-<dt><strong>dfa</strong><span class="classifier">float</span></dt><dd><p>the estimate alpha for the Hurst parameter:</p>
-<p>alpha &lt; 1: stationary process similar to fractional Gaussian noise
-with H = alpha</p>
-<p>alpha &gt; 1: non-stationary process similar to fractional Brownian
-motion with H = alpha - 1</p>
+<dt><strong>alpha</strong><span class="classifier">float</span></dt><dd><p>the estimate alpha (<span class="math notranslate nohighlight">\(\alpha\)</span>) for the Hurst parameter.</p>
+<p><span class="math notranslate nohighlight">\(\alpha &lt; 1\)</span> indicates a
+stationary process similar to fractional Gaussian noise with
+<span class="math notranslate nohighlight">\(H = \alpha\)</span>.</p>
+<p><span class="math notranslate nohighlight">\(\alpha &gt; 1\)</span> indicates a non-stationary process similar to
+fractional Brownian motion with <span class="math notranslate nohighlight">\(H = \alpha - 1\)</span></p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Detrended fluctuation analysis (DFA) is used to find long-term statistical
-dependencies in time series.</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Detrended_fluctuation_analysis">Detrended fluctuation analysis</a>
+is used to find long-term statistical dependencies in time series.</p>
 <p>The idea behind DFA originates from the definition of self-affine
 processes. A process <span class="math notranslate nohighlight">\(X\)</span> is said to be self-affine if the standard
 deviation of the values within a window of length n changes with the window
-length factor L in a power law:</p>
+length factor <span class="math notranslate nohighlight">\(L\)</span> in a power law:</p>
 <div class="math notranslate nohighlight">
-\[\text{std}(X, L * n) = L^H * \text{std}(X, n)\]</div>
-<p>where <span class="math notranslate nohighlight">\(\text{std}(X, k)\)</span> is the standard deviation of the process
+\[\texttt{std}(X, L * n) = L^H * \texttt{std}(X, n)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\texttt{std}(X, k)\)</span> is the standard deviation of the process
 <span class="math notranslate nohighlight">\(X\)</span> calculated over windows of size <span class="math notranslate nohighlight">\(k\)</span>. In this equation,
 <span class="math notranslate nohighlight">\(H\)</span> is called the Hurst parameter, which behaves indeed very similar
 to the Hurst exponent.</p>
-<p>For more details, please refer to the excellent documentation of the nolds
+<p>For more details, please refer to the excellent documentation of the
+<a class="reference external" href="https://cschoel.github.io/nolds/">nolds</a>
 Python package by Christopher Scholzel, from which this function is taken:
 <a class="reference external" href="https://cschoel.github.io/nolds/nolds.html#detrended-fluctuation-analysis">https://cschoel.github.io/nolds/nolds.html#detrended-fluctuation-analysis</a></p>
 <p>Note that the default subseries size is set to

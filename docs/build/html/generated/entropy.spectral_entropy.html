@@ -91,21 +91,21 @@
 <dt id="entropy.spectral_entropy">
 <code class="sig-prename descclassname">entropy.</code><code class="sig-name descname">spectral_entropy</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">sf</em>, <em class="sig-param">method='fft'</em>, <em class="sig-param">nperseg=None</em>, <em class="sig-param">normalize=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/entropy/entropy.html#spectral_entropy"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Spectral Entropy.</p>
-<dl class="field-list">
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One-dimensional time series of shape (n_times)</p>
 </dd>
-<dt><strong>sf</strong><span class="classifier">float</span></dt><dd><p>Sampling frequency</p>
+<dt><strong>sf</strong><span class="classifier">float</span></dt><dd><p>Sampling frequency, in Hz.</p>
 </dd>
-<dt><strong>method</strong><span class="classifier">str</span></dt><dd><p>Spectral estimation method</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;fft&#39;</span> <span class="p">:</span> <span class="n">Fourier</span> <span class="n">Transform</span> <span class="p">(</span><span class="n">via</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">periodogram</span><span class="p">)</span>
-<span class="s1">&#39;welch&#39;</span> <span class="p">:</span> <span class="n">Welch</span> <span class="n">periodogram</span> <span class="p">(</span><span class="n">via</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">welch</span><span class="p">)</span>
-</pre></div>
-</div>
+<dt><strong>method</strong><span class="classifier">str</span></dt><dd><p>Spectral estimation method:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'fft'</span></code> : Fourier Transform (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.periodogram.html#scipy.signal.periodogram" title="(in SciPy v1.3.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.periodogram()</span></code></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'welch'</span></code> : Welch periodogram (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.welch.html#scipy.signal.welch" title="(in SciPy v1.3.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.welch()</span></code></a>)</p></li>
+</ul>
 </dd>
-<dt><strong>nperseg</strong><span class="classifier">str or int</span></dt><dd><p>Length of each FFT segment for Welch method.
-If None, uses scipy default of 256 samples.</p>
+<dt><strong>nperseg</strong><span class="classifier">int or None</span></dt><dd><p>Length of each FFT segment for Welch method.
+If None (default), uses scipy default of 256 samples.</p>
 </dd>
 <dt><strong>normalize</strong><span class="classifier">bool</span></dt><dd><p>If True, divide by log2(psd.size) to normalize the spectral entropy
 between 0 and 1. Otherwise, return the spectral entropy in bit.</p>
@@ -120,20 +120,18 @@ between 0 and 1. Otherwise, return the spectral entropy in bit.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Spectral Entropy is defined to be the Shannon Entropy of the Power
-Spectral Density (PSD) of the data:</p>
+<p>Spectral Entropy is defined to be the Shannon entropy of the power
+spectral density (PSD) of the data:</p>
 <div class="math notranslate nohighlight">
-\[H(x, sf) =  -\sum_{f=0}^{f_s/2} PSD(f) log_2[PSD(f)]\]</div>
-<p>Where <span class="math notranslate nohighlight">\(PSD\)</span> is the normalised PSD, and <span class="math notranslate nohighlight">\(f_s\)</span> is the sampling
+\[H(x, sf) =  -\sum_{f=0}^{f_s/2} P(f) log_2[P(f)]\]</div>
+<p>Where <span class="math notranslate nohighlight">\(P\)</span> is the normalised PSD, and <span class="math notranslate nohighlight">\(f_s\)</span> is the sampling
 frequency.</p>
 <p class="rubric">References</p>
-<dl class="citation">
-<dt class="label" id="r9b1beef7da08-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>Inouye, T. et al. (1991). Quantification of EEG irregularity by
+<p>Inouye, T. et al. (1991). Quantification of EEG irregularity by
 use of the entropy of the power spectrum. Electroencephalography
 and clinical neurophysiology, 79(3), 204-210.</p>
-</dd>
-</dl>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Spectral_density">https://en.wikipedia.org/wiki/Spectral_density</a></p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Welch%27s_method">https://en.wikipedia.org/wiki/Welch%27s_method</a></p>
 <p class="rubric">Examples</p>
 <p>Spectral entropy of a pure sine using FFT</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">spectral_entropy</span>

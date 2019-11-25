@@ -94,12 +94,13 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One-dimensional time series of shape (n_times)</p>
+<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One-dimensional time series of shape (n_times).</p>
 </dd>
-<dt><strong>order</strong><span class="classifier">int (default: 2)</span></dt><dd><p>Embedding dimension.</p>
+<dt><strong>order</strong><span class="classifier">int</span></dt><dd><p>Embedding dimension. Default is 2.</p>
 </dd>
-<dt><strong>metric</strong><span class="classifier">str (default: chebyshev)</span></dt><dd><p>Name of the metric function used with KDTree. The list of available
-metric functions is given by: <cite>KDTree.valid_metrics</cite>.</p>
+<dt><strong>metric</strong><span class="classifier">str</span></dt><dd><p>Name of the distance metric function used with
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KDTree.html#sklearn.neighbors.KDTree" title="(in scikit-learn v0.21.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.neighbors.KDTree</span></code></a>. Default is
+<a class="reference external" href="https://en.wikipedia.org/wiki/Chebyshev_distance">Chebyshev</a>.</p>
 </dd>
 </dl>
 </dd>
@@ -116,28 +117,28 @@ the complexity of physiological time-series signals. It has two advantages
 over approximate entropy: data length independence and a relatively
 trouble-free implementation. Large values indicate high complexity whereas
 smaller values characterize more self-similar and regular signals.</p>
-<p>Sample entropy of a signal <span class="math notranslate nohighlight">\(x\)</span> is defined as:</p>
+<p>The sample entropy of a signal <span class="math notranslate nohighlight">\(x\)</span> is defined as:</p>
 <div class="math notranslate nohighlight">
 \[H(x, m, r) = -log\frac{C(m + 1, r)}{C(m, r)}\]</div>
 <p>where <span class="math notranslate nohighlight">\(m\)</span> is the embedding dimension (= order), <span class="math notranslate nohighlight">\(r\)</span> is
 the radius of the neighbourhood (default = <span class="math notranslate nohighlight">\(0.2 * \text{std}(x)\)</span>),
 <span class="math notranslate nohighlight">\(C(m + 1, r)\)</span> is the number of embedded vectors of length
-<span class="math notranslate nohighlight">\(m + 1\)</span> having a Chebyshev distance inferior to <span class="math notranslate nohighlight">\(r\)</span> and
-<span class="math notranslate nohighlight">\(C(m, r)\)</span> is the number of embedded vectors of length
-<span class="math notranslate nohighlight">\(m\)</span> having a Chebyshev distance inferior to <span class="math notranslate nohighlight">\(r\)</span>.</p>
-<p>Note that if metric == ‘chebyshev’ and x.size &lt; 5000 points, then the
-sample entropy is computed using a fast custom Numba script. For other
-metric types or longer time-series, the sample entropy is computed using
-a code from the mne-features package by Jean-Baptiste Schiratti
-and Alexandre Gramfort (requires sklearn).</p>
+<span class="math notranslate nohighlight">\(m + 1\)</span> having a
+<a class="reference external" href="https://en.wikipedia.org/wiki/Chebyshev_distance">Chebyshev distance</a>
+inferior to <span class="math notranslate nohighlight">\(r\)</span> and <span class="math notranslate nohighlight">\(C(m, r)\)</span> is the number of embedded
+vectors of length <span class="math notranslate nohighlight">\(m\)</span> having a Chebyshev distance inferior to
+<span class="math notranslate nohighlight">\(r\)</span>.</p>
+<p>Note that if <code class="docutils literal notranslate"><span class="pre">metric</span> <span class="pre">==</span> <span class="pre">'chebyshev'</span></code> and <code class="docutils literal notranslate"><span class="pre">len(x)</span> <span class="pre">&lt;</span> <span class="pre">5000</span></code> points,
+then the sample entropy is computed using a fast custom Numba script.
+For other distance metric or longer time-series, the sample entropy is
+computed using a code from the
+<a class="reference external" href="https://mne.tools/mne-features/">mne-features</a> package by Jean-Baptiste
+Schiratti and Alexandre Gramfort (requires sklearn).</p>
 <p class="rubric">References</p>
-<dl class="citation">
-<dt class="label" id="ra05fe78bc240-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>Richman, J. S. et al. (2000). Physiological time-series analysis
+<p>Richman, J. S. et al. (2000). Physiological time-series analysis
 using approximate entropy and sample entropy. American Journal of
 Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</p>
-</dd>
-</dl>
+<p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html">https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html</a></p>
 <p class="rubric">Examples</p>
 <p>Sample entropy with order 2.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">sample_entropy</span>

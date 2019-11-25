@@ -94,13 +94,13 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One-dimensional time series of shape (n_times)</p>
+<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One-dimensional time series of shape (n_times).</p>
 </dd>
-<dt><strong>order</strong><span class="classifier">int (default: 2)</span></dt><dd><p>Embedding dimension.</p>
+<dt><strong>order</strong><span class="classifier">int</span></dt><dd><p>Embedding dimension. Default is 2.</p>
 </dd>
-<dt><strong>metric</strong><span class="classifier">str (default: chebyshev)</span></dt><dd><p>Name of the metric function used with
-<code class="xref py py-class docutils literal notranslate"><span class="pre">KDTree</span></code>. The list of available
-metric functions is given by: <code class="docutils literal notranslate"><span class="pre">KDTree.valid_metrics</span></code>.</p>
+<dt><strong>metric</strong><span class="classifier">str</span></dt><dd><p>Name of the distance metric function used with
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KDTree.html#sklearn.neighbors.KDTree" title="(in scikit-learn v0.21.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.neighbors.KDTree</span></code></a>. Default is
+<a class="reference external" href="https://en.wikipedia.org/wiki/Chebyshev_distance">Chebyshev</a>.</p>
 </dd>
 </dl>
 </dd>
@@ -112,23 +112,18 @@ metric functions is given by: <code class="docutils literal notranslate"><span c
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Original code from the mne-features package.</p>
 <p>Approximate entropy is a technique used to quantify the amount of
-regularity and the unpredictability of fluctuations over time-series data.</p>
-<p>Smaller values indicates that the data is more regular and predictable.</p>
-<p>The value of <span class="math notranslate nohighlight">\(r\)</span> is set to <span class="math notranslate nohighlight">\(0.2 * \text{std}(x)\)</span>.</p>
-<p>Code adapted from the mne-features package by Jean-Baptiste Schiratti
-and Alexandre Gramfort.</p>
+regularity and the unpredictability of fluctuations over time-series data.
+Smaller values indicates that the data is more regular and predictable.</p>
+<p>The value of <span class="math notranslate nohighlight">\(r\)</span> is set to <span class="math notranslate nohighlight">\(0.2 * \texttt{std}(x)\)</span>.</p>
+<p>Code adapted from the <a class="reference external" href="https://mne.tools/mne-features/">mne-features</a>
+package by Jean-Baptiste Schiratti and Alexandre Gramfort.</p>
 <p class="rubric">References</p>
-<dl class="citation">
-<dt class="label" id="r0b068f1e49f1-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>Richman, J. S. et al. (2000). Physiological time-series analysis
+<p>Richman, J. S. et al. (2000). Physiological time-series analysis
 using approximate entropy and sample entropy. American Journal of
 Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</p>
-</dd>
-</dl>
+<p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html">https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html</a></p>
 <p class="rubric">Examples</p>
-<p>Approximate entropy with order 2.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">app_entropy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234567</span><span class="p">)</span>

@@ -2,6 +2,9 @@
 
 |
 
+.. image:: https://img.shields.io/badge/python-3.6%20%7C%203.7-blue.svg
+    :target: https://www.python.org/downloads/
+
 .. image:: https://img.shields.io/github/license/raphaelvallat/entropy.svg
   :target: https://github.com/raphaelvallat/entropy/blob/master/LICENSE
 
@@ -19,7 +22,7 @@
 .. figure::  https://github.com/raphaelvallat/entropy/blob/master/docs/pictures/logo.png
    :align:   center
 
-EntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of one-dimensional time series.
+EntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of one-dimensional time-series.
 It can be used for example to extract features from EEG signals.
 
 Documentation
@@ -30,7 +33,10 @@ Documentation
 Installation
 ============
 
-**Develop mode**
+.. important::
+  Please note that EntroPy **cannot** be installed using pip or conda.
+  There is already a package called *entropy* on the `pip repository <https://pypi.org/project/entropy/>`_,
+  which should not be mistaken with the current package.
 
 .. code-block:: shell
 
@@ -41,16 +47,15 @@ Installation
 
 **Dependencies**
 
-- numpy
-- scipy
-- scikit-learn
-- numba
+- `numpy <https://numpy.org/>`_
+- `scipy <https://www.scipy.org/>`_
+- `scikit-learn <https://scikit-learn.org/>`_
+- `numba <http://numba.pydata.org/>`_
 
 Functions
 =========
 
-Entropy
--------
+**Entropy**
 
 .. code-block:: python
 
@@ -74,8 +79,7 @@ Entropy
     2.192416747827227
     0.9425204748625924
 
-Fractal dimension
------------------
+**Fractal dimension**
 
 .. code-block:: python
 
@@ -92,7 +96,7 @@ Fractal dimension
     0.5082304865081877
 
 Execution time
-==============
+~~~~~~~~~~~~~~
 
 Here are some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8 Go of RAM).
 
@@ -133,7 +137,7 @@ EntroPy was created and is maintained by `Raphael Vallat <https://raphaelvallat.
 
 To see the code or report a bug, please visit the `GitHub repository <https://github.com/raphaelvallat/entropy>`_.
 
-Note that this program is provided with NO WARRANTY OF ANY KIND. If you can, always double check the results.
+Note that this program is provided with **NO WARRANTY OF ANY KIND**. If you can, always double check the results.
 
 Acknowledgement
 ===============

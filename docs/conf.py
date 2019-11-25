@@ -45,6 +45,7 @@ extensions = [
               'sphinx.ext.githubpages',
               'sphinx.ext.autosummary',
               'sphinx.ext.autodoc',
+              'sphinx.ext.intersphinx',
               # 'plot_generator',
               # 'plot_directive',
               'numpydoc']
@@ -206,3 +207,11 @@ texinfo_documents = [
 def setup(app):
     app.add_javascript('copybutton.js')
     app.add_stylesheet('style.css')
+
+# -- Intersphinx ------------------------------------------------
+
+intersphinx_mapping = {'numpy': ('http://docs.scipy.org/doc/numpy/', None),
+                       'scipy': ('http://docs.scipy.org/doc/scipy/reference/', None),
+                       'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
+                       'sklearn': ('https://scikit-learn.org/stable/', None),
+                       'mne': ('https://martinos.org/mne/stable/', None)}

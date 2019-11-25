@@ -13,27 +13,25 @@ def petrosian_fd(x):
     Parameters
     ----------
     x : list or np.array
-        One dimensional time series
+        One dimensional time series.
 
     Returns
     -------
     pfd : float
-        Petrosian fractal dimension
+        Petrosian fractal dimension.
 
     Notes
     -----
-    The Petrosian algorithm can be used to provide a fast computation of
-    the FD of a signal by translating the series into a binary sequence.
+    The Petrosian fractal dimension of a time-series :math:`x` is defined by:
 
-    The Petrosian fractal dimension of a time series :math:`x` is defined by:
-
-    .. math:: \\frac{log_{10}(N)}{log_{10}(N) +
-       log_{10}(\\frac{N}{N+0.4N_{\\Delta}})}
+    .. math:: P = \\frac{\\log_{10}(N)}{\\log_{10}(N) +
+              \\log_{10}(\\frac{N}{N+0.4N_{\\delta}})}
 
     where :math:`N` is the length of the time series, and
-    :math:`N_{\\Delta}` is the number of sign changes in the binary sequence.
+    :math:`N_{\\delta}` is the number of sign changes in the signal derivative.
 
-    Original code from the pyrem package by Quentin Geissmann.
+    Original code from the `pyrem <https://github.com/gilestrolab/pyrem>`_
+    package by Quentin Geissmann.
 
     References
     ----------
@@ -69,26 +67,27 @@ def katz_fd(x):
     Parameters
     ----------
     x : list or np.array
-        One dimensional time series
+        One dimensional time series.
 
     Returns
     -------
     kfd : float
-        Katz fractal dimension
+        Katz fractal dimension.
 
     Notes
     -----
-    The Katz Fractal dimension is defined by:
+    The Katz fractal dimension is defined by:
 
-    .. math:: FD_{Katz} = \\frac{log_{10}(n)}{log_{10}(d/L)+log_{10}(n)}
+    .. math:: K = \\frac{\\log_{10}(n)}{\\log_{10}(d/L)+\\log_{10}(n)}
 
     where :math:`L` is the total length of the time series and :math:`d`
-    is the Euclidean distance between the first point in the
-    series and the point that provides the furthest distance
-    with respect to the first point.
+    is the
+    `Euclidean distance <https://en.wikipedia.org/wiki/Euclidean_distance>`_
+    between the first point in the series and the point that provides the
+    furthest distance with respect to the first point.
 
-    Original code from the mne-features package by Jean-Baptiste Schiratti
-    and Alexandre Gramfort.
+    Original code from the `mne-features <https://mne.tools/mne-features/>`_
+    package by Jean-Baptiste Schiratti and Alexandre Gramfort.
 
     References
     ----------
@@ -156,21 +155,21 @@ def higuchi_fd(x, kmax=10):
     Parameters
     ----------
     x : list or np.array
-        One dimensional time series
+        One dimensional time series.
     kmax : int
         Maximum delay/offset (in number of samples).
 
     Returns
     -------
     hfd : float
-        Higuchi Fractal Dimension
+        Higuchi fractal dimension.
 
     Notes
     -----
-    Original code from the mne-features package by Jean-Baptiste Schiratti
-    and Alexandre Gramfort.
+    Original code from the `mne-features <https://mne.tools/mne-features/>`_
+    package by Jean-Baptiste Schiratti and Alexandre Gramfort.
 
-    The `higuchi_fd` function uses Numba to speed up the computation.
+    This function uses Numba to speed up the computation.
 
     References
     ----------
@@ -244,33 +243,36 @@ def detrended_fluctuation(x):
 
     Returns
     -------
-    dfa : float
-        the estimate alpha for the Hurst parameter:
+    alpha : float
+        the estimate alpha (:math:`\\alpha`) for the Hurst parameter.
 
-        alpha < 1: stationary process similar to fractional Gaussian noise
-        with H = alpha
+        :math:`\\alpha < 1`` indicates a
+        stationary process similar to fractional Gaussian noise with
+        :math:`H = \\alpha`.
 
-        alpha > 1: non-stationary process similar to fractional Brownian
-        motion with H = alpha - 1
+        :math:`\\alpha > 1`` indicates a non-stationary process similar to
+        fractional Brownian motion with :math:`H = \\alpha - 1`
 
     Notes
     -----
-    Detrended fluctuation analysis (DFA) is used to find long-term statistical
-    dependencies in time series.
+    `Detrended fluctuation analysis
+    <https://en.wikipedia.org/wiki/Detrended_fluctuation_analysis>`_
+    is used to find long-term statistical dependencies in time series.
 
     The idea behind DFA originates from the definition of self-affine
     processes. A process :math:`X` is said to be self-affine if the standard
     deviation of the values within a window of length n changes with the window
-    length factor L in a power law:
+    length factor :math:`L` in a power law:
 
-    .. math:: \\text{std}(X, L * n) = L^H * \\text{std}(X, n)
+    .. math:: \\texttt{std}(X, L * n) = L^H * \\texttt{std}(X, n)
 
-    where :math:`\\text{std}(X, k)` is the standard deviation of the process
+    where :math:`\\texttt{std}(X, k)` is the standard deviation of the process
     :math:`X` calculated over windows of size :math:`k`. In this equation,
     :math:`H` is called the Hurst parameter, which behaves indeed very similar
     to the Hurst exponent.
 
-    For more details, please refer to the excellent documentation of the nolds
+    For more details, please refer to the excellent documentation of the
+    `nolds <https://cschoel.github.io/nolds/>`_
     Python package by Christopher Scholzel, from which this function is taken:
     https://cschoel.github.io/nolds/nolds.html#detrended-fluctuation-analysis
 

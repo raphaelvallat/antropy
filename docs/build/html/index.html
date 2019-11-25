@@ -88,6 +88,7 @@
   <div class="line-block">
 <div class="line"><br /></div>
 </div>
+<a class="reference external image-reference" href="https://www.python.org/downloads/"><img alt="https://img.shields.io/badge/python-3.6%20%7C%203.7-blue.svg" src="https://img.shields.io/badge/python-3.6%20%7C%203.7-blue.svg" /></a>
 <a class="reference external image-reference" href="https://github.com/raphaelvallat/entropy/blob/master/LICENSE"><img alt="https://img.shields.io/github/license/raphaelvallat/entropy.svg" src="https://img.shields.io/github/license/raphaelvallat/entropy.svg" /></a>
 <a class="reference external image-reference" href="https://travis-ci.org/raphaelvallat/entropy"><img alt="https://travis-ci.org/raphaelvallat/entropy.svg?branch=master" src="https://travis-ci.org/raphaelvallat/entropy.svg?branch=master" /></a>
 <a class="reference external image-reference" href="https://ci.appveyor.com/project/raphaelvallat/entropy"><img alt="https://ci.appveyor.com/api/projects/status/mukj36n939ftu4io?svg=true" src="https://ci.appveyor.com/api/projects/status/mukj36n939ftu4io?svg=true" /></a>
@@ -96,11 +97,16 @@
 <div class="figure align-center">
 <img alt="https://raw.githubusercontent.com/raphaelvallat/entropy/master/docs/pictures/logo.png" src="https://raw.githubusercontent.com/raphaelvallat/entropy/master/docs/pictures/logo.png" />
 </div>
-<p>EntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of one-dimensional time series.
+<p>EntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of one-dimensional time-series.
 It can be used for example to extract features from EEG signals.</p>
 <div class="section" id="installation">
 <h1>Installation</h1>
-<p><strong>Develop mode</strong></p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Please note that EntroPy <strong>cannot</strong> be installed using pip or conda.
+There is already a package called <em>entropy</em> on the <a class="reference external" href="https://pypi.org/project/entropy/">pip repository</a>,
+which should not be mistaken with the current package.</p>
+</div>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/raphaelvallat/entropy.git entropy/
 <span class="nb">cd</span> entropy/
 pip install -r requirements.txt
@@ -109,16 +115,15 @@ python setup.py develop
 </div>
 <p><strong>Dependencies</strong></p>
 <ul class="simple">
-<li><p>numpy</p></li>
-<li><p>scipy</p></li>
-<li><p>scikit-learn</p></li>
-<li><p>numba</p></li>
+<li><p><a class="reference external" href="https://numpy.org/">numpy</a></p></li>
+<li><p><a class="reference external" href="https://www.scipy.org/">scipy</a></p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/">scikit-learn</a></p></li>
+<li><p><a class="reference external" href="http://numba.pydata.org/">numba</a></p></li>
 </ul>
 </div>
 <div class="section" id="functions">
 <h1>Functions</h1>
-<div class="section" id="entropy">
-<h2>Entropy</h2>
+<p><strong>Entropy</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234567</span><span class="p">)</span>
@@ -139,9 +144,7 @@ python setup.py develop
 <span class="mf">0.9425204748625924</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="fractal-dimension">
-<h2>Fractal dimension</h2>
+<p><strong>Fractal dimension</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>            <span class="c1"># Petrosian fractal dimension</span>
 <span class="k">print</span><span class="p">(</span><span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>                 <span class="c1"># Katz fractal dimension</span>
 <span class="k">print</span><span class="p">(</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>     <span class="c1"># Higuchi fractal dimension</span>
@@ -154,10 +157,8 @@ python setup.py develop
 <span class="mf">0.5082304865081877</span>
 </pre></div>
 </div>
-</div>
-</div>
 <div class="section" id="execution-time">
-<h1>Execution time</h1>
+<h2>Execution time</h2>
 <p>Here are some benchmarks computed on an average PC (i7-7700HQ CPU &#64; 2.80 Ghz - 8 Go of RAM).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -188,11 +189,12 @@ python setup.py develop
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="development">
 <h1>Development</h1>
 <p>EntroPy was created and is maintained by <a class="reference external" href="https://raphaelvallat.com">Raphael Vallat</a>. Contributions are more than welcome so feel free to contact me, open an issue or submit a pull request!</p>
 <p>To see the code or report a bug, please visit the <a class="reference external" href="https://github.com/raphaelvallat/entropy">GitHub repository</a>.</p>
-<p>Note that this program is provided with NO WARRANTY OF ANY KIND. If you can, always double check the results.</p>
+<p>Note that this program is provided with <strong>NO WARRANTY OF ANY KIND</strong>. If you can, always double check the results.</p>
 </div>
 <div class="section" id="acknowledgement">
 <h1>Acknowledgement</h1>

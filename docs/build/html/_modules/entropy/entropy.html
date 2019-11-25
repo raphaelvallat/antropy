@@ -106,9 +106,9 @@
 <span class="sd">    x : list or np.array</span>
 <span class="sd">        One-dimensional time series of shape (n_times)</span>
 <span class="sd">    order : int</span>
-<span class="sd">        Order of permutation entropy</span>
+<span class="sd">        Order of permutation entropy. Default is 3.</span>
 <span class="sd">    delay : int</span>
-<span class="sd">        Time delay</span>
+<span class="sd">        Time delay (lag). Default is 1.</span>
 <span class="sd">    normalize : bool</span>
 <span class="sd">        If True, divide by log2(order!) to normalize the entropy between 0</span>
 <span class="sd">        and 1. Otherwise, return the permutation entropy in bit.</span>
@@ -116,12 +116,12 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pe : float</span>
-<span class="sd">        Permutation Entropy</span>
+<span class="sd">        Permutation Entropy.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    The permutation entropy is a complexity measure for time-series first</span>
-<span class="sd">    introduced by Bandt and Pompe in 2002 [1]_.</span>
+<span class="sd">    introduced by Bandt and Pompe in 2002.</span>
 
 <span class="sd">    The permutation entropy of a signal :math:`x` is defined as:</span>
 
@@ -141,12 +141,11 @@
 
 <span class="sd">    .. math:: Y=[y(1),y(2),...,y(N-(order-1))*delay)]^T</span>
 
-
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    .. [1] Bandt, Christoph, and Bernd Pompe. &quot;Permutation entropy: a</span>
-<span class="sd">           natural complexity measure for time series.&quot; Physical review letters</span>
-<span class="sd">           88.17 (2002): 174102.</span>
+<span class="sd">    Bandt, Christoph, and Bernd Pompe. &quot;Permutation entropy: a</span>
+<span class="sd">    natural complexity measure for time series.&quot; Physical review letters</span>
+<span class="sd">    88.17 (2002): 174102.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -191,16 +190,15 @@
 <span class="sd">    x : list or np.array</span>
 <span class="sd">        One-dimensional time series of shape (n_times)</span>
 <span class="sd">    sf : float</span>
-<span class="sd">        Sampling frequency</span>
+<span class="sd">        Sampling frequency, in Hz.</span>
 <span class="sd">    method : str</span>
-<span class="sd">        Spectral estimation method ::</span>
+<span class="sd">        Spectral estimation method:</span>
 
-<span class="sd">        &#39;fft&#39; : Fourier Transform (via scipy.signal.periodogram)</span>
-<span class="sd">        &#39;welch&#39; : Welch periodogram (via scipy.signal.welch)</span>
-
-<span class="sd">    nperseg : str or int</span>
+<span class="sd">        * ``&#39;fft&#39;`` : Fourier Transform (:py:func:`scipy.signal.periodogram`)</span>
+<span class="sd">        * ``&#39;welch&#39;`` : Welch periodogram (:py:func:`scipy.signal.welch`)</span>
+<span class="sd">    nperseg : int or None</span>
 <span class="sd">        Length of each FFT segment for Welch method.</span>
-<span class="sd">        If None, uses scipy default of 256 samples.</span>
+<span class="sd">        If None (default), uses scipy default of 256 samples.</span>
 <span class="sd">    normalize : bool</span>
 <span class="sd">        If True, divide by log2(psd.size) to normalize the spectral entropy</span>
 <span class="sd">        between 0 and 1. Otherwise, return the spectral entropy in bit.</span>
@@ -212,19 +210,23 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    Spectral Entropy is defined to be the Shannon Entropy of the Power</span>
-<span class="sd">    Spectral Density (PSD) of the data:</span>
+<span class="sd">    Spectral Entropy is defined to be the Shannon entropy of the power</span>
+<span class="sd">    spectral density (PSD) of the data:</span>
 
-<span class="sd">    .. math:: H(x, sf) =  -\\sum_{f=0}^{f_s/2} PSD(f) log_2[PSD(f)]</span>
+<span class="sd">    .. math:: H(x, sf) =  -\\sum_{f=0}^{f_s/2} P(f) log_2[P(f)]</span>
 
-<span class="sd">    Where :math:`PSD` is the normalised PSD, and :math:`f_s` is the sampling</span>
+<span class="sd">    Where :math:`P` is the normalised PSD, and :math:`f_s` is the sampling</span>
 <span class="sd">    frequency.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    .. [1] Inouye, T. et al. (1991). Quantification of EEG irregularity by</span>
-<span class="sd">       use of the entropy of the power spectrum. Electroencephalography</span>
-<span class="sd">       and clinical neurophysiology, 79(3), 204-210.</span>
+<span class="sd">    Inouye, T. et al. (1991). Quantification of EEG irregularity by</span>
+<span class="sd">    use of the entropy of the power spectrum. Electroencephalography</span>
+<span class="sd">    and clinical neurophysiology, 79(3), 204-210.</span>
+
+<span class="sd">    https://en.wikipedia.org/wiki/Spectral_density</span>
+
+<span class="sd">    https://en.wikipedia.org/wiki/Welch%27s_method</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -274,9 +276,10 @@
 <span class="sd">    x : list or np.array</span>
 <span class="sd">        One-dimensional time series of shape (n_times)</span>
 <span class="sd">    order : int</span>
-<span class="sd">        Order of permutation entropy</span>
+<span class="sd">        Order of SVD entropy (= length of the embedding dimension).</span>
+<span class="sd">        Default is 3.</span>
 <span class="sd">    delay : int</span>
-<span class="sd">        Time delay</span>
+<span class="sd">        Time delay (lag). Default is 1.</span>
 <span class="sd">    normalize : bool</span>
 <span class="sd">        If True, divide by log2(order!) to normalize the entropy between 0</span>
 <span class="sd">        and 1. Otherwise, return the permutation entropy in bit.</span>
@@ -430,13 +433,13 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    x : list or np.array</span>
-<span class="sd">        One-dimensional time series of shape (n_times)</span>
-<span class="sd">    order : int (default: 2)</span>
-<span class="sd">        Embedding dimension.</span>
-<span class="sd">    metric : str (default: chebyshev)</span>
-<span class="sd">        Name of the metric function used with</span>
-<span class="sd">        :class:`~sklearn.neighbors.KDTree`. The list of available</span>
-<span class="sd">        metric functions is given by: ``KDTree.valid_metrics``.</span>
+<span class="sd">        One-dimensional time series of shape (n_times).</span>
+<span class="sd">    order : int</span>
+<span class="sd">        Embedding dimension. Default is 2.</span>
+<span class="sd">    metric : str</span>
+<span class="sd">        Name of the distance metric function used with</span>
+<span class="sd">        :py:class:`sklearn.neighbors.KDTree`. Default is</span>
+<span class="sd">        `Chebyshev &lt;https://en.wikipedia.org/wiki/Chebyshev_distance&gt;`_.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -445,28 +448,25 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    Original code from the mne-features package.</span>
-
 <span class="sd">    Approximate entropy is a technique used to quantify the amount of</span>
 <span class="sd">    regularity and the unpredictability of fluctuations over time-series data.</span>
-
 <span class="sd">    Smaller values indicates that the data is more regular and predictable.</span>
 
-<span class="sd">    The value of :math:`r` is set to :math:`0.2 * \\text{std}(x)`.</span>
+<span class="sd">    The value of :math:`r` is set to :math:`0.2 * \\texttt{std}(x)`.</span>
 
-<span class="sd">    Code adapted from the mne-features package by Jean-Baptiste Schiratti</span>
-<span class="sd">    and Alexandre Gramfort.</span>
+<span class="sd">    Code adapted from the `mne-features &lt;https://mne.tools/mne-features/&gt;`_</span>
+<span class="sd">    package by Jean-Baptiste Schiratti and Alexandre Gramfort.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    .. [1] Richman, J. S. et al. (2000). Physiological time-series analysis</span>
-<span class="sd">           using approximate entropy and sample entropy. American Journal of</span>
-<span class="sd">           Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</span>
+<span class="sd">    Richman, J. S. et al. (2000). Physiological time-series analysis</span>
+<span class="sd">    using approximate entropy and sample entropy. American Journal of</span>
+<span class="sd">    Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</span>
+
+<span class="sd">    https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    Approximate entropy with order 2.</span>
-
 <span class="sd">    &gt;&gt;&gt; from entropy import app_entropy</span>
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; np.random.seed(1234567)</span>
@@ -484,12 +484,13 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    x : list or np.array</span>
-<span class="sd">        One-dimensional time series of shape (n_times)</span>
-<span class="sd">    order : int (default: 2)</span>
-<span class="sd">        Embedding dimension.</span>
-<span class="sd">    metric : str (default: chebyshev)</span>
-<span class="sd">        Name of the metric function used with KDTree. The list of available</span>
-<span class="sd">        metric functions is given by: `KDTree.valid_metrics`.</span>
+<span class="sd">        One-dimensional time series of shape (n_times).</span>
+<span class="sd">    order : int</span>
+<span class="sd">        Embedding dimension. Default is 2.</span>
+<span class="sd">    metric : str</span>
+<span class="sd">        Name of the distance metric function used with</span>
+<span class="sd">        :py:class:`sklearn.neighbors.KDTree`. Default is</span>
+<span class="sd">        `Chebyshev &lt;https://en.wikipedia.org/wiki/Chebyshev_distance&gt;`_.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -504,28 +505,33 @@
 <span class="sd">    trouble-free implementation. Large values indicate high complexity whereas</span>
 <span class="sd">    smaller values characterize more self-similar and regular signals.</span>
 
-<span class="sd">    Sample entropy of a signal :math:`x` is defined as:</span>
+<span class="sd">    The sample entropy of a signal :math:`x` is defined as:</span>
 
 <span class="sd">    .. math:: H(x, m, r) = -log\\frac{C(m + 1, r)}{C(m, r)}</span>
 
 <span class="sd">    where :math:`m` is the embedding dimension (= order), :math:`r` is</span>
 <span class="sd">    the radius of the neighbourhood (default = :math:`0.2 * \\text{std}(x)`),</span>
 <span class="sd">    :math:`C(m + 1, r)` is the number of embedded vectors of length</span>
-<span class="sd">    :math:`m + 1` having a Chebyshev distance inferior to :math:`r` and</span>
-<span class="sd">    :math:`C(m, r)` is the number of embedded vectors of length</span>
-<span class="sd">    :math:`m` having a Chebyshev distance inferior to :math:`r`.</span>
+<span class="sd">    :math:`m + 1` having a</span>
+<span class="sd">    `Chebyshev distance &lt;https://en.wikipedia.org/wiki/Chebyshev_distance&gt;`_</span>
+<span class="sd">    inferior to :math:`r` and :math:`C(m, r)` is the number of embedded</span>
+<span class="sd">    vectors of length :math:`m` having a Chebyshev distance inferior to</span>
+<span class="sd">    :math:`r`.</span>
 
-<span class="sd">    Note that if metric == &#39;chebyshev&#39; and x.size &lt; 5000 points, then the</span>
-<span class="sd">    sample entropy is computed using a fast custom Numba script. For other</span>
-<span class="sd">    metric types or longer time-series, the sample entropy is computed using</span>
-<span class="sd">    a code from the mne-features package by Jean-Baptiste Schiratti</span>
-<span class="sd">    and Alexandre Gramfort (requires sklearn).</span>
+<span class="sd">    Note that if ``metric == &#39;chebyshev&#39;`` and ``len(x) &lt; 5000`` points,</span>
+<span class="sd">    then the sample entropy is computed using a fast custom Numba script.</span>
+<span class="sd">    For other distance metric or longer time-series, the sample entropy is</span>
+<span class="sd">    computed using a code from the</span>
+<span class="sd">    `mne-features &lt;https://mne.tools/mne-features/&gt;`_ package by Jean-Baptiste</span>
+<span class="sd">    Schiratti and Alexandre Gramfort (requires sklearn).</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    .. [1] Richman, J. S. et al. (2000). Physiological time-series analysis</span>
-<span class="sd">           using approximate entropy and sample entropy. American Journal of</span>
-<span class="sd">           Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</span>
+<span class="sd">    Richman, J. S. et al. (2000). Physiological time-series analysis</span>
+<span class="sd">    using approximate entropy and sample entropy. American Journal of</span>
+<span class="sd">    Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</span>
+
+<span class="sd">    https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>

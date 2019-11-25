@@ -10,17 +10,17 @@ def _embed(x, order=3, delay=1):
 
     Parameters
     ----------
-    x : 1d-array, shape (n_times)
-        Time series
+    x : 1d-array
+        Time series, of shape (n_times)
     order : int
-        Embedding dimension (order)
+        Embedding dimension (order).
     delay : int
         Delay.
 
     Returns
     -------
-    embedded : ndarray, shape (n_times - (order - 1) * delay, order)
-        Embedded time-series.
+    embedded : ndarray
+        Embedded time-series, of shape (n_times - (order - 1) * delay, order)
     """
     N = len(x)
     if order * delay > N:

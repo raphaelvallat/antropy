@@ -3,6 +3,11 @@
 What's new
 ##########
 
+v0.1.2 (dev)
+------------
+
+a. :py:func:`entropy.lziv_complexity` now works with non-binary sequence (e.g. "12345" or "Hello World!")
+
 v0.1.1 (November 2019)
 ----------------------
 

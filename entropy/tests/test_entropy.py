@@ -77,9 +77,23 @@ class TestEntropy(unittest.TestCase):
         assert lziv_complexity([True, False, True, False]) == 3
         assert lziv_complexity(np.array([1, 0, 1, 0, 1, 0])) == 3
         assert lziv_complexity(['1', '0', '1', '0']) == 3
-
+        assert lziv_complexity(['1010']) == 3
         assert lziv_complexity('11111') == lziv_complexity('00') == 2
         assert lziv_complexity(np.ones(10000), normalize=True) < 0.01
+        assert lziv_complexity([1, 2, 3, 4, 5]) == 5
+        assert lziv_complexity([1, 2, 3, 4, 5], normalize=True) == 1.
 
+        # Test with a random sequence
         random_seq = np.random.randint(0, 2, 1000)
-        assert lziv_complexity(random_seq, normalize=True) > 0.5
+        assert lziv_complexity(random_seq, normalize=True) > 0.8
+
+        # With characters and words
+        s = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        assert lziv_complexity(s) == 26
+        assert lziv_complexity(s, normalize=True) == 1.
+        assert lziv_complexity(s + s) == 27
+        assert lziv_complexity(s + s, normalize=True) < 1.
+        assert lziv_complexity('HELLO WORLD!')
+        s = ['A'] * 10000
+        assert lziv_complexity(s) == 2
+        assert lziv_complexity(s, normalize=True) < 0.01

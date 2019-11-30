@@ -491,13 +491,12 @@ def _lz_complexity(binary_string):
                 complexity += 1
                 break
         else:
-            if v > v_max:
-                v_max = v
+            v_max = max(v, v_max)
             u += 1
             if u == w:
                 complexity += 1
                 w += v_max
-                if w > length:
+                if w >= length:
                     break
                 else:
                     u = 0
@@ -508,17 +507,17 @@ def _lz_complexity(binary_string):
     return complexity
 
 
-def lziv_complexity(binary_sequence, normalize=False):
+def lziv_complexity(sequence, normalize=False):
     """
-    Lempel-Ziv (LZ) complexity of binary sequence.
+    Lempel-Ziv (LZ) complexity of (binary) sequence.
 
     .. versionadded:: 0.1.1
 
     Parameters
     ----------
-    binary_sequence : str or array
-        A sequence of 0 and 1, e.g. ``'1001111011000010'`` or
-        ``[0, 1, 0, 1, 1]``.
+    sequence : str or array
+        A sequence of character, e.g. ``'1001111011000010'``,
+        ``[0, 1, 0, 1, 1]``, or ``'Hello World!'``.
     normalize : bool
         If ``True``, returns the normalized LZ (see Notes).
 
@@ -540,9 +539,10 @@ def lziv_complexity(binary_sequence, normalize=False):
     Zhang and colleagues (2009) have therefore proposed the normalized LZ,
     which is defined by
 
-    .. math:: LZn = \\frac{LZ}{(n / \\log_2{n})}
+    .. math:: LZn = \\frac{LZ}{(n / \\log_b{n})}
 
-    where :math:`n` is the length of the binary sequence.
+    where :math:`n` is the length of the sequence and :math:`b` the number of
+    unique characters in the sequence.
 
     References
     ----------
@@ -578,19 +578,28 @@ def lziv_complexity(binary_sequence, normalize=False):
 
     >>> lziv_complexity(s, normalize=True)
     1.5
-    """
-    assert isinstance(binary_sequence, (str, list, np.ndarray))
-    assert isinstance(normalize, bool)
-    if isinstance(binary_sequence, (list, np.ndarray)):
-        binary_sequence = np.asarray(binary_sequence, dtype=int)
-        s = ''.join(binary_sequence.astype(str))
-    else:
-        s = binary_sequence
 
-    # Check that string only contains 0 and/or 1
-    unique_chars = sorted(list(set(s)))
-    if len(unique_chars) == 2:
-        assert unique_chars == ['0', '1']
+    Note that this function also works with characters and words:
+
+    >>> s = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    >>> lziv_complexity(s), lziv_complexity(s, normalize=True)
+    (26, 1.0)
+
+    >>> s = 'HELLO WORLD! HELLO WORLD! HELLO WORLD! HELLO WORLD!'
+    >>> lziv_complexity(s), lziv_complexity(s, normalize=True)
+    (11, 0.38596001132145313)
+    """
+    assert isinstance(sequence, (str, list, np.ndarray))
+    assert isinstance(normalize, bool)
+    if isinstance(sequence, (list, np.ndarray)):
+        sequence = np.asarray(sequence)
+        if sequence.dtype.kind in 'bfi':
+            # Convert [True, False] or [1., 0.] to [1, 0]
+            sequence = sequence.astype(int)
+        # Convert to a string, e.g. "10001100"
+        s = ''.join(sequence.astype(str))
+    else:
+        s = sequence
 
     if normalize:
         # 1) Timmermann et al. 2019
@@ -605,6 +614,8 @@ def lziv_complexity(binary_sequence, normalize=False):
         # return _lz_complexity(s) / _lz_complexity(s_shuffled)
         # 2) Zhang et al. 2009
         n = len(s)
-        return _lz_complexity(s) / (n / np.log2(n))
+        base = len(''.join(set(s)))  # Number of unique characters
+        base = 2 if base < 2 else base
+        return _lz_complexity(s) / (n / log(n, base))
     else:
         return _lz_complexity(s)

@@ -205,19 +205,13 @@ def _dfa(x):
         d = np.reshape(walk[:N - (N % n)], (N // n, n))
         ran_n = np.array([float(na) for na in range(n)])
         d_len = len(d)
-        slope = np.empty(d_len)
-        intercept = np.empty(d_len)
         trend = np.empty((d_len, ran_n.size))
         for i in range(d_len):
-            slope[i], intercept[i] = _linear_regression(ran_n, d[i])
-            y = np.zeros_like(ran_n)
-            # Equivalent to np.polyval function
-            for p in [slope[i], intercept[i]]:
-                y = y * ran_n + p
-            trend[i, :] = y
-        # calculate standard deviation (fluctuation) of walks in d around trend
+            slope, intercept = _linear_regression(ran_n, d[i])
+            trend[i, :] = intercept + slope * ran_n
+        # Calculate STD (fluctuation) of walks in d around trend
         flucs = np.sqrt(np.sum((d - trend) ** 2, axis=1) / n)
-        # calculate mean fluctuation over all subsequences
+        # Calculate mean fluctuation over all subsequences
         fluctuations[i_n] = flucs.sum() / flucs.size
 
     # Filter zero

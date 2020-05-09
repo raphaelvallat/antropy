@@ -209,10 +209,13 @@ def _dfa(x):
         for i in range(d_len):
             slope, intercept = _linear_regression(ran_n, d[i])
             trend[i, :] = intercept + slope * ran_n
-        # Calculate STD (fluctuation) of walks in d around trend
-        flucs = np.sqrt(np.sum((d - trend) ** 2, axis=1) / n)
-        # Calculate mean fluctuation over all subsequences
-        fluctuations[i_n] = flucs.sum() / flucs.size
+        # Calculate root mean squares of walks in d around trend
+        # Note that np.mean on specific axis is not supported by Numba
+        rms = np.sqrt(np.sum((d - trend) ** 2, axis=1) / n)
+        # Calculate average fluctuation over all subsequences
+        fluctuations[i_n] = np.mean(rms)
+        # Or should we use RMS as well? See NeuroKit GitHub issue 206
+        # fluctuations[i_n] = np.square(np.mean(rms**2))
 
     # Filter zero
     nonzero = np.nonzero(fluctuations)[0]

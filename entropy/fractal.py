@@ -215,7 +215,7 @@ def _dfa(x):
         # Calculate average fluctuation over all subsequences
         fluctuations[i_n] = np.mean(rms)
         # Or should we use RMS as well? See NeuroKit GitHub issue 206
-        # fluctuations[i_n] = np.square(np.mean(rms**2))
+        # fluctuations[i_n] = np.sqrt(np.mean(rms**2))
 
     # Filter zero
     nonzero = np.nonzero(fluctuations)[0]

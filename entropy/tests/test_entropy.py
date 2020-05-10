@@ -48,8 +48,10 @@ class TestEntropy(unittest.TestCase):
         sample_entropy(RANDOM_TS_LONG, order=2)
         se_eu_3 = sample_entropy(RANDOM_TS, order=3, metric='euclidean')
         # Compare with MNE-features
+        # Note that MNE-features uses the sample standard deviation
+        # np.std(ddof=1) and not the population standard deviation to define r
         self.assertEqual(np.round(se, 3), 2.192)
-        self.assertEqual(np.round(se_eu_3, 3), 2.725)
+        self.assertEqual(np.round(se_eu_3, 3), 2.724)
         sample_entropy(RANDOM_TS, order=3)
         sample_entropy(RANDOM_TS, order=2, metric='euclidean')
         with self.assertRaises(ValueError):
@@ -59,7 +61,9 @@ class TestEntropy(unittest.TestCase):
         ae = app_entropy(RANDOM_TS, order=2)
         ae_eu_3 = app_entropy(RANDOM_TS, order=3, metric='euclidean')
         # Compare with MNE-features
-        self.assertEqual(np.round(ae, 3), 2.075)
+        # Note that MNE-features uses the sample standard deviation
+        # np.std(ddof=1) and not the population standard deviation to define r
+        self.assertEqual(np.round(ae, 3), 2.076)
         self.assertEqual(np.round(ae_eu_3, 3), 0.956)
         app_entropy(RANDOM_TS, order=3)
         with self.assertRaises(ValueError):

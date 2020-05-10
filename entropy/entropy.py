@@ -259,7 +259,7 @@ def _app_samp_entropy(x, order, metric='chebyshev', approximate=True):
         raise ValueError('The given metric (%s) is not valid. The valid '
                          'metric names are: %s' % (metric, _all_metrics))
     phi = np.zeros(2)
-    r = 0.2 * np.std(x, axis=-1, ddof=1)
+    r = 0.2 * np.std(x, ddof=0)
 
     # compute phi(order, r)
     _emb_data1 = _embed(x, order, 1)
@@ -285,23 +285,23 @@ def _app_samp_entropy(x, order, metric='chebyshev', approximate=True):
 
 
 @jit('f8(f8[:], i4, f8)', nopython=True)
-def _numba_sampen(x, mm=2, r=0.2):
+def _numba_sampen(x, order, r):
     """
     Fast evaluation of the sample entropy using Numba.
     """
     n = x.size
     n1 = n - 1
-    mm += 1
-    mm_dbld = 2 * mm
+    order += 1
+    order_dbld = 2 * order
 
     # Define threshold
-    r *= x.std()
+    # r *= x.std()
 
     # initialize the lists
     run = [0] * n
     run1 = run[:]
-    r1 = [0] * (n * mm_dbld)
-    a = [0] * mm
+    r1 = [0] * (n * order_dbld)
+    a = [0] * order
     b = a[:]
     p = a[:]
 
@@ -312,21 +312,21 @@ def _numba_sampen(x, mm=2, r=0.2):
             j = jj + i + 1
             if abs(x[j] - x[i]) < r:
                 run[jj] = run1[jj] + 1
-                m1 = mm if mm < run[jj] else run[jj]
+                m1 = order if order < run[jj] else run[jj]
                 for m in range(m1):
                     a[m] += 1
                     if j < n1:
                         b[m] += 1
             else:
                 run[jj] = 0
-        for j in range(mm_dbld):
+        for j in range(order_dbld):
             run1[j] = run[j]
             r1[i + n * j] = run[j]
-        if nj > mm_dbld - 1:
-            for j in range(mm_dbld, nj):
+        if nj > order_dbld - 1:
+            for j in range(order_dbld, nj):
                 run1[j] = run[j]
 
-    m = mm - 1
+    m = order - 1
 
     while m > 0:
         b[m] = b[m - 1]
@@ -384,7 +384,7 @@ def app_entropy(x, order=2, metric='chebyshev'):
     >>> np.random.seed(1234567)
     >>> x = np.random.rand(3000)
     >>> print(app_entropy(x, order=2))
-    2.0754913760787277
+    2.076046899582793
     """
     phi = _app_samp_entropy(x, order=order, metric=metric, approximate=True)
     return np.subtract(phi[0], phi[1])
@@ -463,11 +463,11 @@ def sample_entropy(x, order=2, metric='chebyshev'):
     >>> np.random.seed(1234567)
     >>> x = np.random.rand(3000)
     >>> print(sample_entropy(x, order=3, metric='euclidean'))
-    2.7246543561542453
+    2.724354910127154
     """
     x = np.asarray(x, dtype=np.float64)
     if metric == 'chebyshev' and x.size < 5000:
-        return _numba_sampen(x, mm=order, r=0.2)
+        return _numba_sampen(x, order=order, r=(0.2 * x.std(ddof=0)))
     else:
         phi = _app_samp_entropy(x, order=order, metric=metric,
                                 approximate=False)

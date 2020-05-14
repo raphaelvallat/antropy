@@ -3,17 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Installation &#8212; entropy 0.1.1 documentation</title>
+    <title>Installation &#8212; entropy 0.1.2 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script type="text/javascript" src="_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/entropy.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="#"><span><img src="_static/entropy_128x128.png"></span>
           entropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -125,30 +125,30 @@ python setup.py develop
 <h1>Functions</h1>
 <p><strong>Entropy</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234567</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>                 <span class="c1"># Permutation entropy</span>
-<span class="k">print</span><span class="p">(</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span> <span class="c1"># Spectral entropy</span>
-<span class="k">print</span><span class="p">(</span><span class="n">svd_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>         <span class="c1"># Singular value decomposition entropy</span>
-<span class="k">print</span><span class="p">(</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">))</span>              <span class="c1"># Approximate entropy</span>
-<span class="k">print</span><span class="p">(</span><span class="n">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">))</span>           <span class="c1"># Sample entropy</span>
-<span class="k">print</span><span class="p">(</span><span class="n">lziv_complexity</span><span class="p">(</span><span class="s1">&#39;01111000011001&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>        <span class="c1"># Lempel-Ziv complexity</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>                 <span class="c1"># Permutation entropy</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span> <span class="c1"># Spectral entropy</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">svd_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>         <span class="c1"># Singular value decomposition entropy</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">))</span>              <span class="c1"># Approximate entropy</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">))</span>           <span class="c1"># Sample entropy</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lziv_complexity</span><span class="p">(</span><span class="s1">&#39;01111000011001&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>        <span class="c1"># Lempel-Ziv complexity</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.9995858289645746</span>
 <span class="mf">0.9945519071575192</span>
 <span class="mf">0.8482185855709181</span>
-<span class="mf">2.0754913760787277</span>
+<span class="mf">2.076046899582793</span>
 <span class="mf">2.192416747827227</span>
 <span class="mf">0.9425204748625924</span>
 </pre></div>
 </div>
 <p><strong>Fractal dimension</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>            <span class="c1"># Petrosian fractal dimension</span>
-<span class="k">print</span><span class="p">(</span><span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>                 <span class="c1"># Katz fractal dimension</span>
-<span class="k">print</span><span class="p">(</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>     <span class="c1"># Higuchi fractal dimension</span>
-<span class="k">print</span><span class="p">(</span><span class="n">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>   <span class="c1"># Detrended fluctuation analysis</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>            <span class="c1"># Petrosian fractal dimension</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>                 <span class="c1"># Katz fractal dimension</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>     <span class="c1"># Higuchi fractal dimension</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>   <span class="c1"># Detrended fluctuation analysis</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.0303256054255618</span>
@@ -161,7 +161,7 @@ python setup.py develop
 <h2>Execution time</h2>
 <p>Here are some benchmarks computed on an average PC (i7-7700HQ CPU &#64; 2.80 Ghz - 8 Go of RAM).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234567</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
 <span class="c1"># Entropy</span>
@@ -223,8 +223,8 @@ python setup.py develop
       
     </p>
     <p>
-        &copy; Copyright 2018-2019, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.<br/>
+        &copy; Copyright 2018-2020, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>
 </footer>

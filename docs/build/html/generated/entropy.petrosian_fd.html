@@ -3,17 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>entropy.petrosian_fd &#8212; entropy 0.1.1 documentation</title>
+    <title>entropy.petrosian_fd &#8212; entropy 0.1.2 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/entropy.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../index.html"><span><img src="../_static/entropy_128x128.png"></span>
           entropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -115,23 +115,19 @@
 <p>Original code from the <a class="reference external" href="https://github.com/gilestrolab/pyrem">pyrem</a>
 package by Quentin Geissmann.</p>
 <p class="rubric">References</p>
-<dl class="citation">
-<dt class="label" id="r2eb627373335-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>A. Petrosian, Kolmogorov complexity of finite sequences and
+<ul class="simple">
+<li><p>A. Petrosian, Kolmogorov complexity of finite sequences and
 recognition of different preictal EEG patterns, in , Proceedings of the
 Eighth IEEE Symposium on Computer-Based Medical Systems, 1995,
-pp. 212-217.</p>
-</dd>
-<dt class="label" id="r2eb627373335-2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
-<dd><p>Goh, Cindy, et al. “Comparison of fractal dimension algorithms for
+pp. 212-217.</p></li>
+<li><p>Goh, Cindy, et al. “Comparison of fractal dimension algorithms for
 the computation of EEG biomarkers for dementia.” 2nd International
 Conference on Computational Intelligence in Medicine and Healthcare
-(CIMED2005). 2005.</p>
-</dd>
-</dl>
+(CIMED2005). 2005.</p></li>
+</ul>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">petrosian_fd</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="n">petrosian_fd</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
@@ -157,8 +153,8 @@ Conference on Computational Intelligence in Medicine and Healthcare
       
     </p>
     <p>
-        &copy; Copyright 2018-2019, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.<br/>
+        &copy; Copyright 2018-2020, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>
 </footer>

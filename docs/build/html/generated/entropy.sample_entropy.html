@@ -3,17 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>entropy.sample_entropy &#8212; entropy 0.1.1 documentation</title>
+    <title>entropy.sample_entropy &#8212; entropy 0.1.2 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/entropy.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../index.html"><span><img src="../_static/entropy_128x128.png"></span>
           entropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -99,8 +99,9 @@
 <dt><strong>order</strong><span class="classifier">int</span></dt><dd><p>Embedding dimension. Default is 2.</p>
 </dd>
 <dt><strong>metric</strong><span class="classifier">str</span></dt><dd><p>Name of the distance metric function used with
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KDTree.html#sklearn.neighbors.KDTree" title="(in scikit-learn v0.21.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.neighbors.KDTree</span></code></a>. Default is
-<a class="reference external" href="https://en.wikipedia.org/wiki/Chebyshev_distance">Chebyshev</a>.</p>
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KDTree.html#sklearn.neighbors.KDTree" title="(in scikit-learn v0.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.neighbors.KDTree</span></code></a>. Default is to use the
+<a class="reference external" href="https://en.wikipedia.org/wiki/Chebyshev_distance">Chebyshev</a>
+distance.</p>
 </dd>
 </dl>
 </dd>
@@ -119,7 +120,7 @@ trouble-free implementation. Large values indicate high complexity whereas
 smaller values characterize more self-similar and regular signals.</p>
 <p>The sample entropy of a signal <span class="math notranslate nohighlight">\(x\)</span> is defined as:</p>
 <div class="math notranslate nohighlight">
-\[H(x, m, r) = -log\frac{C(m + 1, r)}{C(m, r)}\]</div>
+\[H(x, m, r) = -\log\frac{C(m + 1, r)}{C(m, r)}\]</div>
 <p>where <span class="math notranslate nohighlight">\(m\)</span> is the embedding dimension (= order), <span class="math notranslate nohighlight">\(r\)</span> is
 the radius of the neighbourhood (default = <span class="math notranslate nohighlight">\(0.2 * \text{std}(x)\)</span>),
 <span class="math notranslate nohighlight">\(C(m + 1, r)\)</span> is the number of embedded vectors of length
@@ -141,7 +142,7 @@ Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</p>
 <p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html">https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html</a></p>
 <p class="rubric">Examples</p>
 <p>Sample entropy with order 2.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">sample_entropy</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="n">sample_entropy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234567</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
@@ -150,12 +151,12 @@ Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</p>
 </pre></div>
 </div>
 <p>Sample entropy with order 3 using the Euclidean distance.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">sample_entropy</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="n">sample_entropy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234567</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">))</span>
-<span class="go">2.7246543561542453</span>
+<span class="go">2.724354910127154</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -177,8 +178,8 @@ Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</p>
       
     </p>
     <p>
-        &copy; Copyright 2018-2019, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.<br/>
+        &copy; Copyright 2018-2020, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>
 </footer>

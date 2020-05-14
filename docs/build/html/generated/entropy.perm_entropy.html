@@ -3,17 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>entropy.perm_entropy &#8212; entropy 0.1.1 documentation</title>
+    <title>entropy.perm_entropy &#8212; entropy 0.1.2 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/entropy.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../index.html"><span><img src="../_static/entropy_128x128.png"></span>
           entropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -117,26 +117,27 @@ and 1. Otherwise, return the permutation entropy in bit.</p>
 introduced by Bandt and Pompe in 2002.</p>
 <p>The permutation entropy of a signal <span class="math notranslate nohighlight">\(x\)</span> is defined as:</p>
 <div class="math notranslate nohighlight">
-\[H = -\sum p(\pi)log_2(\pi)\]</div>
+\[H = -\sum p(\pi)\log_2(\pi)\]</div>
 <p>where the sum runs over all <span class="math notranslate nohighlight">\(n!\)</span> permutations <span class="math notranslate nohighlight">\(\pi\)</span> of order
 <span class="math notranslate nohighlight">\(n\)</span>. This is the information contained in comparing <span class="math notranslate nohighlight">\(n\)</span>
 consecutive values of the time series. It is clear that
-<span class="math notranslate nohighlight">\(0 ≤ H (n) ≤ log_2(n!)\)</span> where the lower bound is attained for an
+<span class="math notranslate nohighlight">\(0 ≤ H (n) ≤ \log_2(n!)\)</span> where the lower bound is attained for an
 increasing or decreasing sequence of values, and the upper bound for a
 completely random system where all <span class="math notranslate nohighlight">\(n!\)</span> possible permutations appear
 with the same probability.</p>
 <p>The embedded matrix <span class="math notranslate nohighlight">\(Y\)</span> is created by:</p>
 <div class="math notranslate nohighlight">
-\[y(i)=[x_i,x_{i+delay}, ...,x_{i+(order-1) * delay}]\]</div>
+\[y(i)=[x_i,x_{i+\text{delay}}, ...,x_{i+(\text{order}-1) *
+\text{delay}}]\]</div>
 <div class="math notranslate nohighlight">
-\[Y=[y(1),y(2),...,y(N-(order-1))*delay)]^T\]</div>
+\[Y=[y(1),y(2),...,y(N-(\text{order}-1))*\text{delay})]^T\]</div>
 <p class="rubric">References</p>
 <p>Bandt, Christoph, and Bernd Pompe. “Permutation entropy: a
 natural complexity measure for time series.” Physical review letters
 88.17 (2002): 174102.</p>
 <p class="rubric">Examples</p>
 <p>Permutation entropy with order 2</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">perm_entropy</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="n">perm_entropy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Return a value in bit between 0 and log2(factorial(order))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
@@ -144,7 +145,7 @@ natural complexity measure for time series.” Physical review letters
 </pre></div>
 </div>
 <p>Normalized permutation entropy with order 3</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">perm_entropy</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="n">perm_entropy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Return a value comprised between 0 and 1.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
@@ -170,8 +171,8 @@ natural complexity measure for time series.” Physical review letters
       
     </p>
     <p>
-        &copy; Copyright 2018-2019, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.<br/>
+        &copy; Copyright 2018-2020, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>
 </footer>

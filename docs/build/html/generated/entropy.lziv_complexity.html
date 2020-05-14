@@ -3,17 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>entropy.lziv_complexity &#8212; entropy 0.1.1 documentation</title>
+    <title>entropy.lziv_complexity &#8212; entropy 0.1.2 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/entropy.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../index.html"><span><img src="../_static/entropy_128x128.png"></span>
           entropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -89,16 +89,16 @@
 <h1>entropy.lziv_complexity</h1>
 <dl class="function">
 <dt id="entropy.lziv_complexity">
-<code class="sig-prename descclassname">entropy.</code><code class="sig-name descname">lziv_complexity</code><span class="sig-paren">(</span><em class="sig-param">binary_sequence</em>, <em class="sig-param">normalize=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/entropy/entropy.html#lziv_complexity"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Lempel-Ziv (LZ) complexity of binary sequence.</p>
+<code class="sig-prename descclassname">entropy.</code><code class="sig-name descname">lziv_complexity</code><span class="sig-paren">(</span><em class="sig-param">sequence</em>, <em class="sig-param">normalize=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/entropy/entropy.html#lziv_complexity"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Lempel-Ziv (LZ) complexity of (binary) sequence.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.1.</span></p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>binary_sequence</strong><span class="classifier">str or array</span></dt><dd><p>A sequence of 0 and 1, e.g. <code class="docutils literal notranslate"><span class="pre">'1001111011000010'</span></code> or
-<code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">1]</span></code>.</p>
+<dt><strong>sequence</strong><span class="classifier">str or array</span></dt><dd><p>A sequence of character, e.g. <code class="docutils literal notranslate"><span class="pre">'1001111011000010'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">1]</span></code>, or <code class="docutils literal notranslate"><span class="pre">'Hello</span> <span class="pre">World!'</span></code>.</p>
 </dd>
 <dt><strong>normalize</strong><span class="classifier">bool</span></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, returns the normalized LZ (see Notes).</p>
 </dd>
@@ -122,31 +122,24 @@ influenced by sequence length (longer sequence will result in higher LZ).
 Zhang and colleagues (2009) have therefore proposed the normalized LZ,
 which is defined by</p>
 <div class="math notranslate nohighlight">
-\[LZn = \frac{LZ}{(n / \log_2{n})}\]</div>
-<p>where <span class="math notranslate nohighlight">\(n\)</span> is the length of the binary sequence.</p>
+\[\text{LZn} = \frac{\text{LZ}}{(n / \log_b{n})}\]</div>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is the length of the sequence and <span class="math notranslate nohighlight">\(b\)</span> the number of
+unique characters in the sequence.</p>
 <p class="rubric">References</p>
-<dl class="citation">
-<dt class="label" id="r6f5c02d513e6-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>Lempel, A., &amp; Ziv, J. (1976). On the Complexity of Finite Sequences.
+<ul class="simple">
+<li><p>Lempel, A., &amp; Ziv, J. (1976). On the Complexity of Finite Sequences.
 IEEE Transactions on Information Theory / Professional Technical
 Group on Information Theory, 22(1), 75–81.
-<a class="reference external" href="https://doi.org/10.1109/TIT.1976.1055501">https://doi.org/10.1109/TIT.1976.1055501</a></p>
-</dd>
-<dt class="label" id="r6f5c02d513e6-2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
-<dd><p>Zhang, Y., Hao, J., Zhou, C., &amp; Chang, K. (2009). Normalized
+<a class="reference external" href="https://doi.org/10.1109/TIT.1976.1055501">https://doi.org/10.1109/TIT.1976.1055501</a></p></li>
+<li><p>Zhang, Y., Hao, J., Zhou, C., &amp; Chang, K. (2009). Normalized
 Lempel-Ziv complexity and its application in bio-sequence analysis.
 Journal of Mathematical Chemistry, 46(4), 1203–1212.
-<a class="reference external" href="https://doi.org/10.1007/s10910-008-9512-2">https://doi.org/10.1007/s10910-008-9512-2</a></p>
-</dd>
-<dt class="label" id="r6f5c02d513e6-3"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
-<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Lempel-Ziv_complexity">https://en.wikipedia.org/wiki/Lempel-Ziv_complexity</a></p>
-</dd>
-<dt class="label" id="r6f5c02d513e6-4"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
-<dd><p><a class="reference external" href="https://github.com/Naereen/Lempel-Ziv_Complexity">https://github.com/Naereen/Lempel-Ziv_Complexity</a></p>
-</dd>
-</dl>
+<a class="reference external" href="https://doi.org/10.1007/s10910-008-9512-2">https://doi.org/10.1007/s10910-008-9512-2</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Lempel-Ziv_complexity">https://en.wikipedia.org/wiki/Lempel-Ziv_complexity</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Naereen/Lempel-Ziv_Complexity">https://github.com/Naereen/Lempel-Ziv_Complexity</a></p></li>
+</ul>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">lziv_complexity</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="n">lziv_complexity</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Substrings = 1 / 0 / 01 / 1110 / 1100 / 0010</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;1001111011000010&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lziv_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
@@ -154,14 +147,25 @@ Journal of Mathematical Chemistry, 46(4), 1203–1212.
 </pre></div>
 </div>
 <p>Using a list of integer / boolean instead of a string:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># 1 / 0 / 10</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># 1 / 0 / 10</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lziv_complexity</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="go">3</span>
 </pre></div>
 </div>
 <p>With normalization:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lziv_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lziv_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">1.5</span>
+</pre></div>
+</div>
+<p>This function also works with characters and words:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lziv_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">lziv_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">(26, 1.0)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;HELLO WORLD! HELLO WORLD! HELLO WORLD! HELLO WORLD!&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lziv_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">lziv_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">(11, 0.38596001132145313)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -183,8 +187,8 @@ Journal of Mathematical Chemistry, 46(4), 1203–1212.
       
     </p>
     <p>
-        &copy; Copyright 2018-2019, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.<br/>
+        &copy; Copyright 2018-2020, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>
 </footer>

@@ -38,21 +38,23 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
 
     The permutation entropy of a signal :math:`x` is defined as:
 
-    .. math:: H = -\\sum p(\\pi)log_2(\\pi)
+    .. math:: H = -\\sum p(\\pi)\\log_2(\\pi)
 
     where the sum runs over all :math:`n!` permutations :math:`\\pi` of order
     :math:`n`. This is the information contained in comparing :math:`n`
     consecutive values of the time series. It is clear that
-    :math:`0 ≤ H (n) ≤ log_2(n!)` where the lower bound is attained for an
+    :math:`0 ≤ H (n) ≤ \\log_2(n!)` where the lower bound is attained for an
     increasing or decreasing sequence of values, and the upper bound for a
     completely random system where all :math:`n!` possible permutations appear
     with the same probability.
 
     The embedded matrix :math:`Y` is created by:
 
-    .. math:: y(i)=[x_i,x_{i+delay}, ...,x_{i+(order-1) * delay}]
+    .. math::
+        y(i)=[x_i,x_{i+\\text{delay}}, ...,x_{i+(\\text{order}-1) *
+        \\text{delay}}]
 
-    .. math:: Y=[y(1),y(2),...,y(N-(order-1))*delay)]^T
+    .. math:: Y=[y(1),y(2),...,y(N-(\\text{order}-1))*\\text{delay})]^T
 
     References
     ----------
@@ -126,7 +128,7 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False):
     Spectral Entropy is defined to be the Shannon entropy of the power
     spectral density (PSD) of the data:
 
-    .. math:: H(x, sf) =  -\\sum_{f=0}^{f_s/2} P(f) log_2[P(f)]
+    .. math:: H(x, sf) =  -\\sum_{f=0}^{f_s/2} P(f) \\log_2[P(f)]
 
     Where :math:`P` is the normalised PSD, and :math:`f_s` is the sampling
     frequency.
@@ -219,9 +221,11 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
 
     The embedded matrix :math:`Y` is created by:
 
-    .. math:: y(i)=[x_i,x_{i+delay}, ...,x_{i+(order-1) * delay}]
+    .. math::
+        y(i)=[x_i,x_{i+\\text{delay}}, ...,x_{i+(\\text{order}-1) *
+        \\text{delay}}]
 
-    .. math:: Y=[y(1),y(2),...,y(N-(order-1))*delay)]^T
+    .. math:: Y=[y(1),y(2),...,y(N-(\\text{order}-1))*\\text{delay})]^T
 
     Examples
     --------
@@ -351,8 +355,9 @@ def app_entropy(x, order=2, metric='chebyshev'):
         Embedding dimension. Default is 2.
     metric : str
         Name of the distance metric function used with
-        :py:class:`sklearn.neighbors.KDTree`. Default is
-        `Chebyshev <https://en.wikipedia.org/wiki/Chebyshev_distance>`_.
+        :py:class:`sklearn.neighbors.KDTree`. Default is to use the
+        `Chebyshev <https://en.wikipedia.org/wiki/Chebyshev_distance>`_
+        distance.
 
     Returns
     -------
@@ -365,7 +370,7 @@ def app_entropy(x, order=2, metric='chebyshev'):
     regularity and the unpredictability of fluctuations over time-series data.
     Smaller values indicates that the data is more regular and predictable.
 
-    The value of :math:`r` is set to :math:`0.2 * \\texttt{std}(x)`.
+    The tolerance value (:math:`r`) is set to :math:`0.2 * \\text{std}(x)`.
 
     Code adapted from the `mne-features <https://mne.tools/mne-features/>`_
     package by Jean-Baptiste Schiratti and Alexandre Gramfort.
@@ -402,8 +407,9 @@ def sample_entropy(x, order=2, metric='chebyshev'):
         Embedding dimension. Default is 2.
     metric : str
         Name of the distance metric function used with
-        :py:class:`sklearn.neighbors.KDTree`. Default is
-        `Chebyshev <https://en.wikipedia.org/wiki/Chebyshev_distance>`_.
+        :py:class:`sklearn.neighbors.KDTree`. Default is to use the
+        `Chebyshev <https://en.wikipedia.org/wiki/Chebyshev_distance>`_
+        distance.
 
     Returns
     -------
@@ -420,7 +426,7 @@ def sample_entropy(x, order=2, metric='chebyshev'):
 
     The sample entropy of a signal :math:`x` is defined as:
 
-    .. math:: H(x, m, r) = -log\\frac{C(m + 1, r)}{C(m, r)}
+    .. math:: H(x, m, r) = -\\log\\frac{C(m + 1, r)}{C(m, r)}
 
     where :math:`m` is the embedding dimension (= order), :math:`r` is
     the radius of the neighbourhood (default = :math:`0.2 * \\text{std}(x)`),
@@ -540,26 +546,26 @@ def lziv_complexity(sequence, normalize=False):
     Zhang and colleagues (2009) have therefore proposed the normalized LZ,
     which is defined by
 
-    .. math:: LZn = \\frac{LZ}{(n / \\log_b{n})}
+    .. math:: \\text{LZn} = \\frac{\\text{LZ}}{(n / \\log_b{n})}
 
     where :math:`n` is the length of the sequence and :math:`b` the number of
     unique characters in the sequence.
 
     References
     ----------
-    .. [1] Lempel, A., & Ziv, J. (1976). On the Complexity of Finite Sequences.
-           IEEE Transactions on Information Theory / Professional Technical
-           Group on Information Theory, 22(1), 75–81.
-           https://doi.org/10.1109/TIT.1976.1055501
+    * Lempel, A., & Ziv, J. (1976). On the Complexity of Finite Sequences.
+      IEEE Transactions on Information Theory / Professional Technical
+      Group on Information Theory, 22(1), 75–81.
+      https://doi.org/10.1109/TIT.1976.1055501
 
-    .. [2] Zhang, Y., Hao, J., Zhou, C., & Chang, K. (2009). Normalized
-           Lempel-Ziv complexity and its application in bio-sequence analysis.
-           Journal of Mathematical Chemistry, 46(4), 1203–1212.
-           https://doi.org/10.1007/s10910-008-9512-2
+    * Zhang, Y., Hao, J., Zhou, C., & Chang, K. (2009). Normalized
+      Lempel-Ziv complexity and its application in bio-sequence analysis.
+      Journal of Mathematical Chemistry, 46(4), 1203–1212.
+      https://doi.org/10.1007/s10910-008-9512-2
 
-    .. [3] https://en.wikipedia.org/wiki/Lempel-Ziv_complexity
+    * https://en.wikipedia.org/wiki/Lempel-Ziv_complexity
 
-    .. [4] https://github.com/Naereen/Lempel-Ziv_Complexity
+    * https://github.com/Naereen/Lempel-Ziv_Complexity
 
     Examples
     --------
@@ -580,7 +586,7 @@ def lziv_complexity(sequence, normalize=False):
     >>> lziv_complexity(s, normalize=True)
     1.5
 
-    Note that this function also works with characters and words:
+    This function also works with characters and words:
 
     >>> s = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     >>> lziv_complexity(s), lziv_complexity(s, normalize=True)

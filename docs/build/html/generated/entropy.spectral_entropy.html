@@ -3,17 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>entropy.spectral_entropy &#8212; entropy 0.1.1 documentation</title>
+    <title>entropy.spectral_entropy &#8212; entropy 0.1.2 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/entropy.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../index.html"><span><img src="../_static/entropy_128x128.png"></span>
           entropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -100,8 +100,8 @@
 </dd>
 <dt><strong>method</strong><span class="classifier">str</span></dt><dd><p>Spectral estimation method:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">'fft'</span></code> : Fourier Transform (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.periodogram.html#scipy.signal.periodogram" title="(in SciPy v1.3.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.periodogram()</span></code></a>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">'welch'</span></code> : Welch periodogram (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.welch.html#scipy.signal.welch" title="(in SciPy v1.3.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.welch()</span></code></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'fft'</span></code> : Fourier Transform (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.periodogram.html#scipy.signal.periodogram" title="(in SciPy v1.4.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.periodogram()</span></code></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'welch'</span></code> : Welch periodogram (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.welch.html#scipy.signal.welch" title="(in SciPy v1.4.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.welch()</span></code></a>)</p></li>
 </ul>
 </dd>
 <dt><strong>nperseg</strong><span class="classifier">int or None</span></dt><dd><p>Length of each FFT segment for Welch method.
@@ -123,7 +123,7 @@ between 0 and 1. Otherwise, return the spectral entropy in bit.</p>
 <p>Spectral Entropy is defined to be the Shannon entropy of the power
 spectral density (PSD) of the data:</p>
 <div class="math notranslate nohighlight">
-\[H(x, sf) =  -\sum_{f=0}^{f_s/2} P(f) log_2[P(f)]\]</div>
+\[H(x, sf) =  -\sum_{f=0}^{f_s/2} P(f) \log_2[P(f)]\]</div>
 <p>Where <span class="math notranslate nohighlight">\(P\)</span> is the normalised PSD, and <span class="math notranslate nohighlight">\(f_s\)</span> is the sampling
 frequency.</p>
 <p class="rubric">References</p>
@@ -134,7 +134,7 @@ and clinical neurophysiology, 79(3), 204-210.</p>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Welch%27s_method">https://en.wikipedia.org/wiki/Welch%27s_method</a></p>
 <p class="rubric">Examples</p>
 <p>Spectral entropy of a pure sine using FFT</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">spectral_entropy</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="n">spectral_entropy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sf</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">dur</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">N</span> <span class="o">=</span> <span class="n">sf</span> <span class="o">*</span> <span class="n">dur</span> <span class="c1"># Total number of discrete samples</span>
@@ -145,7 +145,7 @@ and clinical neurophysiology, 79(3), 204-210.</p>
 </pre></div>
 </div>
 <p>Spectral entropy of a random signal using Welch’s method</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="k">import</span> <span class="n">spectral_entropy</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="n">spectral_entropy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
@@ -154,7 +154,7 @@ and clinical neurophysiology, 79(3), 204-210.</p>
 </pre></div>
 </div>
 <p>Normalized spectral entropy</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">0.9955526198316071</span>
 </pre></div>
 </div>
@@ -177,8 +177,8 @@ and clinical neurophysiology, 79(3), 204-210.</p>
       
     </p>
     <p>
-        &copy; Copyright 2018-2019, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.<br/>
+        &copy; Copyright 2018-2020, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
     </p>
   </div>
 </footer>

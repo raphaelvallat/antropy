@@ -36,15 +36,15 @@ def petrosian_fd(x):
 
     References
     ----------
-    .. [1] A. Petrosian, Kolmogorov complexity of finite sequences and
-       recognition of different preictal EEG patterns, in , Proceedings of the
-       Eighth IEEE Symposium on Computer-Based Medical Systems, 1995,
-       pp. 212-217.
+    * A. Petrosian, Kolmogorov complexity of finite sequences and
+      recognition of different preictal EEG patterns, in , Proceedings of the
+      Eighth IEEE Symposium on Computer-Based Medical Systems, 1995,
+      pp. 212-217.
 
-    .. [2] Goh, Cindy, et al. "Comparison of fractal dimension algorithms for
-       the computation of EEG biomarkers for dementia." 2nd International
-       Conference on Computational Intelligence in Medicine and Healthcare
-       (CIMED2005). 2005.
+    * Goh, Cindy, et al. "Comparison of fractal dimension algorithms for
+      the computation of EEG biomarkers for dementia." 2nd International
+      Conference on Computational Intelligence in Medicine and Healthcare
+      (CIMED2005). 2005.
 
     Examples
     --------
@@ -92,14 +92,14 @@ def katz_fd(x):
 
     References
     ----------
-    .. [1] Esteller, R. et al. (2001). A comparison of waveform fractal
-           dimension algorithms. IEEE Transactions on Circuits and Systems I:
-           Fundamental Theory and Applications, 48(2), 177-183.
+    * Esteller, R. et al. (2001). A comparison of waveform fractal
+      dimension algorithms. IEEE Transactions on Circuits and Systems I:
+      Fundamental Theory and Applications, 48(2), 177-183.
 
-    .. [2] Goh, Cindy, et al. "Comparison of fractal dimension algorithms for
-           the computation of EEG biomarkers for dementia." 2nd International
-           Conference on Computational Intelligence in Medicine and Healthcare
-           (CIMED2005). 2005.
+    * Goh, Cindy, et al. "Comparison of fractal dimension algorithms for
+      the computation of EEG biomarkers for dementia." 2nd International
+      Conference on Computational Intelligence in Medicine and Healthcare
+      (CIMED2005). 2005.
 
     Examples
     --------
@@ -174,9 +174,9 @@ def higuchi_fd(x, kmax=10):
 
     References
     ----------
-    .. [1] Higuchi, Tomoyuki. "Approach to an irregular time series on the
-       basis of the fractal theory." Physica D: Nonlinear Phenomena 31.2
-       (1988): 277-283.
+    Higuchi, Tomoyuki. "Approach to an irregular time series on the
+    basis of the fractal theory." Physica D: Nonlinear Phenomena 31.2
+    (1988): 277-283.
 
     Examples
     --------
@@ -260,9 +260,9 @@ def detrended_fluctuation(x):
     deviation of the values within a window of length n changes with the window
     length factor :math:`L` in a power law:
 
-    .. math:: \\texttt{std}(X, L * n) = L^H * \\texttt{std}(X, n)
+    .. math:: \\text{std}(X, L * n) = L^H * \\text{std}(X, n)
 
-    where :math:`\\texttt{std}(X, k)` is the standard deviation of the process
+    where :math:`\\text{std}(X, k)` is the standard deviation of the process
     :math:`X` calculated over windows of size :math:`k`. In this equation,
     :math:`H` is called the Hurst parameter, which behaves indeed very similar
     to the Hurst exponent.
@@ -282,14 +282,14 @@ def detrended_fluctuation(x):
 
     References
     ----------
-    .. [1] C.-K. Peng, S. V. Buldyrev, S. Havlin, M. Simons,
-           H. E. Stanley, and A. L. Goldberger, “Mosaic organization of
-           DNA nucleotides,” Physical Review E, vol. 49, no. 2, 1994.
+    * C.-K. Peng, S. V. Buldyrev, S. Havlin, M. Simons,
+      H. E. Stanley, and A. L. Goldberger, “Mosaic organization of
+      DNA nucleotides,” Physical Review E, vol. 49, no. 2, 1994.
 
-    .. [2] R. Hardstone, S.-S. Poil, G. Schiavone, R. Jansen,
-           V. V. Nikulin, H. D. Mansvelder, and K. Linkenkaer-Hansen,
-           “Detrended fluctuation analysis: A scale-free view on neuronal
-           oscillations,” Frontiers in Physiology, vol. 30, 2012.
+    * R. Hardstone, S.-S. Poil, G. Schiavone, R. Jansen,
+      V. V. Nikulin, H. D. Mansvelder, and K. Linkenkaer-Hansen,
+      “Detrended fluctuation analysis: A scale-free view on neuronal
+      oscillations,” Frontiers in Physiology, vol. 30, 2012.
 
     Examples
     --------

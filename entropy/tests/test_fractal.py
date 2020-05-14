@@ -31,6 +31,9 @@ class TestEntropy(unittest.TestCase):
     def test_detrended_fluctuation(self):
         """Test for function `detrended_fluctuation`.
         Results have been tested against the NOLDS Python package.
+
+        Note: updated in May 2020 following a conversation on GitHub,
+        https://github.com/neuropsychology/NeuroKit/issues/206
         """
-        self.assertEqual(np.round(detrended_fluctuation(RANDOM_TS), 4), 0.5082)
-        self.assertEqual(np.round(detrended_fluctuation(PURE_SINE), 4), 1.6158)
+        self.assertEqual(np.round(detrended_fluctuation(RANDOM_TS), 4), 0.4976)
+        self.assertEqual(np.round(detrended_fluctuation(PURE_SINE), 4), 1.5848)

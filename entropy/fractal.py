@@ -1,3 +1,4 @@
+"""Fractal functions"""
 import numpy as np
 from numba import jit
 from math import log, floor
@@ -211,11 +212,9 @@ def _dfa(x):
             trend[i, :] = intercept + slope * ran_n
         # Calculate root mean squares of walks in d around trend
         # Note that np.mean on specific axis is not supported by Numba
-        rms = np.sqrt(np.sum((d - trend) ** 2, axis=1) / n)
-        # Calculate average fluctuation over all subsequences
-        fluctuations[i_n] = np.mean(rms)
-        # Or should we use RMS as well? See NeuroKit GitHub issue 206
-        # fluctuations[i_n] = np.sqrt(np.mean(rms**2))
+        flucs = np.sum((d - trend) ** 2, axis=1) / n
+        # https://github.com/neuropsychology/NeuroKit/issues/206
+        fluctuations[i_n] = np.sqrt(np.mean(flucs))
 
     # Filter zero
     nonzero = np.nonzero(fluctuations)[0]
@@ -299,7 +298,7 @@ def detrended_fluctuation(x):
     >>> np.random.seed(123)
     >>> x = np.random.rand(100)
     >>> print(detrended_fluctuation(x))
-    0.761647725305623
+    0.6908564649407973
     """
     x = np.asarray(x, dtype=np.float64)
     return _dfa(x)

@@ -9,7 +9,7 @@ MAINTAINER_EMAIL = 'raphaelvallat9@gmail.com'
 URL = 'https://raphaelvallat.com/entropy/build/html/index.html'
 LICENSE = 'BSD (3-clause)'
 DOWNLOAD_URL = 'https://github.com/raphaelvallat/entropy/'
-VERSION = '0.1.1'
+VERSION = '0.1.2'
 PACKAGE_DATA = {'entropy.data.icons': ['*.ico']}
 
 try:

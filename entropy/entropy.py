@@ -1,3 +1,4 @@
+"""Entropy functions"""
 import numpy as np
 from numba import jit
 from math import factorial, log
@@ -476,8 +477,8 @@ def sample_entropy(x, order=2, metric='chebyshev'):
 
 @jit('u8(unicode_type)', nopython=True)
 def _lz_complexity(binary_string):
-    """
-    Internal Numba implementation of the Lempel-Ziv (LZ) complexity.
+    """Internal Numba implementation of the Lempel-Ziv (LZ) complexity.
+
     https://github.com/Naereen/Lempel-Ziv_Complexity/blob/master/src/lziv_complexity.py
     """
     u, v, w = 0, 1, 1

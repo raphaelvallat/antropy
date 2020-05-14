@@ -3,10 +3,12 @@
 What's new
 ##########
 
-v0.1.2 (dev)
-------------
+v0.1.2 (May 2020)
+-----------------
 
 a. :py:func:`entropy.lziv_complexity` now works with non-binary sequence (e.g. "12345" or "Hello World!")
+b. The average fluctuations in :py:func:`entropy.detrended_fluctuation` is now calculated using the root mean square instead of a simple arithmetic. For more details, please refer to `this GitHub issue <https://github.com/neuropsychology/NeuroKit/issues/206>`_.
+c. Updated flake8
 
 v0.1.1 (November 2019)
 ----------------------

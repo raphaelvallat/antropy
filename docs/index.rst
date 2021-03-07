@@ -2,7 +2,7 @@
 
 |
 
-.. image:: https://img.shields.io/badge/python-3.6%20%7C%203.7-blue.svg
+.. image:: https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8-blue.svg
     :target: https://www.python.org/downloads/
 
 .. image:: https://img.shields.io/github/license/raphaelvallat/entropy.svg

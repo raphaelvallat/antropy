@@ -41,6 +41,10 @@ def check_dependencies():
     except ImportError:
         install_requires.append('numba')
 
+    try:
+        import stochastic
+    except ImportError:
+        install_requires.append('stochastic')
 
     return install_requires
 

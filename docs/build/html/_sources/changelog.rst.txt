@@ -3,6 +3,11 @@
 What's new
 ##########
 
+v0.1.3 (dev)
+------------
+
+a. Use the `stochastic <https://github.com/crflynn/stochastic>`_ package to generate stochastic time-series.
+
 v0.1.2 (May 2020)
 -----------------
 

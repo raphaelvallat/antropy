@@ -51,6 +51,7 @@ Installation
 - `scipy <https://www.scipy.org/>`_
 - `scikit-learn <https://scikit-learn.org/>`_
 - `numba <http://numba.pydata.org/>`_
+- `stochastic <https://github.com/crflynn/stochastic>`_
 
 Functions
 =========

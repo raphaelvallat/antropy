@@ -66,19 +66,58 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     --------
     Permutation entropy with order 2
 
-    >>> from entropy import perm_entropy
+    >>> import numpy as np
+    >>> import entropy as ent
+    >>> import stochastic.processes.noise as sn
     >>> x = [4, 7, 9, 10, 6, 11, 3]
     >>> # Return a value in bit between 0 and log2(factorial(order))
-    >>> print(perm_entropy(x, order=2))
-    0.9182958340544896
+    >>> print(f"{ent.perm_entropy(x, order=2):.4f}")
+    0.9183
 
     Normalized permutation entropy with order 3
 
-    >>> from entropy import perm_entropy
-    >>> x = [4, 7, 9, 10, 6, 11, 3]
     >>> # Return a value comprised between 0 and 1.
-    >>> print(perm_entropy(x, order=3, normalize=True))
-    0.5887621559162939
+    >>> print(f"{ent.perm_entropy(x, normalize=True):.4f}")
+    0.5888
+
+    Fractional Gaussian noise with H = 0.5
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
+    >>> print(f"{ent.perm_entropy(x, normalize=True):.4f}")
+    0.9998
+
+    Fractional Gaussian noise with H = 0.9
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)
+    >>> print(f"{ent.perm_entropy(x, normalize=True):.4f}")
+    0.9926
+
+    Fractional Gaussian noise with H = 0.1
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)
+    >>> print(f"{ent.perm_entropy(x, normalize=True):.4f}")
+    0.9959
+
+    Random
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> print(f"{ent.perm_entropy(rng.random(1000), normalize=True):.4f}")
+    0.9997
+
+    Pure sine wave
+
+    >>> x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
+    >>> print(f"{ent.perm_entropy(x, normalize=True):.4f}")
+    0.4463
+
+    Linearly-increasing time-series
+
+    >>> x = np.arange(1000)
+    >>> print(f"{ent.perm_entropy(x, normalize=True):.4f}")
+    -0.0000
     """
     x = np.array(x)
     ran_order = range(order)
@@ -147,28 +186,48 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False):
     --------
     Spectral entropy of a pure sine using FFT
 
-    >>> from entropy import spectral_entropy
     >>> import numpy as np
+    >>> import entropy as ent
     >>> sf, f, dur = 100, 1, 4
     >>> N = sf * dur # Total number of discrete samples
     >>> t = np.arange(N) / sf # Time vector
     >>> x = np.sin(2 * np.pi * f * t)
-    >>> np.round(spectral_entropy(x, sf, method='fft'), 2)
+    >>> np.round(ent.spectral_entropy(x, sf, method='fft'), 2)
     0.0
 
     Spectral entropy of a random signal using Welch's method
 
-    >>> from entropy import spectral_entropy
-    >>> import numpy as np
     >>> np.random.seed(42)
     >>> x = np.random.rand(3000)
-    >>> spectral_entropy(x, sf=100, method='welch')
+    >>> ent.spectral_entropy(x, sf=100, method='welch')
     6.980045662371389
 
     Normalized spectral entropy
 
-    >>> spectral_entropy(x, sf=100, method='welch', normalize=True)
+    >>> ent.spectral_entropy(x, sf=100, method='welch', normalize=True)
     0.9955526198316071
+
+    Fractional Gaussian noise with H = 0.5
+
+    >>> import stochastic.processes.noise as sn
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
+    >>> print(f"{ent.spectral_entropy(x, sf=100, normalize=True):.4f}")
+    0.9505
+
+    Fractional Gaussian noise with H = 0.9
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)
+    >>> print(f"{ent.spectral_entropy(x, sf=100, normalize=True):.4f}")
+    0.8477
+
+    Fractional Gaussian noise with H = 0.1
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)
+    >>> print(f"{ent.spectral_entropy(x, sf=100, normalize=True):.4f}")
+    0.9248
     """
     x = np.array(x)
     # Compute and normalize power spectrum
@@ -231,19 +290,59 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
     --------
     SVD entropy with order 2
 
-    >>> from entropy import svd_entropy
+    >>> import numpy as np
+    >>> import entropy as ent
+    >>> import stochastic.processes.noise as sn
     >>> x = [4, 7, 9, 10, 6, 11, 3]
     >>> # Return a value in bit between 0 and log2(factorial(order))
-    >>> print(svd_entropy(x, order=2))
+    >>> print(ent.svd_entropy(x, order=2))
     0.7618909465130066
 
     Normalized SVD entropy with order 3
 
-    >>> from entropy import svd_entropy
     >>> x = [4, 7, 9, 10, 6, 11, 3]
     >>> # Return a value comprised between 0 and 1.
-    >>> print(svd_entropy(x, order=3, normalize=True))
+    >>> print(ent.svd_entropy(x, order=3, normalize=True))
     0.6870083043946692
+
+    Fractional Gaussian noise with H = 0.5
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
+    >>> print(f"{ent.svd_entropy(x, normalize=True):.4f}")
+    1.0000
+
+    Fractional Gaussian noise with H = 0.9
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)
+    >>> print(f"{ent.svd_entropy(x, normalize=True):.4f}")
+    0.9080
+
+    Fractional Gaussian noise with H = 0.1
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)
+    >>> print(f"{ent.svd_entropy(x, normalize=True):.4f}")
+    0.9637
+
+    Random
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> print(f"{ent.svd_entropy(rng.random(1000), normalize=True):.4f}")
+    0.8527
+
+    Pure sine wave
+
+    >>> x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
+    >>> print(f"{ent.svd_entropy(x, normalize=True):.4f}")
+    0.1775
+
+    Linearly-increasing time-series
+
+    >>> x = np.arange(1000)
+    >>> print(f"{ent.svd_entropy(x, normalize=True):.4f}")
+    0.0053
     """
     x = np.array(x)
     mat = _embed(x, order=order, delay=delay)
@@ -385,12 +484,52 @@ def app_entropy(x, order=2, metric='chebyshev'):
 
     Examples
     --------
-    >>> from entropy import app_entropy
+    Fractional Gaussian noise with H = 0.5
+
     >>> import numpy as np
-    >>> np.random.seed(1234567)
-    >>> x = np.random.rand(3000)
-    >>> print(app_entropy(x, order=2))
-    2.076046899582793
+    >>> import entropy as ent
+    >>> import stochastic.processes.noise as sn
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
+    >>> print(f"{ent.app_entropy(x, order=2):.4f}")
+    2.1958
+
+    Same with order = 3 and metric = 'euclidean'
+
+    >>> print(f"{ent.app_entropy(x, order=3, metric='euclidean'):.4f}")
+    1.5120
+
+    Fractional Gaussian noise with H = 0.9
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)
+    >>> print(f"{ent.app_entropy(x):.4f}")
+    1.9681
+
+    Fractional Gaussian noise with H = 0.1
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)
+    >>> print(f"{ent.app_entropy(x):.4f}")
+    2.0906
+
+    Random
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> print(f"{ent.app_entropy(rng.random(1000)):.4f}")
+    1.8177
+
+    Pure sine wave
+
+    >>> x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
+    >>> print(f"{ent.app_entropy(x):.4f}")
+    0.2009
+
+    Linearly-increasing time-series
+
+    >>> x = np.arange(1000)
+    >>> print(f"{ent.app_entropy(x):.4f}")
+    -0.0010
     """
     phi = _app_samp_entropy(x, order=order, metric=metric, approximate=True)
     return np.subtract(phi[0], phi[1])
@@ -454,23 +593,52 @@ def sample_entropy(x, order=2, metric='chebyshev'):
 
     Examples
     --------
-    Sample entropy with order 2.
+    Fractional Gaussian noise with H = 0.5
 
-    >>> from entropy import sample_entropy
     >>> import numpy as np
-    >>> np.random.seed(1234567)
-    >>> x = np.random.rand(3000)
-    >>> print(sample_entropy(x, order=2))
-    2.192416747827227
+    >>> import entropy as ent
+    >>> import stochastic.processes.noise as sn
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
+    >>> print(f"{ent.sample_entropy(x, order=2):.4f}")
+    2.1819
 
-    Sample entropy with order 3 using the Euclidean distance.
+    Same with order = 3 and using the Euclidean distance
 
-    >>> from entropy import sample_entropy
-    >>> import numpy as np
-    >>> np.random.seed(1234567)
-    >>> x = np.random.rand(3000)
-    >>> print(sample_entropy(x, order=3, metric='euclidean'))
-    2.724354910127154
+    >>> print(f"{ent.sample_entropy(x, order=3, metric='euclidean'):.4f}")
+    2.6806
+
+    Fractional Gaussian noise with H = 0.9
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)
+    >>> print(f"{ent.sample_entropy(x):.4f}")
+    1.9078
+
+    Fractional Gaussian noise with H = 0.1
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)
+    >>> print(f"{ent.sample_entropy(x):.4f}")
+    2.0555
+
+    Random
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> print(f"{ent.sample_entropy(rng.random(1000)):.4f}")
+    2.2017
+
+    Pure sine wave
+
+    >>> x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
+    >>> print(f"{ent.sample_entropy(x):.4f}")
+    0.1633
+
+    Linearly-increasing time-series
+
+    >>> x = np.arange(1000)
+    >>> print(f"{ent.sample_entropy(x):.4f}")
+    -0.0000
     """
     x = np.asarray(x, dtype=np.float64)
     if metric == 'chebyshev' and x.size < 5000:

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>entropy.spectral_entropy &#8212; entropy 0.1.2 documentation</title>
@@ -87,9 +87,9 @@
       
   <div class="section" id="entropy-spectral-entropy">
 <h1>entropy.spectral_entropy</h1>
-<dl class="function">
+<dl class="py function">
 <dt id="entropy.spectral_entropy">
-<code class="sig-prename descclassname">entropy.</code><code class="sig-name descname">spectral_entropy</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">sf</em>, <em class="sig-param">method='fft'</em>, <em class="sig-param">nperseg=None</em>, <em class="sig-param">normalize=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/entropy/entropy.html#spectral_entropy"><span class="viewcode-link">[source]</span></a></dt>
+<code class="sig-prename descclassname">entropy.</code><code class="sig-name descname">spectral_entropy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">sf</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'fft'</span></em>, <em class="sig-param"><span class="n">nperseg</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/entropy/entropy.html#spectral_entropy"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Spectral Entropy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -100,8 +100,8 @@
 </dd>
 <dt><strong>method</strong><span class="classifier">str</span></dt><dd><p>Spectral estimation method:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">'fft'</span></code> : Fourier Transform (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.periodogram.html#scipy.signal.periodogram" title="(in SciPy v1.4.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.periodogram()</span></code></a>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">'welch'</span></code> : Welch periodogram (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.welch.html#scipy.signal.welch" title="(in SciPy v1.4.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.welch()</span></code></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'fft'</span></code> : Fourier Transform (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.periodogram.html#scipy.signal.periodogram" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.periodogram()</span></code></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'welch'</span></code> : Welch periodogram (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.welch.html#scipy.signal.welch" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.welch()</span></code></a>)</p></li>
 </ul>
 </dd>
 <dt><strong>nperseg</strong><span class="classifier">int or None</span></dt><dd><p>Length of each FFT segment for Welch method.
@@ -134,28 +134,48 @@ and clinical neurophysiology, 79(3), 204-210.</p>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Welch%27s_method">https://en.wikipedia.org/wiki/Welch%27s_method</a></p>
 <p class="rubric">Examples</p>
 <p>Spectral entropy of a pure sine using FFT</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="n">spectral_entropy</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">entropy</span> <span class="k">as</span> <span class="nn">ent</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sf</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">dur</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">N</span> <span class="o">=</span> <span class="n">sf</span> <span class="o">*</span> <span class="n">dur</span> <span class="c1"># Total number of discrete samples</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">/</span> <span class="n">sf</span> <span class="c1"># Time vector</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fft&#39;</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fft&#39;</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
 <span class="go">0.0</span>
 </pre></div>
 </div>
 <p>Spectral entropy of a random signal using Welch’s method</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">entropy</span> <span class="kn">import</span> <span class="n">spectral_entropy</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ent</span><span class="o">.</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">)</span>
 <span class="go">6.980045662371389</span>
 </pre></div>
 </div>
 <p>Normalized spectral entropy</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ent</span><span class="o">.</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">0.9955526198316071</span>
+</pre></div>
+</div>
+<p>Fractional Gaussian noise with H = 0.5</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic.processes.noise</span> <span class="k">as</span> <span class="nn">sn</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">FractionalGaussianNoise</span><span class="p">(</span><span class="n">hurst</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">0.9505</span>
+</pre></div>
+</div>
+<p>Fractional Gaussian noise with H = 0.9</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">FractionalGaussianNoise</span><span class="p">(</span><span class="n">hurst</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">0.8477</span>
+</pre></div>
+</div>
+<p>Fractional Gaussian noise with H = 0.1</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">FractionalGaussianNoise</span><span class="p">(</span><span class="n">hurst</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">0.9248</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -177,8 +197,8 @@ and clinical neurophysiology, 79(3), 204-210.</p>
       
     </p>
     <p>
-        &copy; Copyright 2018-2020, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.<br/>
+        &copy; Copyright 2018-2021, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.<br/>
     </p>
   </div>
 </footer>

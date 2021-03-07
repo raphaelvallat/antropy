@@ -2,3 +2,4 @@ numpy
 scipy
 sklearn
 numba
+stochastic

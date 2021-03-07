@@ -104,3 +104,4 @@ venv.bak/
 desktop.ini
 docs/build/doctrees/
 docs/generated/
+.DS_Store

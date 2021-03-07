@@ -49,11 +49,44 @@ def petrosian_fd(x):
     Examples
     --------
     >>> import numpy as np
-    >>> from entropy import petrosian_fd
-    >>> np.random.seed(123)
-    >>> x = np.random.rand(100)
-    >>> print(petrosian_fd(x))
-    1.0505385662721405
+    >>> import entropy as ent
+    >>> import stochastic.processes.noise as sn
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
+    >>> print(f"{ent.petrosian_fd(x):.4f}")
+    1.0264
+
+    Fractional Gaussian noise with H = 0.9
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)
+    >>> print(f"{ent.petrosian_fd(x):.4f}")
+    1.0235
+
+    Fractional Gaussian noise with H = 0.1
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)
+    >>> print(f"{ent.petrosian_fd(x):.4f}")
+    1.0283
+
+    Random
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> print(f"{ent.petrosian_fd(rng.random(1000)):.4f}")
+    1.0350
+
+    Pure sine wave
+
+    >>> x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
+    >>> print(f"{ent.petrosian_fd(x):.4f}")
+    1.0010
+
+    Linearly-increasing time-series
+
+    >>> x = np.arange(1000)
+    >>> print(f"{ent.petrosian_fd(x):.4f}")
+    1.0000
     """
     n = len(x)
     # Number of sign changes in the first derivative of the signal
@@ -104,11 +137,44 @@ def katz_fd(x):
     Examples
     --------
     >>> import numpy as np
-    >>> from entropy import katz_fd
-    >>> np.random.seed(123)
-    >>> x = np.random.rand(100)
-    >>> print(katz_fd(x))
-    5.121395665678078
+    >>> import entropy as ent
+    >>> import stochastic.processes.noise as sn
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
+    >>> print(f"{ent.katz_fd(x):.4f}")
+    6.4713
+
+    Fractional Gaussian noise with H = 0.9
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)
+    >>> print(f"{ent.katz_fd(x):.4f}")
+    4.5720
+
+    Fractional Gaussian noise with H = 0.1
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)
+    >>> print(f"{ent.katz_fd(x):.4f}")
+    7.6540
+
+    Random
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> print(f"{ent.katz_fd(rng.random(1000)):.4f}")
+    8.1531
+
+    Pure sine wave
+
+    >>> x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
+    >>> print(f"{ent.katz_fd(x):.4f}")
+    2.4871
+
+    Linearly-increasing time-series
+
+    >>> x = np.arange(1000)
+    >>> print(f"{ent.katz_fd(x):.4f}")
+    1.0000
     """
     x = np.array(x)
     dists = np.abs(np.ediff1d(x))
@@ -181,11 +247,44 @@ def higuchi_fd(x, kmax=10):
     Examples
     --------
     >>> import numpy as np
-    >>> from entropy import higuchi_fd
-    >>> np.random.seed(123)
-    >>> x = np.random.rand(100)
-    >>> print(higuchi_fd(x))
-    2.0511793572134467
+    >>> import entropy as ent
+    >>> import stochastic.processes.noise as sn
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
+    >>> print(f"{ent.higuchi_fd(x):.4f}")
+    1.9983
+
+    Fractional Gaussian noise with H = 0.9
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)
+    >>> print(f"{ent.higuchi_fd(x):.4f}")
+    1.8517
+
+    Fractional Gaussian noise with H = 0.1
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)
+    >>> print(f"{ent.higuchi_fd(x):.4f}")
+    2.0581
+
+    Random
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> print(f"{ent.higuchi_fd(rng.random(1000)):.4f}")
+    2.0013
+
+    Pure sine wave
+
+    >>> x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
+    >>> print(f"{ent.higuchi_fd(x):.4f}")
+    1.0091
+
+    Linearly-increasing time-series
+
+    >>> x = np.arange(1000)
+    >>> print(f"{ent.higuchi_fd(x):.4f}")
+    1.0040
     """
     x = np.asarray(x, dtype=np.float64)
     kmax = int(kmax)
@@ -293,12 +392,47 @@ def detrended_fluctuation(x):
 
     Examples
     --------
+    Fractional Gaussian noise with H = 0.5
+
     >>> import numpy as np
-    >>> from entropy import detrended_fluctuation
-    >>> np.random.seed(123)
-    >>> x = np.random.rand(100)
-    >>> print(detrended_fluctuation(x))
-    0.6908564649407973
+    >>> import entropy as ent
+    >>> import stochastic.processes.noise as sn
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
+    >>> print(f"{ent.detrended_fluctuation(x):.4f}")
+    0.5216
+
+    Fractional Gaussian noise with H = 0.9
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)
+    >>> print(f"{ent.detrended_fluctuation(x):.4f}")
+    0.8833
+
+    Fractional Gaussian noise with H = 0.1
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)
+    >>> print(f"{ent.detrended_fluctuation(x):.4f}")
+    0.1262
+
+    Random
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> print(f"{ent.detrended_fluctuation(rng.random(1000)):.4f}")
+    0.5276
+
+    Pure sine wave
+
+    >>> x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
+    >>> print(f"{ent.detrended_fluctuation(x):.4f}")
+    1.5848
+
+    Linearly-increasing time-series
+
+    >>> x = np.arange(1000)
+    >>> print(f"{ent.detrended_fluctuation(x):.4f}")
+    2.0390
     """
     x = np.asarray(x, dtype=np.float64)
     return _dfa(x)

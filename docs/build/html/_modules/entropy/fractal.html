@@ -45,7 +45,7 @@
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
             
-                <li><a href="../../api.html">API</a></li>
+                <li><a href="../../api.html">Functions</a></li>
                 <li><a href="../../changelog.html">What's new</a></li>
             
             
@@ -91,18 +91,21 @@
 <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">jit</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">floor</span>
 
+<span class="kn">from</span> <span class="nn">.entropy</span> <span class="kn">import</span> <span class="n">num_zerocross</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">_linear_regression</span><span class="p">,</span> <span class="n">_log_n</span>
 
 <span class="nb">all</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;petrosian_fd&#39;</span><span class="p">,</span> <span class="s1">&#39;katz_fd&#39;</span><span class="p">,</span> <span class="s1">&#39;higuchi_fd&#39;</span><span class="p">,</span> <span class="s1">&#39;detrended_fluctuation&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="petrosian_fd"><a class="viewcode-back" href="../../generated/entropy.petrosian_fd.html#entropy.petrosian_fd">[docs]</a><span class="k">def</span> <span class="nf">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="petrosian_fd"><a class="viewcode-back" href="../../generated/entropy.petrosian_fd.html#entropy.petrosian_fd">[docs]</a><span class="k">def</span> <span class="nf">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Petrosian fractal dimension.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    x : list or np.array</span>
-<span class="sd">        One dimensional time series.</span>
+<span class="sd">        1D or N-D data.</span>
+<span class="sd">    axis : int</span>
+<span class="sd">        The axis along which the FD is calculated. Default is -1 (last).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -170,26 +173,29 @@
 <span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.petrosian_fd(x):.4f}&quot;)</span>
 <span class="sd">    1.0010</span>
 
-<span class="sd">    Linearly-increasing time-series</span>
+<span class="sd">    Linearly-increasing time-series (should be 1)</span>
 
 <span class="sd">    &gt;&gt;&gt; x = np.arange(1000)</span>
 <span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.petrosian_fd(x):.4f}&quot;)</span>
 <span class="sd">    1.0000</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
     <span class="c1"># Number of sign changes in the first derivative of the signal</span>
-    <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ediff1d</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">N_delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">diff</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">diff</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="n">N_delta</span><span class="p">)))</span></div>
+    <span class="n">nzc_deriv</span> <span class="o">=</span> <span class="n">num_zerocross</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">pfd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="n">nzc_deriv</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">pfd</span></div>
 
 
-<div class="viewcode-block" id="katz_fd"><a class="viewcode-back" href="../../generated/entropy.katz_fd.html#entropy.katz_fd">[docs]</a><span class="k">def</span> <span class="nf">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="katz_fd"><a class="viewcode-back" href="../../generated/entropy.katz_fd.html#entropy.katz_fd">[docs]</a><span class="k">def</span> <span class="nf">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Katz Fractal Dimension.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    x : list or np.array</span>
-<span class="sd">        One dimensional time series.</span>
+<span class="sd">        1D or N-D data.</span>
+<span class="sd">    axis : int</span>
+<span class="sd">        The axis along which the FD is calculated. Default is -1 (last).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -198,29 +204,29 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    The Katz fractal dimension is defined by:</span>
+<span class="sd">    Katz’s method calculates the fractal dimension of a sample as follows:</span>
+<span class="sd">    the sum and average of the Euclidean distances between the successive</span>
+<span class="sd">    points of the sample (:math:`L` and :math:`a` , resp.) are calculated as</span>
+<span class="sd">    well as the maximum distance between the first point and any other point</span>
+<span class="sd">    of the sample (:math:`d`). The fractal dimension of the sample (:math:`D`)</span>
+<span class="sd">    then becomes:</span>
 
-<span class="sd">    .. math:: K = \\frac{\\log_{10}(n)}{\\log_{10}(d/L)+\\log_{10}(n)}</span>
+<span class="sd">    .. math::</span>
+<span class="sd">        D = \\frac{\\log_{10}(L/a)}{\\log_{10}(d/a)} =</span>
+<span class="sd">        \\frac{\\log_{10}(n)}{\\log_{10}(d/L)+\\log_{10}(n)}</span>
 
-<span class="sd">    where :math:`L` is the total length of the time series and :math:`d`</span>
-<span class="sd">    is the</span>
-<span class="sd">    `Euclidean distance &lt;https://en.wikipedia.org/wiki/Euclidean_distance&gt;`_</span>
-<span class="sd">    between the first point in the series and the point that provides the</span>
-<span class="sd">    furthest distance with respect to the first point.</span>
+<span class="sd">    where :math:`n` is :math:`L` divided by :math:`a`.</span>
 
 <span class="sd">    Original code from the `mne-features &lt;https://mne.tools/mne-features/&gt;`_</span>
 <span class="sd">    package by Jean-Baptiste Schiratti and Alexandre Gramfort.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    * Esteller, R. et al. (2001). A comparison of waveform fractal</span>
-<span class="sd">      dimension algorithms. IEEE Transactions on Circuits and Systems I:</span>
-<span class="sd">      Fundamental Theory and Applications, 48(2), 177-183.</span>
+<span class="sd">    * https://ieeexplore.ieee.org/abstract/document/904882</span>
 
-<span class="sd">    * Goh, Cindy, et al. &quot;Comparison of fractal dimension algorithms for</span>
-<span class="sd">      the computation of EEG biomarkers for dementia.&quot; 2nd International</span>
-<span class="sd">      Conference on Computational Intelligence in Medicine and Healthcare</span>
-<span class="sd">      (CIMED2005). 2005.</span>
+<span class="sd">    * https://hal.inria.fr/inria-00442374/</span>
+
+<span class="sd">    * https://www.hindawi.com/journals/ddns/2011/724697/</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -258,19 +264,22 @@
 <span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.katz_fd(x):.4f}&quot;)</span>
 <span class="sd">    2.4871</span>
 
-<span class="sd">    Linearly-increasing time-series</span>
+<span class="sd">    Linearly-increasing time-series (should be 1)</span>
 
 <span class="sd">    &gt;&gt;&gt; x = np.arange(1000)</span>
 <span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.katz_fd(x):.4f}&quot;)</span>
 <span class="sd">    1.0000</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ediff1d</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-    <span class="n">ll</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="n">ln</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">ll</span><span class="p">,</span> <span class="n">dists</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
-    <span class="n">aux_d</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">aux_d</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">ln</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ln</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">ll</span><span class="p">))))</span></div>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span>
+    <span class="n">ll</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">ln</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">ll</span> <span class="o">/</span> <span class="n">dists</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span>
+    <span class="n">aux_d</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">aux_d</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">kfd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">ln</span> <span class="o">/</span> <span class="p">(</span><span class="n">ln</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">d</span> <span class="o">/</span> <span class="n">ll</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">kfd</span><span class="o">.</span><span class="n">ndim</span><span class="p">:</span>
+        <span class="n">kfd</span> <span class="o">=</span> <span class="n">kfd</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">kfd</span></div>
 
 
 <span class="nd">@jit</span><span class="p">(</span><span class="s1">&#39;float64(float64[:], int32)&#39;</span><span class="p">)</span>

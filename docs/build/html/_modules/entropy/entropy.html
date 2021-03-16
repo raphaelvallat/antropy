@@ -45,7 +45,7 @@
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
             
-                <li><a href="../../api.html">API</a></li>
+                <li><a href="../../api.html">Functions</a></li>
                 <li><a href="../../changelog.html">What's new</a></li>
             
             
@@ -96,7 +96,7 @@
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">_embed</span>
 
 <span class="nb">all</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;perm_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;spectral_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;svd_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;app_entropy&#39;</span><span class="p">,</span>
-       <span class="s1">&#39;sample_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;lziv_complexity&#39;</span><span class="p">]</span>
+       <span class="s1">&#39;sample_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;lziv_complexity&#39;</span><span class="p">,</span> <span class="s1">&#39;num_zerocross&#39;</span><span class="p">,</span> <span class="s1">&#39;hjorth_params&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="perm_entropy"><a class="viewcode-back" href="../../generated/entropy.perm_entropy.html#entropy.perm_entropy">[docs]</a><span class="k">def</span> <span class="nf">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -224,13 +224,14 @@
     <span class="k">return</span> <span class="n">pe</span></div>
 
 
-<div class="viewcode-block" id="spectral_entropy"><a class="viewcode-back" href="../../generated/entropy.spectral_entropy.html#entropy.spectral_entropy">[docs]</a><span class="k">def</span> <span class="nf">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fft&#39;</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="spectral_entropy"><a class="viewcode-back" href="../../generated/entropy.spectral_entropy.html#entropy.spectral_entropy">[docs]</a><span class="k">def</span> <span class="nf">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fft&#39;</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                     <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Spectral Entropy.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    x : list or np.array</span>
-<span class="sd">        One-dimensional time series of shape (n_times)</span>
+<span class="sd">        1D or N-D data.</span>
 <span class="sd">    sf : float</span>
 <span class="sd">        Sampling frequency, in Hz.</span>
 <span class="sd">    method : str</span>
@@ -244,6 +245,8 @@
 <span class="sd">    normalize : bool</span>
 <span class="sd">        If True, divide by log2(psd.size) to normalize the spectral entropy</span>
 <span class="sd">        between 0 and 1. Otherwise, return the spectral entropy in bit.</span>
+<span class="sd">    axis : int</span>
+<span class="sd">        The axis along which the entropy is calculated. Default is -1 (last).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -262,13 +265,13 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Inouye, T. et al. (1991). Quantification of EEG irregularity by</span>
-<span class="sd">    use of the entropy of the power spectrum. Electroencephalography</span>
-<span class="sd">    and clinical neurophysiology, 79(3), 204-210.</span>
+<span class="sd">    - Inouye, T. et al. (1991). Quantification of EEG irregularity by</span>
+<span class="sd">      use of the entropy of the power spectrum. Electroencephalography</span>
+<span class="sd">      and clinical neurophysiology, 79(3), 204-210.</span>
 
-<span class="sd">    https://en.wikipedia.org/wiki/Spectral_density</span>
+<span class="sd">    - https://en.wikipedia.org/wiki/Spectral_density</span>
 
-<span class="sd">    https://en.wikipedia.org/wiki/Welch%27s_method</span>
+<span class="sd">    - https://en.wikipedia.org/wiki/Welch%27s_method</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -295,6 +298,13 @@
 <span class="sd">    &gt;&gt;&gt; ent.spectral_entropy(x, sf=100, method=&#39;welch&#39;, normalize=True)</span>
 <span class="sd">    0.9955526198316071</span>
 
+<span class="sd">    Normalized spectral entropy of 2D data</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; x = np.random.normal(size=(4, 3000))</span>
+<span class="sd">    &gt;&gt;&gt; np.round(ent.spectral_entropy(x, sf=100, normalize=True), 4)</span>
+<span class="sd">    array([0.9464, 0.9428, 0.9431, 0.9417])</span>
+
 <span class="sd">    Fractional Gaussian noise with H = 0.5</span>
 
 <span class="sd">    &gt;&gt;&gt; import stochastic.processes.noise as sn</span>
@@ -317,16 +327,16 @@
 <span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.spectral_entropy(x, sf=100, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.9248</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="c1"># Compute and normalize power spectrum</span>
     <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;fft&#39;</span><span class="p">:</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">periodogram</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">periodogram</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;welch&#39;</span><span class="p">:</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">welch</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="n">nperseg</span><span class="p">)</span>
-    <span class="n">psd_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">psd</span><span class="p">,</span> <span class="n">psd</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-    <span class="n">se</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">psd_norm</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">psd_norm</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">welch</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="n">nperseg</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">psd_norm</span> <span class="o">=</span> <span class="n">psd</span> <span class="o">/</span> <span class="n">psd</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">psd_norm</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">psd_norm</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
-        <span class="n">se</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">psd_norm</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">se</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">psd_norm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">se</span></div>
 
 
@@ -882,6 +892,193 @@
         <span class="k">return</span> <span class="n">_lz_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">base</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_lz_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+<span class="c1">###############################################################################</span>
+<span class="c1"># OTHER TIME-DOMAIN METRICS</span>
+<span class="c1">###############################################################################</span>
+
+<div class="viewcode-block" id="num_zerocross"><a class="viewcode-back" href="../../generated/entropy.num_zerocross.html#entropy.num_zerocross">[docs]</a><span class="k">def</span> <span class="nf">num_zerocross</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number of zero-crossings.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : list or np.array</span>
+<span class="sd">        1D or N-D data.</span>
+<span class="sd">    normalize : bool</span>
+<span class="sd">        If True, divide by the number of samples to normalize the output</span>
+<span class="sd">        between 0 and 1. Otherwise, return the absolute number of zero</span>
+<span class="sd">        crossings.</span>
+<span class="sd">    axis : int</span>
+<span class="sd">        The axis along which to perform the computation. Default is -1 (last).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nzc : int or float</span>
+<span class="sd">        Number of zero-crossings.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Simple examples</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; import entropy as ent</span>
+<span class="sd">    &gt;&gt;&gt; ent.num_zerocross([-1, 0, 1, 2, 3])</span>
+<span class="sd">    1</span>
+
+<span class="sd">    &gt;&gt;&gt; ent.num_zerocross([0, 0, 2, -1, 0, 1, 0, 2])</span>
+<span class="sd">    2</span>
+
+<span class="sd">    Number of zero crossings of a pure sine</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; import entropy as ent</span>
+<span class="sd">    &gt;&gt;&gt; sf, f, dur = 100, 1, 4</span>
+<span class="sd">    &gt;&gt;&gt; N = sf * dur # Total number of discrete samples</span>
+<span class="sd">    &gt;&gt;&gt; t = np.arange(N) / sf # Time vector</span>
+<span class="sd">    &gt;&gt;&gt; x = np.sin(2 * np.pi * f * t)</span>
+<span class="sd">    &gt;&gt;&gt; ent.num_zerocross(x)</span>
+<span class="sd">    7</span>
+
+<span class="sd">    Random 2D data</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; x = np.random.normal(size=(4, 3000))</span>
+<span class="sd">    &gt;&gt;&gt; ent.num_zerocross(x)</span>
+<span class="sd">    array([1499, 1528, 1547, 1457])</span>
+
+<span class="sd">    Same but normalized by the number of samples</span>
+
+<span class="sd">    &gt;&gt;&gt; np.round(ent.num_zerocross(x, normalize=True), 4)</span>
+<span class="sd">    array([0.4997, 0.5093, 0.5157, 0.4857])</span>
+
+<span class="sd">    Fractional Gaussian noise with H = 0.5</span>
+
+<span class="sd">    &gt;&gt;&gt; import stochastic.processes.noise as sn</span>
+<span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
+<span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.num_zerocross(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    0.4973</span>
+
+<span class="sd">    Fractional Gaussian noise with H = 0.9</span>
+
+<span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
+<span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.num_zerocross(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    0.2615</span>
+
+<span class="sd">    Fractional Gaussian noise with H = 0.1</span>
+
+<span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
+<span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.num_zerocross(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    0.6451</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># https://stackoverflow.com/a/29674950/10581531</span>
+    <span class="n">nzc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">signbit</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">nzc</span> <span class="o">=</span> <span class="n">nzc</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">nzc</span></div>
+
+
+<div class="viewcode-block" id="hjorth_params"><a class="viewcode-back" href="../../generated/entropy.hjorth_params.html#entropy.hjorth_params">[docs]</a><span class="k">def</span> <span class="nf">hjorth_params</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate Hjorth mobility and complexity on given axis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : list or np.array</span>
+<span class="sd">        1D or N-D data.</span>
+<span class="sd">    axis : int</span>
+<span class="sd">        The axis along which to perform the computation. Default is -1 (last).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mobility, complexity : float</span>
+<span class="sd">        Mobility and complexity parameters.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Hjorth Parameters are indicators of statistical properties used in signal</span>
+<span class="sd">    processing in the time domain introduced by Bo Hjorth in 1970. The</span>
+<span class="sd">    parameters are activity, mobility, and complexity. EntroPy only returns the</span>
+<span class="sd">    mobility and complexity parameters, since activity is simply the variance</span>
+<span class="sd">    of :math:`x`, which can be computed easily with :py:func:`numpy.var`.</span>
+
+<span class="sd">    The **mobility** parameter represents the mean frequency or the proportion</span>
+<span class="sd">    of standard deviation of the power spectrum. This is defined as the square</span>
+<span class="sd">    root of variance of the first derivative of :math:`x` divided by the</span>
+<span class="sd">    variance of :math:`x`.</span>
+
+<span class="sd">    The **complexity** gives an estimate of the bandwidth of the signal, which</span>
+<span class="sd">    indicates the similarity of the shape of the signal to a pure sine wave</span>
+<span class="sd">    (where the value converges to 1). Complexity is defined as the ratio of</span>
+<span class="sd">    the mobility of the first derivative of :math:`x` to the mobility of</span>
+<span class="sd">    :math:`x`.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - https://en.wikipedia.org/wiki/Hjorth_parameters</span>
+<span class="sd">    - https://doi.org/10.1016%2F0013-4694%2870%2990143-4</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Hjorth parameters of a pure sine</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; import entropy as ent</span>
+<span class="sd">    &gt;&gt;&gt; sf, f, dur = 100, 1, 4</span>
+<span class="sd">    &gt;&gt;&gt; N = sf * dur # Total number of discrete samples</span>
+<span class="sd">    &gt;&gt;&gt; t = np.arange(N) / sf # Time vector</span>
+<span class="sd">    &gt;&gt;&gt; x = np.sin(2 * np.pi * f * t)</span>
+<span class="sd">    &gt;&gt;&gt; np.round(ent.hjorth_params(x), 4)</span>
+<span class="sd">    array([0.0627, 1.005 ])</span>
+
+<span class="sd">    Random 2D data</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
+<span class="sd">    &gt;&gt;&gt; x = np.random.normal(size=(4, 3000))</span>
+<span class="sd">    &gt;&gt;&gt; mob, com = ent.hjorth_params(x)</span>
+<span class="sd">    &gt;&gt;&gt; print(mob)</span>
+<span class="sd">    [1.42145064 1.4339572  1.42186993 1.40587512]</span>
+
+<span class="sd">    &gt;&gt;&gt; print(com)</span>
+<span class="sd">    [1.21877527 1.21092261 1.217278   1.22623163]</span>
+
+<span class="sd">    Fractional Gaussian noise with H = 0.5</span>
+
+<span class="sd">    &gt;&gt;&gt; import stochastic.processes.noise as sn</span>
+<span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
+<span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)</span>
+<span class="sd">    &gt;&gt;&gt; np.round(ent.hjorth_params(x), 4)</span>
+<span class="sd">    array([1.4073, 1.2283])</span>
+
+<span class="sd">    Fractional Gaussian noise with H = 0.9</span>
+
+<span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
+<span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)</span>
+<span class="sd">    &gt;&gt;&gt; np.round(ent.hjorth_params(x), 4)</span>
+<span class="sd">    array([0.8395, 1.9143])</span>
+
+<span class="sd">    Fractional Gaussian noise with H = 0.1</span>
+
+<span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
+<span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)</span>
+<span class="sd">    &gt;&gt;&gt; np.round(ent.hjorth_params(x), 4)</span>
+<span class="sd">    array([1.6917, 1.0717])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># Calculate derivatives</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">ddx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="c1"># Calculate variance</span>
+    <span class="n">x_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>  <span class="c1"># = activity</span>
+    <span class="n">dx_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">ddx_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="c1"># Mobility and complexity</span>
+    <span class="n">mob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dx_var</span> <span class="o">/</span> <span class="n">x_var</span><span class="p">)</span>
+    <span class="n">com</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ddx_var</span> <span class="o">/</span> <span class="n">dx_var</span><span class="p">)</span> <span class="o">/</span> <span class="n">mob</span>
+    <span class="k">return</span> <span class="n">mob</span><span class="p">,</span> <span class="n">com</span></div>
 </pre></div>
 
     </div>

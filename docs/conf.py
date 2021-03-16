@@ -134,7 +134,7 @@ html_theme_options = {
     'navbar_pagenav': False,
     'bootstrap_version': "3",
     'navbar_links': [
-                     ("API", "api"),
+                     ("Functions", "api"),
                      ("What's new", "changelog")
                      ],
 

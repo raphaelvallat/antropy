@@ -1,0 +1,6 @@
+entropy.num\_zerocross
+======================
+
+.. currentmodule:: entropy
+
+.. autofunction:: num_zerocross

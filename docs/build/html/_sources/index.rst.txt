@@ -19,16 +19,16 @@
 .. figure::  https://raw.githubusercontent.com/raphaelvallat/entropy/master/docs/pictures/logo.png
    :align:   center
 
-EntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of one-dimensional time-series.
+EntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of time-series.
 It can be used for example to extract features from EEG signals.
 
 Installation
 ============
 
 .. important::
-  Please note that EntroPy **cannot** be installed using pip or conda.
-  There is already a package called *entropy* on the `pip repository <https://pypi.org/project/entropy/>`_,
-  which should not be mistaken with the current package.
+  EntroPy **CANNOT BE INSTALLED WITH PIP OR CONDA**.
+  There is already a package called *entropy* on the `PyPi repository <https://pypi.org/project/entropy/>`_,
+  which should NOT be mistaken with the current package.
 
 .. code-block:: shell
 
@@ -52,76 +52,92 @@ Functions
 
 .. code-block:: python
 
-    from entropy import *
     import numpy as np
+    import entropy as ent
     np.random.seed(1234567)
-    x = np.random.rand(3000)
-    print(perm_entropy(x, order=3, normalize=True))                 # Permutation entropy
-    print(spectral_entropy(x, 100, method='welch', normalize=True)) # Spectral entropy
-    print(svd_entropy(x, order=3, delay=1, normalize=True))         # Singular value decomposition entropy
-    print(app_entropy(x, order=2, metric='chebyshev'))              # Approximate entropy
-    print(sample_entropy(x, order=2, metric='chebyshev'))           # Sample entropy
-    print(lziv_complexity('01111000011001', normalize=True))        # Lempel-Ziv complexity
+    x = np.random.normal(size=3000)
+    # Permutation entropy
+    print(ent.perm_entropy(x, normalize=True))
+    # Spectral entropy
+    print(ent.spectral_entropy(x, sf=100, method='welch', normalize=True))
+    # Singular value decomposition entropy
+    print(ent.svd_entropy(x, normalize=True))
+    # Approximate entropy
+    print(ent.app_entropy(x))
+    # Sample entropy
+    print(ent.sample_entropy(x))
+    # Hjorth mobility and complexity
+    print(ent.hjorth_params(x))
+    # Number of zero-crossings
+    print(ent.num_zerocross(x))
+    # Lempel-Ziv complexity
+    print(ent.lziv_complexity('01111000011001', normalize=True))
 
 .. parsed-literal::
 
-    0.9995858289645746
-    0.9945519071575192
-    0.8482185855709181
-    2.076046899582793
-    2.192416747827227
-    0.9425204748625924
+    0.9995371694290871
+    0.9940882825422431
+    0.9999110978316078
+    2.015221318528564
+    2.198595813245399
+    (1.4313385010057378, 1.215335712274099)
+    1531
+    1.3597696150205727
 
 **Fractal dimension**
 
 .. code-block:: python
 
-    print(petrosian_fd(x))            # Petrosian fractal dimension
-    print(katz_fd(x))                 # Katz fractal dimension
-    print(higuchi_fd(x, kmax=10))     # Higuchi fractal dimension
-    print(detrended_fluctuation(x))   # Detrended fluctuation analysis
+    # Petrosian fractal dimension
+    print(ent.petrosian_fd(x))
+    # Katz fractal dimension
+    print(ent.katz_fd(x))
+    # Higuchi fractal dimension
+    print(ent.higuchi_fd(x))
+    # Detrended fluctuation analysis
+    print(ent.detrended_fluctuation(x))
 
 .. parsed-literal::
 
-    1.0303256054255618
-    9.496389529050981
-    1.9914197968462963
-    0.5082304865081877
+    1.0310643385753608
+    5.954272156665926
+    2.005040632258251
+    0.47903505674073327
 
 Execution time
 ~~~~~~~~~~~~~~
 
-Here are some benchmarks computed on an average PC (i7-7700HQ CPU @ 2.80 Ghz - 8 Go of RAM).
+Here are some benchmarks computed on a MacBook Pro (2020).
 
 .. code-block:: python
 
-    from entropy import *
     import numpy as np
+    import entropy as ent
     np.random.seed(1234567)
     x = np.random.rand(1000)
     # Entropy
-    %timeit perm_entropy(x, order=3, delay=1)
-    %timeit spectral_entropy(x, 100, method='fft')
-    %timeit svd_entropy(x, order=3, delay=1)
-    %timeit app_entropy(x, order=2) # Slow
-    %timeit sample_entropy(x, order=2) # Slow
+    %timeit ent.perm_entropy(x)
+    %timeit ent.spectral_entropy(x, sf=100)
+    %timeit ent.svd_entropy(x)
+    %timeit ent.app_entropy(x)  # Slow
+    %timeit ent.sample_entropy(x)  # Numba
     # Fractal dimension
-    %timeit petrosian_fd(x)
-    %timeit katz_fd(x)
-    %timeit higuchi_fd(x) # Numba (fast)
-    %timeit detrended_fluctuation(x) # Numba (fast)
+    %timeit ent.petrosian_fd(x)
+    %timeit ent.katz_fd(x)
+    %timeit ent.higuchi_fd(x) # Numba
+    %timeit ent.detrended_fluctuation(x) # Numba
 
 .. parsed-literal::
 
-    127 µs ± 3.86 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-    150 µs ± 859 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-    42.4 µs ± 306 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-    4.59 ms ± 62.2 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-    2.03 ms ± 39.5 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
-    16.4 µs ± 251 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
-    32.4 µs ± 578 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-    17.4 µs ± 274 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
-    755 µs ± 17.1 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+    106 µs ± 5.49 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+    138 µs ± 3.53 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+    40.7 µs ± 303 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+    2.44 ms ± 134 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+    2.21 ms ± 35.4 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+    23.5 µs ± 695 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+    40.1 µs ± 2.09 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+    13.7 µs ± 251 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
+    315 µs ± 10.7 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
 
 Development
 ===========
@@ -130,7 +146,7 @@ EntroPy was created and is maintained by `Raphael Vallat <https://raphaelvallat.
 
 To see the code or report a bug, please visit the `GitHub repository <https://github.com/raphaelvallat/entropy>`_.
 
-Note that this program is provided with **NO WARRANTY OF ANY KIND**. If you can, always double check the results.
+Note that this program is provided with **NO WARRANTY OF ANY KIND**. Always double check the results.
 
 Acknowledgement
 ===============

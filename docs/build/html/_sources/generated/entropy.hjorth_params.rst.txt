@@ -1,0 +1,6 @@
+entropy.hjorth\_params
+======================
+
+.. currentmodule:: entropy
+
+.. autofunction:: hjorth_params

@@ -45,7 +45,7 @@
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
             
-                <li><a href="../api.html">API</a></li>
+                <li><a href="../api.html">Functions</a></li>
                 <li><a href="../changelog.html">What's new</a></li>
             
             
@@ -89,12 +89,14 @@
 <h1>entropy.petrosian_fd</h1>
 <dl class="py function">
 <dt id="entropy.petrosian_fd">
-<code class="sig-prename descclassname">entropy.</code><code class="sig-name descname">petrosian_fd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/entropy/fractal.html#petrosian_fd"><span class="viewcode-link">[source]</span></a></dt>
+<code class="sig-prename descclassname">entropy.</code><code class="sig-name descname">petrosian_fd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/entropy/fractal.html#petrosian_fd"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Petrosian fractal dimension.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One dimensional time series.</p>
+<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>1D or N-D data.</p>
+</dd>
+<dt><strong>axis</strong><span class="classifier">int</span></dt><dd><p>The axis along which the FD is calculated. Default is -1 (last).</p>
 </dd>
 </dl>
 </dd>
@@ -161,7 +163,7 @@ Conference on Computational Intelligence in Medicine and Healthcare
 <span class="go">1.0010</span>
 </pre></div>
 </div>
-<p>Linearly-increasing time-series</p>
+<p>Linearly-increasing time-series (should be 1)</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="go">1.0000</span>

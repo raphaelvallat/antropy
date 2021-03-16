@@ -177,13 +177,13 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False,
 
     References
     ----------
-    Inouye, T. et al. (1991). Quantification of EEG irregularity by
-    use of the entropy of the power spectrum. Electroencephalography
-    and clinical neurophysiology, 79(3), 204-210.
+    - Inouye, T. et al. (1991). Quantification of EEG irregularity by
+      use of the entropy of the power spectrum. Electroencephalography
+      and clinical neurophysiology, 79(3), 204-210.
 
-    https://en.wikipedia.org/wiki/Spectral_density
+    - https://en.wikipedia.org/wiki/Spectral_density
 
-    https://en.wikipedia.org/wiki/Welch%27s_method
+    - https://en.wikipedia.org/wiki/Welch%27s_method
 
     Examples
     --------
@@ -209,6 +209,13 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False,
 
     >>> ent.spectral_entropy(x, sf=100, method='welch', normalize=True)
     0.9955526198316071
+
+    Normalized spectral entropy of 2D data
+
+    >>> np.random.seed(42)
+    >>> x = np.random.normal(size=(4, 3000))
+    >>> np.round(ent.spectral_entropy(x, sf=100, normalize=True), 4)
+    array([0.9464, 0.9428, 0.9431, 0.9417])
 
     Fractional Gaussian noise with H = 0.5
 
@@ -824,7 +831,7 @@ def num_zerocross(x, normalize=False, axis=-1):
 
     Examples
     --------
-    Simple example
+    Simple examples
 
     >>> import numpy as np
     >>> import entropy as ent
@@ -908,23 +915,23 @@ def hjorth_params(x, axis=-1):
     processing in the time domain introduced by Bo Hjorth in 1970. The
     parameters are activity, mobility, and complexity. EntroPy only returns the
     mobility and complexity parameters, since activity is simply the variance
-    of ``x``, which can be computed easily with :py:func:`numpy.var`.
+    of :math:`x`, which can be computed easily with :py:func:`numpy.var`.
 
-    The mobility parameter represents the mean frequency or the proportion of
-    standard deviation of the power spectrum. This is defined as the square
-    root of variance of the first derivative of ``x`` divided by the
-    variance of ``x``.
+    The **mobility** parameter represents the mean frequency or the proportion
+    of standard deviation of the power spectrum. This is defined as the square
+    root of variance of the first derivative of :math:`x` divided by the
+    variance of :math:`x`.
 
-    The complexity gives an estimate of the bandwidth of the signal, which
+    The **complexity** gives an estimate of the bandwidth of the signal, which
     indicates the similarity of the shape of the signal to a pure sine wave
     (where the value converges to 1). Complexity is defined as the ratio of
-    the mobility of the first derivative of ``x`` to the mobility of ``x``.
+    the mobility of the first derivative of :math:`x` to the mobility of
+    :math:`x`.
 
     References
     ----------
-    https://en.wikipedia.org/wiki/Hjorth_parameters
-
-    https://doi.org/10.1016%2F0013-4694%2870%2990143-4
+    - https://en.wikipedia.org/wiki/Hjorth_parameters
+    - https://doi.org/10.1016%2F0013-4694%2870%2990143-4
 
     Examples
     --------
@@ -976,9 +983,11 @@ def hjorth_params(x, axis=-1):
     # Calculate derivatives
     dx = np.diff(x, axis=axis)
     ddx = np.diff(dx, axis=axis)
+    # Calculate variance
     x_var = np.var(x, axis=axis)  # = activity
     dx_var = np.var(dx, axis=axis)
     ddx_var = np.var(ddx, axis=axis)
+    # Mobility and complexity
     mob = np.sqrt(dx_var / x_var)
     com = np.sqrt(ddx_var / dx_var) / mob
     return mob, com

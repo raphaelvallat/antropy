@@ -3,18 +3,21 @@ import numpy as np
 from numba import jit
 from math import log, floor
 
+from .entropy import num_zerocross
 from .utils import _linear_regression, _log_n
 
 all = ['petrosian_fd', 'katz_fd', 'higuchi_fd', 'detrended_fluctuation']
 
 
-def petrosian_fd(x):
+def petrosian_fd(x, axis=-1):
     """Petrosian fractal dimension.
 
     Parameters
     ----------
     x : list or np.array
-        One dimensional time series.
+        1D or N-D data.
+    axis : int
+        The axis along which the FD is calculated. Default is -1 (last).
 
     Returns
     -------
@@ -88,11 +91,12 @@ def petrosian_fd(x):
     >>> print(f"{ent.petrosian_fd(x):.4f}")
     1.0000
     """
-    n = len(x)
+    x = np.asarray(x)
+    N = x.shape[axis]
     # Number of sign changes in the first derivative of the signal
-    diff = np.ediff1d(x)
-    N_delta = (diff[1:-1] * diff[0:-2] < 0).sum()
-    return np.log10(n) / (np.log10(n) + np.log10(n / (n + 0.4 * N_delta)))
+    nzc_deriv = num_zerocross(np.diff(x, axis=axis), axis=axis)
+    pfd = np.log10(N) / (np.log10(N) + np.log10(N / (N + 0.4 * nzc_deriv)))
+    return pfd
 
 
 def katz_fd(x):

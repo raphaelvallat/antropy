@@ -1,12 +1,19 @@
-import numpy as np
 import unittest
-
+import numpy as np
+from numpy.testing import assert_equal
+from numpy import apply_along_axis as aal
 from entropy import petrosian_fd, katz_fd, higuchi_fd, detrended_fluctuation
 
 np.random.seed(1234567)
 RANDOM_TS = np.random.rand(3000)
+NORMAL_TS = np.random.normal(size=3000)
+RANDOM_TS_LONG = np.random.rand(6000)
 SF_TS = 100
 PURE_SINE = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
+ARANGE = np.arange(3000)
+
+# Concatenate 2D data
+data = np.vstack((RANDOM_TS, NORMAL_TS, PURE_SINE, ARANGE))
 
 
 class TestEntropy(unittest.TestCase):
@@ -15,6 +22,11 @@ class TestEntropy(unittest.TestCase):
         pfd = petrosian_fd(RANDOM_TS)
         petrosian_fd(list(RANDOM_TS))
         self.assertEqual(np.round(pfd, 3), 1.030)
+        # 2D data
+        assert_equal(aal(petrosian_fd, axis=1, arr=data),
+                     petrosian_fd(data))
+        assert_equal(aal(petrosian_fd, axis=0, arr=data),
+                     petrosian_fd(data, axis=0))
 
     def test_katz_fd(self):
         data = [0., 0., 2., -2., 0., -1., -1., 0.]

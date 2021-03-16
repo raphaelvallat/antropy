@@ -143,7 +143,7 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False,
     Parameters
     ----------
     x : list or np.array
-        1D or 2D data.
+        1D or N-D data.
     sf : float
         Sampling frequency, in Hz.
     method : str
@@ -809,7 +809,7 @@ def num_zerocross(x, normalize=False, axis=-1):
     Parameters
     ----------
     x : list or np.array
-        1D or 2D data.
+        1D or N-D data.
     normalize : bool
         If True, divide by the number of samples to normalize the output
         between 0 and 1. Otherwise, return the absolute number of zero

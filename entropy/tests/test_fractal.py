@@ -29,8 +29,13 @@ class TestEntropy(unittest.TestCase):
                      petrosian_fd(data, axis=0))
 
     def test_katz_fd(self):
-        data = [0., 0., 2., -2., 0., -1., -1., 0.]
-        self.assertEqual(np.round(katz_fd(data), 3), 5.783)
+        x_k = [0., 0., 2., -2., 0., -1., -1., 0.]
+        self.assertEqual(np.round(katz_fd(x_k), 3), 5.783)
+        # 2D data
+        assert_equal(aal(katz_fd, axis=1, arr=data),
+                     katz_fd(data))
+        assert_equal(aal(katz_fd, axis=0, arr=data),
+                     katz_fd(data, axis=0))
 
     def test_higuchi_fd(self):
         """Test for function `higuchi_fd`.

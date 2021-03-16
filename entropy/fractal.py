@@ -99,13 +99,15 @@ def petrosian_fd(x, axis=-1):
     return pfd
 
 
-def katz_fd(x):
+def katz_fd(x, axis=-1):
     """Katz Fractal Dimension.
 
     Parameters
     ----------
     x : list or np.array
-        One dimensional time series.
+        1D or N-D data.
+    axis : int
+        The axis along which the FD is calculated. Default is -1 (last).
 
     Returns
     -------
@@ -180,13 +182,16 @@ def katz_fd(x):
     >>> print(f"{ent.katz_fd(x):.4f}")
     1.0000
     """
-    x = np.array(x)
-    dists = np.abs(np.ediff1d(x))
-    ll = dists.sum()
-    ln = np.log10(np.divide(ll, dists.mean()))
-    aux_d = x - x[0]
-    d = np.max(np.abs(aux_d[1:]))
-    return np.divide(ln, np.add(ln, np.log10(np.divide(d, ll))))
+    x = np.asarray(x)
+    dists = np.abs(np.diff(x, axis=axis))
+    ll = dists.sum(axis=axis)
+    ln = np.log10(ll / dists.mean(axis=axis))
+    aux_d = x - np.take(x, indices=[0], axis=axis)
+    d = np.max(np.abs(aux_d), axis=axis)
+    kfd = np.squeeze(ln / (ln + np.log10(d / ll)))
+    if not kfd.ndim:
+        kfd = kfd.item()
+    return kfd
 
 
 @jit('float64(float64[:], int32)')

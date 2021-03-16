@@ -136,13 +136,14 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     return pe
 
 
-def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False):
+def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False,
+                     axis=-1):
     """Spectral Entropy.
 
     Parameters
     ----------
     x : list or np.array
-        One-dimensional time series of shape (n_times)
+        1D or 2D data.
     sf : float
         Sampling frequency, in Hz.
     method : str
@@ -156,6 +157,8 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False):
     normalize : bool
         If True, divide by log2(psd.size) to normalize the spectral entropy
         between 0 and 1. Otherwise, return the spectral entropy in bit.
+    axis : int
+        The axis along which the entropy is calculated. Default is -1 (last).
 
     Returns
     -------
@@ -229,16 +232,16 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False):
     >>> print(f"{ent.spectral_entropy(x, sf=100, normalize=True):.4f}")
     0.9248
     """
-    x = np.array(x)
+    x = np.asarray(x)
     # Compute and normalize power spectrum
     if method == 'fft':
-        _, psd = periodogram(x, sf)
+        _, psd = periodogram(x, sf, axis=axis)
     elif method == 'welch':
-        _, psd = welch(x, sf, nperseg=nperseg)
-    psd_norm = np.divide(psd, psd.sum())
-    se = -np.multiply(psd_norm, np.log2(psd_norm)).sum()
+        _, psd = welch(x, sf, nperseg=nperseg, axis=axis)
+    psd_norm = psd / psd.sum(axis=axis, keepdims=True)
+    se = -(psd_norm * np.log2(psd_norm)).sum(axis=axis)
     if normalize:
-        se /= np.log2(psd_norm.size)
+        se /= np.log2(psd_norm.shape[axis])
     return se
 
 

@@ -7,6 +7,8 @@ v0.1.3 (dev)
 ------------
 
 a. Use the `stochastic <https://github.com/crflynn/stochastic>`_ package to generate stochastic time-series.
+b. Add support for 2D data in :py:func:`entropy.spectral_entropy`.
+c. Changed default method for PSD calculation from ``fft`` to the more stable``welch`` in :py:func:`entropy.spectral_entropy`.
 
 v0.1.2 (May 2020)
 -----------------

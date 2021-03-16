@@ -813,6 +813,8 @@ def lziv_complexity(sequence, normalize=False):
 def num_zerocross(x, normalize=False, axis=-1):
     """Number of zero-crossings.
 
+    .. versionadded: 0.1.3
+
     Parameters
     ----------
     x : list or np.array
@@ -896,6 +898,8 @@ def num_zerocross(x, normalize=False, axis=-1):
 
 def hjorth_params(x, axis=-1):
     """Calculate Hjorth mobility and complexity on given axis.
+
+    .. versionadded: 0.1.3
 
     Parameters
     ----------

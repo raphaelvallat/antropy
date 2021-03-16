@@ -3,8 +3,8 @@
 What's new
 ##########
 
-v0.1.3 (dev)
-------------
+v0.1.3 (March 2021)
+-------------------
 
 a. Added the :py:func:`entropy.num_zerocross` function to calculate the (normalized) number of zero-crossings on N-D data.
 b. Added the :py:func:`entropy.hjorth_params` function to calculate the mobility and complexity Hjorth parameters on N-D data.

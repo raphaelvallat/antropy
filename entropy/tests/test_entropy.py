@@ -1,3 +1,4 @@
+from entropy.entropy import hjorth_params
 import unittest
 import numpy as np
 from numpy.testing import assert_equal
@@ -118,7 +119,16 @@ class TestEntropy(unittest.TestCase):
         assert num_zerocross([-1, 1, 2, -1]) == 2
         assert num_zerocross([0, 0, 2, -1, 0, 1, 0, 2]) == 2
         # 2D data
-        assert_equal(aal(num_zerocross, axis=1, arr=data),
-                     num_zerocross(data))
+        assert_equal(aal(num_zerocross, axis=0, arr=data),
+                     num_zerocross(data, axis=0))
         assert_equal(aal(num_zerocross, axis=-1, arr=data, normalize=True),
                      num_zerocross(data, axis=-1, normalize=True))
+
+    def test_hjorth_params(self):
+        mob, com = hjorth_params(RANDOM_TS)
+        mob_sine, com_sine = hjorth_params(PURE_SINE)
+        assert mob_sine < mob
+        assert com_sine < com
+        # 2D data (avoid warning with flat line variance)
+        assert_equal(aal(hjorth_params, axis=-1, arr=data[:-1, :]).T,
+                     hjorth_params(data[:-1, :], axis=-1))

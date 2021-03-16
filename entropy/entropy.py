@@ -8,7 +8,7 @@ from scipy.signal import periodogram, welch
 from .utils import _embed
 
 all = ['perm_entropy', 'spectral_entropy', 'svd_entropy', 'app_entropy',
-       'sample_entropy', 'lziv_complexity']
+       'sample_entropy', 'lziv_complexity', 'num_zerocross', 'hjorth_params']
 
 
 def perm_entropy(x, order=3, delay=1, normalize=False):
@@ -885,3 +885,100 @@ def num_zerocross(x, normalize=False, axis=-1):
     if normalize:
         nzc = nzc / x.shape[axis]
     return nzc
+
+
+def hjorth_params(x, axis=-1):
+    """Calculate Hjorth mobility and complexity on given axis.
+
+    Parameters
+    ----------
+    x : list or np.array
+        1D or N-D data.
+    axis : int
+        The axis along which to perform the computation. Default is -1 (last).
+
+    Returns
+    -------
+    mobility, complexity : float
+        Mobility and complexity parameters.
+
+    Notes
+    -----
+    Hjorth Parameters are indicators of statistical properties used in signal
+    processing in the time domain introduced by Bo Hjorth in 1970. The
+    parameters are activity, mobility, and complexity. EntroPy only returns the
+    mobility and complexity parameters, since activity is simply the variance
+    of ``x``, which can be computed easily with :py:func:`numpy.var`.
+
+    The mobility parameter represents the mean frequency or the proportion of
+    standard deviation of the power spectrum. This is defined as the square
+    root of variance of the first derivative of ``x`` divided by the
+    variance of ``x``.
+
+    The complexity gives an estimate of the bandwidth of the signal, which
+    indicates the similarity of the shape of the signal to a pure sine wave
+    (where the value converges to 1). Complexity is defined as the ratio of
+    the mobility of the first derivative of ``x`` to the mobility of ``x``.
+
+    References
+    ----------
+    https://en.wikipedia.org/wiki/Hjorth_parameters
+
+    https://doi.org/10.1016%2F0013-4694%2870%2990143-4
+
+    Examples
+    --------
+    Hjorth parameters of a pure sine
+
+    >>> import numpy as np
+    >>> import entropy as ent
+    >>> sf, f, dur = 100, 1, 4
+    >>> N = sf * dur # Total number of discrete samples
+    >>> t = np.arange(N) / sf # Time vector
+    >>> x = np.sin(2 * np.pi * f * t)
+    >>> np.round(ent.hjorth_params(x), 4)
+    array([0.0627, 1.005 ])
+
+    Random 2D data
+
+    >>> np.random.seed(42)
+    >>> x = np.random.normal(size=(4, 3000))
+    >>> mob, com = ent.hjorth_params(x)
+    >>> print(mob)
+    [1.42145064 1.4339572  1.42186993 1.40587512]
+
+    >>> print(com)
+    [1.21877527 1.21092261 1.217278   1.22623163]
+
+    Fractional Gaussian noise with H = 0.5
+
+    >>> import stochastic.processes.noise as sn
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
+    >>> np.round(ent.hjorth_params(x), 4)
+    array([1.4073, 1.2283])
+
+    Fractional Gaussian noise with H = 0.9
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)
+    >>> np.round(ent.hjorth_params(x), 4)
+    array([0.8395, 1.9143])
+
+    Fractional Gaussian noise with H = 0.1
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)
+    >>> np.round(ent.hjorth_params(x), 4)
+    array([1.6917, 1.0717])
+    """
+    x = np.asarray(x)
+    # Calculate derivatives
+    dx = np.diff(x, axis=axis)
+    ddx = np.diff(dx, axis=axis)
+    x_var = np.var(x, axis=axis)  # = activity
+    dx_var = np.var(dx, axis=axis)
+    ddx_var = np.var(ddx, axis=axis)
+    mob = np.sqrt(dx_var / x_var)
+    com = np.sqrt(ddx_var / dx_var) / mob
+    return mob, com

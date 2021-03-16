@@ -14,6 +14,7 @@ Entropy
    :toctree: generated/
 
     app_entropy
+    hjorth_params
     lziv_complexity
     num_zerocross
     perm_entropy

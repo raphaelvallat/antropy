@@ -3,7 +3,8 @@ import numpy as np
 from numpy.testing import assert_equal
 from numpy import apply_along_axis as aal
 from entropy import (perm_entropy, spectral_entropy, svd_entropy,
-                     sample_entropy, app_entropy, lziv_complexity)
+                     sample_entropy, app_entropy, lziv_complexity,
+                     num_zerocross)
 
 np.random.seed(1234567)
 RANDOM_TS = np.random.rand(3000)
@@ -111,3 +112,13 @@ class TestEntropy(unittest.TestCase):
         s = ['A'] * 10000
         assert lziv_complexity(s) == 2
         assert lziv_complexity(s, normalize=True) < 0.01
+
+    def test_num_zerocross(self):
+        assert num_zerocross([-1, 0, 1, 2, 3]) == 1
+        assert num_zerocross([-1, 1, 2, -1]) == 2
+        assert num_zerocross([0, 0, 2, -1, 0, 1, 0, 2]) == 2
+        # 2D data
+        assert_equal(aal(num_zerocross, axis=1, arr=data),
+                     num_zerocross(data))
+        assert_equal(aal(num_zerocross, axis=-1, arr=data, normalize=True),
+                     num_zerocross(data, axis=-1, normalize=True))

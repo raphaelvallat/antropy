@@ -15,6 +15,7 @@ Entropy
 
     app_entropy
     lziv_complexity
+    num_zerocross
     perm_entropy
     sample_entropy
     spectral_entropy

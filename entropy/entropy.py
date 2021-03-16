@@ -797,3 +797,91 @@ def lziv_complexity(sequence, normalize=False):
         return _lz_complexity(s) / (n / log(n, base))
     else:
         return _lz_complexity(s)
+
+
+###############################################################################
+# OTHER TIME-DOMAIN METRICS
+###############################################################################
+
+def num_zerocross(x, normalize=False, axis=-1):
+    """Number of zero-crossings.
+
+    Parameters
+    ----------
+    x : list or np.array
+        1D or 2D data.
+    normalize : bool
+        If True, divide by the number of samples to normalize the output
+        between 0 and 1. Otherwise, return the absolute number of zero
+        crossings.
+    axis : int
+        The axis along which to perform the computation. Default is -1 (last).
+
+    Returns
+    -------
+    nzc : int or float
+        Number of zero-crossings.
+
+    Examples
+    --------
+    Simple example
+
+    >>> import numpy as np
+    >>> import entropy as ent
+    >>> ent.num_zerocross([-1, 0, 1, 2, 3])
+    1
+
+    >>> ent.num_zerocross([0, 0, 2, -1, 0, 1, 0, 2])
+    2
+
+    Number of zero crossings of a pure sine
+
+    >>> import numpy as np
+    >>> import entropy as ent
+    >>> sf, f, dur = 100, 1, 4
+    >>> N = sf * dur # Total number of discrete samples
+    >>> t = np.arange(N) / sf # Time vector
+    >>> x = np.sin(2 * np.pi * f * t)
+    >>> ent.num_zerocross(x)
+    7
+
+    Random 2D data
+
+    >>> np.random.seed(42)
+    >>> x = np.random.normal(size=(4, 3000))
+    >>> ent.num_zerocross(x)
+    array([1499, 1528, 1547, 1457])
+
+    Same but normalized by the number of samples
+
+    >>> np.round(ent.num_zerocross(x, normalize=True), 4)
+    array([0.4997, 0.5093, 0.5157, 0.4857])
+
+    Fractional Gaussian noise with H = 0.5
+
+    >>> import stochastic.processes.noise as sn
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
+    >>> print(f"{ent.num_zerocross(x, normalize=True):.4f}")
+    0.4973
+
+    Fractional Gaussian noise with H = 0.9
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)
+    >>> print(f"{ent.num_zerocross(x, normalize=True):.4f}")
+    0.2615
+
+    Fractional Gaussian noise with H = 0.1
+
+    >>> rng = np.random.default_rng(seed=42)
+    >>> x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)
+    >>> print(f"{ent.num_zerocross(x, normalize=True):.4f}")
+    0.6451
+    """
+    x = np.asarray(x)
+    # https://stackoverflow.com/a/29674950/10581531
+    nzc = np.diff(np.signbit(x), axis=axis).sum(axis=axis)
+    if normalize:
+        nzc = nzc / x.shape[axis]
+    return nzc

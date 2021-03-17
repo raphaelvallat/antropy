@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 from numpy.testing import assert_equal
 from numpy import apply_along_axis as aal
-from entropy import petrosian_fd, katz_fd, higuchi_fd, detrended_fluctuation
+from antropy import petrosian_fd, katz_fd, higuchi_fd, detrended_fluctuation
 
 np.random.seed(1234567)
 RANDOM_TS = np.random.rand(3000)

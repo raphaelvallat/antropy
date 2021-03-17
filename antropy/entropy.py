@@ -747,7 +747,7 @@ def lziv_complexity(sequence, normalize=False):
 
     Examples
     --------
-    >>> from entropy import lziv_complexity
+    >>> from antropy import lziv_complexity
     >>> # Substrings = 1 / 0 / 01 / 1110 / 1100 / 0010
     >>> s = '1001111011000010'
     >>> lziv_complexity(s)

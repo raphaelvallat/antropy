@@ -16,7 +16,7 @@
 
 ----------------
 
-.. figure::  https://github.com/raphaelvallat/antropy/blob/master/docs/pictures/logo.png
+.. figure::  https://github.com/raphaelvallat/antropy/blob/master/docs/pictures/logo.png?raw=true
    :align:   center
 
 AntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of time-series.

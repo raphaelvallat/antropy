@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2018 Raphael Vallat
 
-DESCRIPTION = "AntroPy: entropy of time-series in Python"
+DESCRIPTION = "AntroPy: entropy and complexity of time-series in Python"
 DISTNAME = 'antropy'
 MAINTAINER = 'Raphael Vallat'
 MAINTAINER_EMAIL = 'raphaelvallat9@gmail.com'

@@ -198,7 +198,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'antropy', 'antropy Documentation',
-     author, 'antropy', 'Entropy of time-series in Python',
+     author, 'antropy', 'Entropy and complexity of time-series in Python',
      'Miscellaneous'),
 ]
 

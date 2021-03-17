@@ -1,6 +1,6 @@
-entropy.num\_zerocross
+antropy.num\_zerocross
 ======================
 
-.. currentmodule:: entropy
+.. currentmodule:: antropy
 
 .. autofunction:: num_zerocross

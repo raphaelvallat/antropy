@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>entropy.app_entropy &#8212; entropy 0.1.3 documentation</title>
+    <title>antropy.katz_fd &#8212; antropy 0.1.3 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -14,7 +14,7 @@
     <script src="../_static/language_data.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="shortcut icon" href="../_static/entropy.ico"/>
+    <link rel="shortcut icon" href="../_static/antropy.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
@@ -37,8 +37,8 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="../index.html"><span><img src="../_static/entropy_128x128.png"></span>
-          entropy</a>
+        <a class="navbar-brand" href="../index.html"><span><img src="../_static/antropy_128x128.png"></span>
+          antropy</a>
         <span class="navbar-text navbar-version pull-left"><b>0.1.3</b></span>
       </div>
 
@@ -85,91 +85,87 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="entropy-app-entropy">
-<h1>entropy.app_entropy</h1>
+  <div class="section" id="antropy-katz-fd">
+<h1>antropy.katz_fd</h1>
 <dl class="py function">
-<dt id="entropy.app_entropy">
-<code class="sig-prename descclassname">entropy.</code><code class="sig-name descname">app_entropy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">metric</span><span class="o">=</span><span class="default_value">'chebyshev'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/entropy/entropy.html#app_entropy"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Approximate Entropy.</p>
+<dt id="antropy.katz_fd">
+<code class="sig-prename descclassname">antropy.</code><code class="sig-name descname">katz_fd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/antropy/fractal.html#katz_fd"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Katz Fractal Dimension.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One-dimensional time series of shape (n_times).</p>
+<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>1D or N-D data.</p>
 </dd>
-<dt><strong>order</strong><span class="classifier">int</span></dt><dd><p>Embedding dimension. Default is 2.</p>
-</dd>
-<dt><strong>metric</strong><span class="classifier">str</span></dt><dd><p>Name of the distance metric function used with
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KDTree.html#sklearn.neighbors.KDTree" title="(in scikit-learn v0.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.neighbors.KDTree</span></code></a>. Default is to use the
-<a class="reference external" href="https://en.wikipedia.org/wiki/Chebyshev_distance">Chebyshev</a>
-distance.</p>
+<dt><strong>axis</strong><span class="classifier">int</span></dt><dd><p>The axis along which the FD is calculated. Default is -1 (last).</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>ae</strong><span class="classifier">float</span></dt><dd><p>Approximate Entropy.</p>
+<dt><strong>kfd</strong><span class="classifier">float</span></dt><dd><p>Katz fractal dimension.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Approximate entropy is a technique used to quantify the amount of
-regularity and the unpredictability of fluctuations over time-series data.
-Smaller values indicates that the data is more regular and predictable.</p>
-<p>The tolerance value (<span class="math notranslate nohighlight">\(r\)</span>) is set to <span class="math notranslate nohighlight">\(0.2 * \text{std}(x)\)</span>.</p>
-<p>Code adapted from the <a class="reference external" href="https://mne.tools/mne-features/">mne-features</a>
+<p>Katz’s method calculates the fractal dimension of a sample as follows:
+the sum and average of the Euclidean distances between the successive
+points of the sample (<span class="math notranslate nohighlight">\(L\)</span> and <span class="math notranslate nohighlight">\(a\)</span> , resp.) are calculated as
+well as the maximum distance between the first point and any other point
+of the sample (<span class="math notranslate nohighlight">\(d\)</span>). The fractal dimension of the sample (<span class="math notranslate nohighlight">\(D\)</span>)
+then becomes:</p>
+<div class="math notranslate nohighlight">
+\[D = \frac{\log_{10}(L/a)}{\log_{10}(d/a)} =
+\frac{\log_{10}(n)}{\log_{10}(d/L)+\log_{10}(n)}\]</div>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is <span class="math notranslate nohighlight">\(L\)</span> divided by <span class="math notranslate nohighlight">\(a\)</span>.</p>
+<p>Original code from the <a class="reference external" href="https://mne.tools/mne-features/">mne-features</a>
 package by Jean-Baptiste Schiratti and Alexandre Gramfort.</p>
 <p class="rubric">References</p>
-<p>Richman, J. S. et al. (2000). Physiological time-series analysis
-using approximate entropy and sample entropy. American Journal of
-Physiology-Heart and Circulatory Physiology, 278(6), H2039-H2049.</p>
-<p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html">https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.DistanceMetric.html</a></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/904882">https://ieeexplore.ieee.org/abstract/document/904882</a></p></li>
+<li><p><a class="reference external" href="https://hal.inria.fr/inria-00442374/">https://hal.inria.fr/inria-00442374/</a></p></li>
+<li><p><a class="reference external" href="https://www.hindawi.com/journals/ddns/2011/724697/">https://www.hindawi.com/journals/ddns/2011/724697/</a></p></li>
+</ul>
 <p class="rubric">Examples</p>
-<p>Fractional Gaussian noise with H = 0.5</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">entropy</span> <span class="k">as</span> <span class="nn">ent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">antropy</span> <span class="k">as</span> <span class="nn">ant</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic.processes.noise</span> <span class="k">as</span> <span class="nn">sn</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">FractionalGaussianNoise</span><span class="p">(</span><span class="n">hurst</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">2.1958</span>
-</pre></div>
-</div>
-<p>Same with order = 3 and metric = ‘euclidean’</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">1.5120</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">6.4713</span>
 </pre></div>
 </div>
 <p>Fractional Gaussian noise with H = 0.9</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">FractionalGaussianNoise</span><span class="p">(</span><span class="n">hurst</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">1.9681</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">4.5720</span>
 </pre></div>
 </div>
 <p>Fractional Gaussian noise with H = 0.1</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">FractionalGaussianNoise</span><span class="p">(</span><span class="n">hurst</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">2.0906</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">7.6540</span>
 </pre></div>
 </div>
 <p>Random</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">1.8177</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">katz_fd</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">8.1531</span>
 </pre></div>
 </div>
 <p>Pure sine wave</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">0.2009</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">2.4871</span>
 </pre></div>
 </div>
-<p>Linearly-increasing time-series</p>
+<p>Linearly-increasing time-series (should be 1)</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">-0.0010</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">1.0000</span>
 </pre></div>
 </div>
 </dd></dl>

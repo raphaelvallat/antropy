@@ -5,37 +5,29 @@
 .. image:: https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8-blue.svg
     :target: https://www.python.org/downloads/
 
-.. image:: https://img.shields.io/github/license/raphaelvallat/entropy.svg
-  :target: https://github.com/raphaelvallat/entropy/blob/master/LICENSE
+.. image:: https://img.shields.io/github/license/raphaelvallat/antropy.svg
+  :target: https://github.com/raphaelvallat/antropy/blob/master/LICENSE
 
-.. image:: https://travis-ci.org/raphaelvallat/entropy.svg?branch=master
-    :target: https://travis-ci.org/raphaelvallat/entropy
+.. image:: https://travis-ci.org/raphaelvallat/antropy.svg?branch=master
+    :target: https://travis-ci.org/raphaelvallat/antropy
 
-.. image:: https://codecov.io/gh/raphaelvallat/entropy/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/raphaelvallat/entropy
+.. image:: https://codecov.io/gh/raphaelvallat/antropy/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/raphaelvallat/antropy
 
 ----------------
 
-.. figure::  https://raw.githubusercontent.com/raphaelvallat/entropy/master/docs/pictures/logo.png
+.. figure::  https://raw.githubusercontant.com/raphaelvallat/antropy/master/docs/pictures/logo.png
    :align:   center
 
-EntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of time-series.
+AntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of time-series.
 It can be used for example to extract features from EEG signals.
 
 Installation
 ============
 
-.. important::
-  EntroPy **CANNOT BE INSTALLED WITH PIP OR CONDA**.
-  There is already a package called *entropy* on the `PyPi repository <https://pypi.org/project/entropy/>`_,
-  which should NOT be mistaken with the current package.
-
 .. code-block:: shell
 
-  git clone https://github.com/raphaelvallat/entropy.git entropy/
-  cd entropy/
-  pip install -r requirements.txt
-  python setup.py develop
+  pip install antropy
 
 **Dependencies**
 
@@ -53,25 +45,25 @@ Functions
 .. code-block:: python
 
     import numpy as np
-    import entropy as ent
+    import antropy as ant
     np.random.seed(1234567)
     x = np.random.normal(size=3000)
     # Permutation entropy
-    print(ent.perm_entropy(x, normalize=True))
+    print(ant.perm_entropy(x, normalize=True))
     # Spectral entropy
-    print(ent.spectral_entropy(x, sf=100, method='welch', normalize=True))
+    print(ant.spectral_entropy(x, sf=100, method='welch', normalize=True))
     # Singular value decomposition entropy
-    print(ent.svd_entropy(x, normalize=True))
+    print(ant.svd_entropy(x, normalize=True))
     # Approximate entropy
-    print(ent.app_entropy(x))
+    print(ant.app_entropy(x))
     # Sample entropy
-    print(ent.sample_entropy(x))
+    print(ant.sample_entropy(x))
     # Hjorth mobility and complexity
-    print(ent.hjorth_params(x))
+    print(ant.hjorth_params(x))
     # Number of zero-crossings
-    print(ent.num_zerocross(x))
+    print(ant.num_zerocross(x))
     # Lempel-Ziv complexity
-    print(ent.lziv_complexity('01111000011001', normalize=True))
+    print(ant.lziv_complexity('01111000011001', normalize=True))
 
 .. parsed-literal::
 
@@ -89,13 +81,13 @@ Functions
 .. code-block:: python
 
     # Petrosian fractal dimension
-    print(ent.petrosian_fd(x))
+    print(ant.petrosian_fd(x))
     # Katz fractal dimension
-    print(ent.katz_fd(x))
+    print(ant.katz_fd(x))
     # Higuchi fractal dimension
-    print(ent.higuchi_fd(x))
+    print(ant.higuchi_fd(x))
     # Detrended fluctuation analysis
-    print(ent.detrended_fluctuation(x))
+    print(ant.detrended_fluctuation(x))
 
 .. parsed-literal::
 
@@ -112,20 +104,20 @@ Here are some benchmarks computed on a MacBook Pro (2020).
 .. code-block:: python
 
     import numpy as np
-    import entropy as ent
+    import antropy as ant
     np.random.seed(1234567)
     x = np.random.rand(1000)
     # Entropy
-    %timeit ent.perm_entropy(x)
-    %timeit ent.spectral_entropy(x, sf=100)
-    %timeit ent.svd_entropy(x)
-    %timeit ent.app_entropy(x)  # Slow
-    %timeit ent.sample_entropy(x)  # Numba
+    %timeit ant.perm_entropy(x)
+    %timeit ant.spectral_entropy(x, sf=100)
+    %timeit ant.svd_entropy(x)
+    %timeit ant.app_entropy(x)  # Slow
+    %timeit ant.sample_entropy(x)  # Numba
     # Fractal dimension
-    %timeit ent.petrosian_fd(x)
-    %timeit ent.katz_fd(x)
-    %timeit ent.higuchi_fd(x) # Numba
-    %timeit ent.detrended_fluctuation(x) # Numba
+    %timeit ant.petrosian_fd(x)
+    %timeit ant.katz_fd(x)
+    %timeit ant.higuchi_fd(x) # Numba
+    %timeit ant.detrended_fluctuation(x) # Numba
 
 .. parsed-literal::
 
@@ -142,16 +134,16 @@ Here are some benchmarks computed on a MacBook Pro (2020).
 Development
 ===========
 
-EntroPy was created and is maintained by `Raphael Vallat <https://raphaelvallat.com>`_. Contributions are more than welcome so feel free to contact me, open an issue or submit a pull request!
+AntroPy was created and is maintained by `Raphael Vallat <https://raphaelvallat.com>`_. Contributions are more than welcome so feel free to contact me, open an issue or submit a pull request!
 
-To see the code or report a bug, please visit the `GitHub repository <https://github.com/raphaelvallat/entropy>`_.
+To see the code or report a bug, please visit the `GitHub repository <https://github.com/raphaelvallat/antropy>`_.
 
 Note that this program is provided with **NO WARRANTY OF ANY KIND**. Always double check the results.
 
 Acknowledgement
 ===============
 
-Several functions of EntroPy were adapted from:
+Several functions of AntroPy were adapted from:
 
 - MNE-features: https://github.com/mne-tools/mne-features
 - pyEntropy: https://github.com/nikdon/pyEntropy

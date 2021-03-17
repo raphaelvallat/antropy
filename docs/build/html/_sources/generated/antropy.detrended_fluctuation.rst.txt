@@ -1,6 +1,6 @@
-entropy.detrended\_fluctuation
+antropy.detrended\_fluctuation
 ==============================
 
-.. currentmodule:: entropy
+.. currentmodule:: antropy
 
 .. autofunction:: detrended_fluctuation

@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>entropy.detrended_fluctuation &#8212; entropy 0.1.3 documentation</title>
+    <title>antropy.higuchi_fd &#8212; antropy 0.1.3 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -14,7 +14,7 @@
     <script src="../_static/language_data.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="shortcut icon" href="../_static/entropy.ico"/>
+    <link rel="shortcut icon" href="../_static/antropy.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
@@ -37,8 +37,8 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="../index.html"><span><img src="../_static/entropy_128x128.png"></span>
-          entropy</a>
+        <a class="navbar-brand" href="../index.html"><span><img src="../_static/antropy_128x128.png"></span>
+          antropy</a>
         <span class="navbar-text navbar-version pull-left"><b>0.1.3</b></span>
       </div>
 
@@ -85,105 +85,76 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="entropy-detrended-fluctuation">
-<h1>entropy.detrended_fluctuation</h1>
+  <div class="section" id="antropy-higuchi-fd">
+<h1>antropy.higuchi_fd</h1>
 <dl class="py function">
-<dt id="entropy.detrended_fluctuation">
-<code class="sig-prename descclassname">entropy.</code><code class="sig-name descname">detrended_fluctuation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/entropy/fractal.html#detrended_fluctuation"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Detrended fluctuation analysis (DFA).</p>
-<dl class="field-list">
+<dt id="antropy.higuchi_fd">
+<code class="sig-prename descclassname">antropy.</code><code class="sig-name descname">higuchi_fd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">kmax</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/antropy/fractal.html#higuchi_fd"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Higuchi Fractal Dimension.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One-dimensional time-series.</p>
+<dt><strong>x</strong><span class="classifier">list or np.array</span></dt><dd><p>One dimensional time series.</p>
+</dd>
+<dt><strong>kmax</strong><span class="classifier">int</span></dt><dd><p>Maximum delay/offset (in number of samples).</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl>
-<dt><strong>alpha</strong><span class="classifier">float</span></dt><dd><p>the estimate alpha (<span class="math notranslate nohighlight">\(\alpha\)</span>) for the Hurst parameter.</p>
-<p><span class="math notranslate nohighlight">\(\alpha &lt; 1\)</span> indicates a
-stationary process similar to fractional Gaussian noise with
-<span class="math notranslate nohighlight">\(H = \alpha\)</span>.</p>
-<p><span class="math notranslate nohighlight">\(\alpha &gt; 1\)</span> indicates a non-stationary process similar to
-fractional Brownian motion with <span class="math notranslate nohighlight">\(H = \alpha - 1\)</span></p>
+<dd class="field-even"><dl class="simple">
+<dt><strong>hfd</strong><span class="classifier">float</span></dt><dd><p>Higuchi fractal dimension.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/Detrended_fluctuation_analysis">Detrended fluctuation analysis</a>
-is used to find long-term statistical dependencies in time series.</p>
-<p>The idea behind DFA originates from the definition of self-affine
-processes. A process <span class="math notranslate nohighlight">\(X\)</span> is said to be self-affine if the standard
-deviation of the values within a window of length n changes with the window
-length factor <span class="math notranslate nohighlight">\(L\)</span> in a power law:</p>
-<div class="math notranslate nohighlight">
-\[\text{std}(X, L * n) = L^H * \text{std}(X, n)\]</div>
-<p>where <span class="math notranslate nohighlight">\(\text{std}(X, k)\)</span> is the standard deviation of the process
-<span class="math notranslate nohighlight">\(X\)</span> calculated over windows of size <span class="math notranslate nohighlight">\(k\)</span>. In this equation,
-<span class="math notranslate nohighlight">\(H\)</span> is called the Hurst parameter, which behaves indeed very similar
-to the Hurst exponent.</p>
-<p>For more details, please refer to the excellent documentation of the
-<a class="reference external" href="https://cschoel.github.io/nolds/">nolds</a>
-Python package by Christopher Scholzel, from which this function is taken:
-<a class="reference external" href="https://cschoel.github.io/nolds/nolds.html#detrended-fluctuation-analysis">https://cschoel.github.io/nolds/nolds.html#detrended-fluctuation-analysis</a></p>
-<p>Note that the default subseries size is set to
-entropy.utils._log_n(4, 0.1 * len(x), 1.2)). The current implementation
-does not allow to manually specify the subseries size or use overlapping
-windows.</p>
-<p>The code is a faster (Numba) adaptation of the original code by Christopher
-Scholzel.</p>
+<p>Original code from the <a class="reference external" href="https://mne.tools/mne-features/">mne-features</a>
+package by Jean-Baptiste Schiratti and Alexandre Gramfort.</p>
+<p>This function uses Numba to speed up the computation.</p>
 <p class="rubric">References</p>
-<ul class="simple">
-<li><p>C.-K. Peng, S. V. Buldyrev, S. Havlin, M. Simons,
-H. E. Stanley, and A. L. Goldberger, “Mosaic organization of
-DNA nucleotides,” Physical Review E, vol. 49, no. 2, 1994.</p></li>
-<li><p>R. Hardstone, S.-S. Poil, G. Schiavone, R. Jansen,
-V. V. Nikulin, H. D. Mansvelder, and K. Linkenkaer-Hansen,
-“Detrended fluctuation analysis: A scale-free view on neuronal
-oscillations,” Frontiers in Physiology, vol. 30, 2012.</p></li>
-</ul>
+<p>Higuchi, Tomoyuki. “Approach to an irregular time series on the
+basis of the fractal theory.” Physica D: Nonlinear Phenomena 31.2
+(1988): 277-283.</p>
 <p class="rubric">Examples</p>
-<p>Fractional Gaussian noise with H = 0.5</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">entropy</span> <span class="k">as</span> <span class="nn">ent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">antropy</span> <span class="k">as</span> <span class="nn">ant</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stochastic.processes.noise</span> <span class="k">as</span> <span class="nn">sn</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">FractionalGaussianNoise</span><span class="p">(</span><span class="n">hurst</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">0.5216</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">1.9983</span>
 </pre></div>
 </div>
 <p>Fractional Gaussian noise with H = 0.9</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">FractionalGaussianNoise</span><span class="p">(</span><span class="n">hurst</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">0.8833</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">1.8517</span>
 </pre></div>
 </div>
 <p>Fractional Gaussian noise with H = 0.1</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">FractionalGaussianNoise</span><span class="p">(</span><span class="n">hurst</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">0.1262</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">2.0581</span>
 </pre></div>
 </div>
 <p>Random</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">detrended_fluctuation</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">0.5276</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">2.0013</span>
 </pre></div>
 </div>
 <p>Pure sine wave</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">1.5848</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">1.0091</span>
 </pre></div>
 </div>
 <p>Linearly-increasing time-series</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ent</span><span class="o">.</span><span class="n">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">2.0390</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">1.0040</span>
 </pre></div>
 </div>
 </dd></dl>

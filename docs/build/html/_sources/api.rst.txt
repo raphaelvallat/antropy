@@ -1,6 +1,6 @@
 .. _api_ref:
 
-.. currentmodule:: entropy
+.. currentmodule:: antropy
 
 API reference
 =============

@@ -1,6 +1,6 @@
-entropy.svd\_entropy
+antropy.svd\_entropy
 ====================
 
-.. currentmodule:: entropy
+.. currentmodule:: antropy
 
 .. autofunction:: svd_entropy

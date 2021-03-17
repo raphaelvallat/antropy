@@ -1,6 +1,6 @@
-entropy.higuchi\_fd
+antropy.higuchi\_fd
 ===================
 
-.. currentmodule:: entropy
+.. currentmodule:: antropy
 
 .. autofunction:: higuchi_fd

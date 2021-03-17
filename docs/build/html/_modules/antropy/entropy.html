@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>entropy.entropy &#8212; entropy 0.1.3 documentation</title>
+    <title>antropy.entropy &#8212; antropy 0.1.3 documentation</title>
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
@@ -14,7 +14,7 @@
     <script src="../../_static/language_data.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="shortcut icon" href="../../_static/entropy.ico"/>
+    <link rel="shortcut icon" href="../../_static/antropy.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
@@ -37,8 +37,8 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/entropy_128x128.png"></span>
-          entropy</a>
+        <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/antropy_128x128.png"></span>
+          antropy</a>
         <span class="navbar-text navbar-version pull-left"><b>0.1.3</b></span>
       </div>
 
@@ -85,7 +85,7 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <h1>Source code for entropy.entropy</h1><div class="highlight"><pre>
+  <h1>Source code for antropy.entropy</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Entropy functions&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">jit</span>
@@ -99,7 +99,7 @@
        <span class="s1">&#39;sample_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;lziv_complexity&#39;</span><span class="p">,</span> <span class="s1">&#39;num_zerocross&#39;</span><span class="p">,</span> <span class="s1">&#39;hjorth_params&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="perm_entropy"><a class="viewcode-back" href="../../generated/entropy.perm_entropy.html#entropy.perm_entropy">[docs]</a><span class="k">def</span> <span class="nf">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="perm_entropy"><a class="viewcode-back" href="../../generated/antropy.perm_entropy.html#antropy.perm_entropy">[docs]</a><span class="k">def</span> <span class="nf">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Permutation Entropy.</span>
 
 <span class="sd">    Parameters</span>
@@ -155,56 +155,56 @@
 <span class="sd">    Permutation entropy with order 2</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; import entropy as ent</span>
+<span class="sd">    &gt;&gt;&gt; import antropy as ant</span>
 <span class="sd">    &gt;&gt;&gt; import stochastic.processes.noise as sn</span>
 <span class="sd">    &gt;&gt;&gt; x = [4, 7, 9, 10, 6, 11, 3]</span>
 <span class="sd">    &gt;&gt;&gt; # Return a value in bit between 0 and log2(factorial(order))</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.perm_entropy(x, order=2):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, order=2):.4f}&quot;)</span>
 <span class="sd">    0.9183</span>
 
 <span class="sd">    Normalized permutation entropy with order 3</span>
 
 <span class="sd">    &gt;&gt;&gt; # Return a value comprised between 0 and 1.</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.perm_entropy(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.5888</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.5</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.perm_entropy(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.9998</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.9</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.perm_entropy(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.9926</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.1</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.perm_entropy(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.9959</span>
 
 <span class="sd">    Random</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.perm_entropy(rng.random(1000), normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(rng.random(1000), normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.9997</span>
 
 <span class="sd">    Pure sine wave</span>
 
 <span class="sd">    &gt;&gt;&gt; x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.perm_entropy(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.4463</span>
 
 <span class="sd">    Linearly-increasing time-series</span>
 
 <span class="sd">    &gt;&gt;&gt; x = np.arange(1000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.perm_entropy(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    -0.0000</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -224,7 +224,7 @@
     <span class="k">return</span> <span class="n">pe</span></div>
 
 
-<div class="viewcode-block" id="spectral_entropy"><a class="viewcode-back" href="../../generated/entropy.spectral_entropy.html#entropy.spectral_entropy">[docs]</a><span class="k">def</span> <span class="nf">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fft&#39;</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<div class="viewcode-block" id="spectral_entropy"><a class="viewcode-back" href="../../generated/antropy.spectral_entropy.html#antropy.spectral_entropy">[docs]</a><span class="k">def</span> <span class="nf">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fft&#39;</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                      <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Spectral Entropy.</span>
 
@@ -278,31 +278,31 @@
 <span class="sd">    Spectral entropy of a pure sine using FFT</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; import entropy as ent</span>
+<span class="sd">    &gt;&gt;&gt; import antropy as ant</span>
 <span class="sd">    &gt;&gt;&gt; sf, f, dur = 100, 1, 4</span>
 <span class="sd">    &gt;&gt;&gt; N = sf * dur # Total number of discrete samples</span>
 <span class="sd">    &gt;&gt;&gt; t = np.arange(N) / sf # Time vector</span>
 <span class="sd">    &gt;&gt;&gt; x = np.sin(2 * np.pi * f * t)</span>
-<span class="sd">    &gt;&gt;&gt; np.round(ent.spectral_entropy(x, sf, method=&#39;fft&#39;), 2)</span>
+<span class="sd">    &gt;&gt;&gt; np.round(ant.spectral_entropy(x, sf, method=&#39;fft&#39;), 2)</span>
 <span class="sd">    0.0</span>
 
 <span class="sd">    Spectral entropy of a random signal using Welch&#39;s method</span>
 
 <span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; x = np.random.rand(3000)</span>
-<span class="sd">    &gt;&gt;&gt; ent.spectral_entropy(x, sf=100, method=&#39;welch&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ant.spectral_entropy(x, sf=100, method=&#39;welch&#39;)</span>
 <span class="sd">    6.980045662371389</span>
 
 <span class="sd">    Normalized spectral entropy</span>
 
-<span class="sd">    &gt;&gt;&gt; ent.spectral_entropy(x, sf=100, method=&#39;welch&#39;, normalize=True)</span>
+<span class="sd">    &gt;&gt;&gt; ant.spectral_entropy(x, sf=100, method=&#39;welch&#39;, normalize=True)</span>
 <span class="sd">    0.9955526198316071</span>
 
 <span class="sd">    Normalized spectral entropy of 2D data</span>
 
 <span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; x = np.random.normal(size=(4, 3000))</span>
-<span class="sd">    &gt;&gt;&gt; np.round(ent.spectral_entropy(x, sf=100, normalize=True), 4)</span>
+<span class="sd">    &gt;&gt;&gt; np.round(ant.spectral_entropy(x, sf=100, normalize=True), 4)</span>
 <span class="sd">    array([0.9464, 0.9428, 0.9431, 0.9417])</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.5</span>
@@ -310,21 +310,21 @@
 <span class="sd">    &gt;&gt;&gt; import stochastic.processes.noise as sn</span>
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.spectral_entropy(x, sf=100, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.spectral_entropy(x, sf=100, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.9505</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.9</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.spectral_entropy(x, sf=100, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.spectral_entropy(x, sf=100, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.8477</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.1</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.spectral_entropy(x, sf=100, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.spectral_entropy(x, sf=100, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.9248</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -340,7 +340,7 @@
     <span class="k">return</span> <span class="n">se</span></div>
 
 
-<div class="viewcode-block" id="svd_entropy"><a class="viewcode-back" href="../../generated/entropy.svd_entropy.html#entropy.svd_entropy">[docs]</a><span class="k">def</span> <span class="nf">svd_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="svd_entropy"><a class="viewcode-back" href="../../generated/antropy.svd_entropy.html#antropy.svd_entropy">[docs]</a><span class="k">def</span> <span class="nf">svd_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Singular Value Decomposition entropy.</span>
 
 <span class="sd">    Parameters</span>
@@ -389,57 +389,57 @@
 <span class="sd">    SVD entropy with order 2</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; import entropy as ent</span>
+<span class="sd">    &gt;&gt;&gt; import antropy as ant</span>
 <span class="sd">    &gt;&gt;&gt; import stochastic.processes.noise as sn</span>
 <span class="sd">    &gt;&gt;&gt; x = [4, 7, 9, 10, 6, 11, 3]</span>
 <span class="sd">    &gt;&gt;&gt; # Return a value in bit between 0 and log2(factorial(order))</span>
-<span class="sd">    &gt;&gt;&gt; print(ent.svd_entropy(x, order=2))</span>
+<span class="sd">    &gt;&gt;&gt; print(ant.svd_entropy(x, order=2))</span>
 <span class="sd">    0.7618909465130066</span>
 
 <span class="sd">    Normalized SVD entropy with order 3</span>
 
 <span class="sd">    &gt;&gt;&gt; x = [4, 7, 9, 10, 6, 11, 3]</span>
 <span class="sd">    &gt;&gt;&gt; # Return a value comprised between 0 and 1.</span>
-<span class="sd">    &gt;&gt;&gt; print(ent.svd_entropy(x, order=3, normalize=True))</span>
+<span class="sd">    &gt;&gt;&gt; print(ant.svd_entropy(x, order=3, normalize=True))</span>
 <span class="sd">    0.6870083043946692</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.5</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.svd_entropy(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.svd_entropy(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    1.0000</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.9</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.svd_entropy(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.svd_entropy(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.9080</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.1</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.svd_entropy(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.svd_entropy(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.9637</span>
 
 <span class="sd">    Random</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.svd_entropy(rng.random(1000), normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.svd_entropy(rng.random(1000), normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.8527</span>
 
 <span class="sd">    Pure sine wave</span>
 
 <span class="sd">    &gt;&gt;&gt; x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.svd_entropy(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.svd_entropy(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.1775</span>
 
 <span class="sd">    Linearly-increasing time-series</span>
 
 <span class="sd">    &gt;&gt;&gt; x = np.arange(1000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.svd_entropy(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.svd_entropy(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.0053</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -541,7 +541,7 @@
     <span class="k">return</span> <span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
 
-<div class="viewcode-block" id="app_entropy"><a class="viewcode-back" href="../../generated/entropy.app_entropy.html#entropy.app_entropy">[docs]</a><span class="k">def</span> <span class="nf">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="app_entropy"><a class="viewcode-back" href="../../generated/antropy.app_entropy.html#antropy.app_entropy">[docs]</a><span class="k">def</span> <span class="nf">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Approximate Entropy.</span>
 
 <span class="sd">    Parameters</span>
@@ -585,55 +585,55 @@
 <span class="sd">    Fractional Gaussian noise with H = 0.5</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; import entropy as ent</span>
+<span class="sd">    &gt;&gt;&gt; import antropy as ant</span>
 <span class="sd">    &gt;&gt;&gt; import stochastic.processes.noise as sn</span>
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.app_entropy(x, order=2):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.app_entropy(x, order=2):.4f}&quot;)</span>
 <span class="sd">    2.1958</span>
 
 <span class="sd">    Same with order = 3 and metric = &#39;euclidean&#39;</span>
 
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.app_entropy(x, order=3, metric=&#39;euclidean&#39;):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.app_entropy(x, order=3, metric=&#39;euclidean&#39;):.4f}&quot;)</span>
 <span class="sd">    1.5120</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.9</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.app_entropy(x):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.app_entropy(x):.4f}&quot;)</span>
 <span class="sd">    1.9681</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.1</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.app_entropy(x):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.app_entropy(x):.4f}&quot;)</span>
 <span class="sd">    2.0906</span>
 
 <span class="sd">    Random</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.app_entropy(rng.random(1000)):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.app_entropy(rng.random(1000)):.4f}&quot;)</span>
 <span class="sd">    1.8177</span>
 
 <span class="sd">    Pure sine wave</span>
 
 <span class="sd">    &gt;&gt;&gt; x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.app_entropy(x):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.app_entropy(x):.4f}&quot;)</span>
 <span class="sd">    0.2009</span>
 
 <span class="sd">    Linearly-increasing time-series</span>
 
 <span class="sd">    &gt;&gt;&gt; x = np.arange(1000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.app_entropy(x):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.app_entropy(x):.4f}&quot;)</span>
 <span class="sd">    -0.0010</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">phi</span> <span class="o">=</span> <span class="n">_app_samp_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span> <span class="n">approximate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="sample_entropy"><a class="viewcode-back" href="../../generated/entropy.sample_entropy.html#entropy.sample_entropy">[docs]</a><span class="k">def</span> <span class="nf">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="sample_entropy"><a class="viewcode-back" href="../../generated/antropy.sample_entropy.html#antropy.sample_entropy">[docs]</a><span class="k">def</span> <span class="nf">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Sample Entropy.</span>
 
 <span class="sd">    Parameters</span>
@@ -694,48 +694,48 @@
 <span class="sd">    Fractional Gaussian noise with H = 0.5</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; import entropy as ent</span>
+<span class="sd">    &gt;&gt;&gt; import antropy as ant</span>
 <span class="sd">    &gt;&gt;&gt; import stochastic.processes.noise as sn</span>
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.sample_entropy(x, order=2):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.sample_entropy(x, order=2):.4f}&quot;)</span>
 <span class="sd">    2.1819</span>
 
 <span class="sd">    Same with order = 3 and using the Euclidean distance</span>
 
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.sample_entropy(x, order=3, metric=&#39;euclidean&#39;):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.sample_entropy(x, order=3, metric=&#39;euclidean&#39;):.4f}&quot;)</span>
 <span class="sd">    2.6806</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.9</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.sample_entropy(x):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.sample_entropy(x):.4f}&quot;)</span>
 <span class="sd">    1.9078</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.1</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.sample_entropy(x):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.sample_entropy(x):.4f}&quot;)</span>
 <span class="sd">    2.0555</span>
 
 <span class="sd">    Random</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.sample_entropy(rng.random(1000)):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.sample_entropy(rng.random(1000)):.4f}&quot;)</span>
 <span class="sd">    2.2017</span>
 
 <span class="sd">    Pure sine wave</span>
 
 <span class="sd">    &gt;&gt;&gt; x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.sample_entropy(x):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.sample_entropy(x):.4f}&quot;)</span>
 <span class="sd">    0.1633</span>
 
 <span class="sd">    Linearly-increasing time-series</span>
 
 <span class="sd">    &gt;&gt;&gt; x = np.arange(1000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.sample_entropy(x):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.sample_entropy(x):.4f}&quot;)</span>
 <span class="sd">    -0.0000</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
@@ -780,7 +780,7 @@
     <span class="k">return</span> <span class="n">complexity</span>
 
 
-<div class="viewcode-block" id="lziv_complexity"><a class="viewcode-back" href="../../generated/entropy.lziv_complexity.html#entropy.lziv_complexity">[docs]</a><span class="k">def</span> <span class="nf">lziv_complexity</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="lziv_complexity"><a class="viewcode-back" href="../../generated/antropy.lziv_complexity.html#antropy.lziv_complexity">[docs]</a><span class="k">def</span> <span class="nf">lziv_complexity</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Lempel-Ziv (LZ) complexity of (binary) sequence.</span>
 
@@ -898,7 +898,7 @@
 <span class="c1"># OTHER TIME-DOMAIN METRICS</span>
 <span class="c1">###############################################################################</span>
 
-<div class="viewcode-block" id="num_zerocross"><a class="viewcode-back" href="../../generated/entropy.num_zerocross.html#entropy.num_zerocross">[docs]</a><span class="k">def</span> <span class="nf">num_zerocross</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="num_zerocross"><a class="viewcode-back" href="../../generated/antropy.num_zerocross.html#antropy.num_zerocross">[docs]</a><span class="k">def</span> <span class="nf">num_zerocross</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Number of zero-crossings.</span>
 
 <span class="sd">    .. versionadded: 0.1.3</span>
@@ -924,34 +924,34 @@
 <span class="sd">    Simple examples</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; import entropy as ent</span>
-<span class="sd">    &gt;&gt;&gt; ent.num_zerocross([-1, 0, 1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; import antropy as ant</span>
+<span class="sd">    &gt;&gt;&gt; ant.num_zerocross([-1, 0, 1, 2, 3])</span>
 <span class="sd">    1</span>
 
-<span class="sd">    &gt;&gt;&gt; ent.num_zerocross([0, 0, 2, -1, 0, 1, 0, 2])</span>
+<span class="sd">    &gt;&gt;&gt; ant.num_zerocross([0, 0, 2, -1, 0, 1, 0, 2])</span>
 <span class="sd">    2</span>
 
 <span class="sd">    Number of zero crossings of a pure sine</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; import entropy as ent</span>
+<span class="sd">    &gt;&gt;&gt; import antropy as ant</span>
 <span class="sd">    &gt;&gt;&gt; sf, f, dur = 100, 1, 4</span>
 <span class="sd">    &gt;&gt;&gt; N = sf * dur # Total number of discrete samples</span>
 <span class="sd">    &gt;&gt;&gt; t = np.arange(N) / sf # Time vector</span>
 <span class="sd">    &gt;&gt;&gt; x = np.sin(2 * np.pi * f * t)</span>
-<span class="sd">    &gt;&gt;&gt; ent.num_zerocross(x)</span>
+<span class="sd">    &gt;&gt;&gt; ant.num_zerocross(x)</span>
 <span class="sd">    7</span>
 
 <span class="sd">    Random 2D data</span>
 
 <span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; x = np.random.normal(size=(4, 3000))</span>
-<span class="sd">    &gt;&gt;&gt; ent.num_zerocross(x)</span>
+<span class="sd">    &gt;&gt;&gt; ant.num_zerocross(x)</span>
 <span class="sd">    array([1499, 1528, 1547, 1457])</span>
 
 <span class="sd">    Same but normalized by the number of samples</span>
 
-<span class="sd">    &gt;&gt;&gt; np.round(ent.num_zerocross(x, normalize=True), 4)</span>
+<span class="sd">    &gt;&gt;&gt; np.round(ant.num_zerocross(x, normalize=True), 4)</span>
 <span class="sd">    array([0.4997, 0.5093, 0.5157, 0.4857])</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.5</span>
@@ -959,21 +959,21 @@
 <span class="sd">    &gt;&gt;&gt; import stochastic.processes.noise as sn</span>
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.num_zerocross(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.num_zerocross(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.4973</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.9</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.num_zerocross(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.num_zerocross(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.2615</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.1</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ent.num_zerocross(x, normalize=True):.4f}&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.num_zerocross(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.6451</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -984,7 +984,7 @@
     <span class="k">return</span> <span class="n">nzc</span></div>
 
 
-<div class="viewcode-block" id="hjorth_params"><a class="viewcode-back" href="../../generated/entropy.hjorth_params.html#entropy.hjorth_params">[docs]</a><span class="k">def</span> <span class="nf">hjorth_params</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="hjorth_params"><a class="viewcode-back" href="../../generated/antropy.hjorth_params.html#antropy.hjorth_params">[docs]</a><span class="k">def</span> <span class="nf">hjorth_params</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculate Hjorth mobility and complexity on given axis.</span>
 
 <span class="sd">    .. versionadded: 0.1.3</span>
@@ -1030,19 +1030,19 @@
 <span class="sd">    Hjorth parameters of a pure sine</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; import entropy as ent</span>
+<span class="sd">    &gt;&gt;&gt; import antropy as ant</span>
 <span class="sd">    &gt;&gt;&gt; sf, f, dur = 100, 1, 4</span>
 <span class="sd">    &gt;&gt;&gt; N = sf * dur # Total number of discrete samples</span>
 <span class="sd">    &gt;&gt;&gt; t = np.arange(N) / sf # Time vector</span>
 <span class="sd">    &gt;&gt;&gt; x = np.sin(2 * np.pi * f * t)</span>
-<span class="sd">    &gt;&gt;&gt; np.round(ent.hjorth_params(x), 4)</span>
+<span class="sd">    &gt;&gt;&gt; np.round(ant.hjorth_params(x), 4)</span>
 <span class="sd">    array([0.0627, 1.005 ])</span>
 
 <span class="sd">    Random 2D data</span>
 
 <span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; x = np.random.normal(size=(4, 3000))</span>
-<span class="sd">    &gt;&gt;&gt; mob, com = ent.hjorth_params(x)</span>
+<span class="sd">    &gt;&gt;&gt; mob, com = ant.hjorth_params(x)</span>
 <span class="sd">    &gt;&gt;&gt; print(mob)</span>
 <span class="sd">    [1.42145064 1.4339572  1.42186993 1.40587512]</span>
 
@@ -1054,21 +1054,21 @@
 <span class="sd">    &gt;&gt;&gt; import stochastic.processes.noise as sn</span>
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; np.round(ent.hjorth_params(x), 4)</span>
+<span class="sd">    &gt;&gt;&gt; np.round(ant.hjorth_params(x), 4)</span>
 <span class="sd">    array([1.4073, 1.2283])</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.9</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; np.round(ent.hjorth_params(x), 4)</span>
+<span class="sd">    &gt;&gt;&gt; np.round(ant.hjorth_params(x), 4)</span>
 <span class="sd">    array([0.8395, 1.9143])</span>
 
 <span class="sd">    Fractional Gaussian noise with H = 0.1</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; np.round(ent.hjorth_params(x), 4)</span>
+<span class="sd">    &gt;&gt;&gt; np.round(ant.hjorth_params(x), 4)</span>
 <span class="sd">    array([1.6917, 1.0717])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>

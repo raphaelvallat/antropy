@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>What’s new &#8212; entropy 0.1.3 documentation</title>
+    <title>What’s new &#8212; antropy 0.1.3 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/style.css" />
@@ -14,7 +14,7 @@
     <script src="_static/language_data.js"></script>
     <script src="_static/copybutton.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="shortcut icon" href="_static/entropy.ico"/>
+    <link rel="shortcut icon" href="_static/antropy.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
 <meta charset='utf-8'>
@@ -37,8 +37,8 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html"><span><img src="_static/entropy_128x128.png"></span>
-          entropy</a>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/antropy_128x128.png"></span>
+          antropy</a>
         <span class="navbar-text navbar-version pull-left"><b>0.1.3</b></span>
       </div>
 
@@ -87,27 +87,31 @@
       
   <div class="section" id="what-s-new">
 <span id="changelog"></span><h1>What’s new</h1>
+<div class="section" id="v0-1-4-dev">
+<h2>v0.1.4 (dev)</h2>
+<p>The package has now been renamed AntroPy!</p>
+</div>
 <div class="section" id="v0-1-3-march-2021">
 <h2>v0.1.3 (March 2021)</h2>
 <ol class="loweralpha simple">
-<li><p>Added the <a class="reference internal" href="generated/entropy.num_zerocross.html#entropy.num_zerocross" title="entropy.num_zerocross"><code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.num_zerocross()</span></code></a> function to calculate the (normalized) number of zero-crossings on N-D data.</p></li>
-<li><p>Added the <a class="reference internal" href="generated/entropy.hjorth_params.html#entropy.hjorth_params" title="entropy.hjorth_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.hjorth_params()</span></code></a> function to calculate the mobility and complexity Hjorth parameters on N-D data.</p></li>
-<li><p>Add support for N-D data in <a class="reference internal" href="generated/entropy.spectral_entropy.html#entropy.spectral_entropy" title="entropy.spectral_entropy"><code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.spectral_entropy()</span></code></a>, <a class="reference internal" href="generated/entropy.petrosian_fd.html#entropy.petrosian_fd" title="entropy.petrosian_fd"><code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.petrosian_fd()</span></code></a> and <a class="reference internal" href="generated/entropy.katz_fd.html#entropy.katz_fd" title="entropy.katz_fd"><code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.katz_fd()</span></code></a>.</p></li>
+<li><p>Added the <code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.num_zerocross()</span></code> function to calculate the (normalized) number of zero-crossings on N-D data.</p></li>
+<li><p>Added the <code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.hjorth_params()</span></code> function to calculate the mobility and complexity Hjorth parameters on N-D data.</p></li>
+<li><p>Add support for N-D data in <code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.spectral_entropy()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.petrosian_fd()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.katz_fd()</span></code>.</p></li>
 <li><p>Use the <a class="reference external" href="https://github.com/crflynn/stochastic">stochastic</a> package to generate stochastic time-series.</p></li>
 </ol>
 </div>
 <div class="section" id="v0-1-2-may-2020">
 <h2>v0.1.2 (May 2020)</h2>
 <ol class="loweralpha simple">
-<li><p><a class="reference internal" href="generated/entropy.lziv_complexity.html#entropy.lziv_complexity" title="entropy.lziv_complexity"><code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.lziv_complexity()</span></code></a> now works with non-binary sequence (e.g. “12345” or “Hello World!”)</p></li>
-<li><p>The average fluctuations in <a class="reference internal" href="generated/entropy.detrended_fluctuation.html#entropy.detrended_fluctuation" title="entropy.detrended_fluctuation"><code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.detrended_fluctuation()</span></code></a> is now calculated using the root mean square instead of a simple arithmetic. For more details, please refer to <a class="reference external" href="https://github.com/neuropsychology/NeuroKit/issues/206">this GitHub issue</a>.</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.lziv_complexity()</span></code> now works with non-binary sequence (e.g. “12345” or “Hello World!”)</p></li>
+<li><p>The average fluctuations in <code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.detrended_fluctuation()</span></code> is now calculated using the root mean square instead of a simple arithmetic. For more details, please refer to <a class="reference external" href="https://github.com/neuropsychology/NeuroKit/issues/206">this GitHub issue</a>.</p></li>
 <li><p>Updated flake8</p></li>
 </ol>
 </div>
 <div class="section" id="v0-1-1-november-2019">
 <h2>v0.1.1 (November 2019)</h2>
 <ol class="loweralpha simple">
-<li><p>Added Lempel-Ziv complexity (<a class="reference internal" href="generated/entropy.lziv_complexity.html#entropy.lziv_complexity" title="entropy.lziv_complexity"><code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.lziv_complexity()</span></code></a>) for binary sequence.</p></li>
+<li><p>Added Lempel-Ziv complexity (<code class="xref py py-func docutils literal notranslate"><span class="pre">entropy.lziv_complexity()</span></code>) for binary sequence.</p></li>
 </ol>
 </div>
 <div class="section" id="v0-1-0-october-2018">

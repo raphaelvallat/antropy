@@ -3,6 +3,11 @@
 What's new
 ##########
 
+v0.1.4 (dev)
+------------
+
+The package has now been renamed AntroPy!
+
 v0.1.3 (March 2021)
 -------------------
 

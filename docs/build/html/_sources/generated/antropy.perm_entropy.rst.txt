@@ -1,6 +1,6 @@
-entropy.perm\_entropy
+antropy.perm\_entropy
 =====================
 
-.. currentmodule:: entropy
+.. currentmodule:: antropy
 
 .. autofunction:: perm_entropy

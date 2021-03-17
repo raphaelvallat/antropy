@@ -1,6 +1,6 @@
-entropy.app\_entropy
+antropy.app\_entropy
 ====================
 
-.. currentmodule:: entropy
+.. currentmodule:: antropy
 
 .. autofunction:: app_entropy

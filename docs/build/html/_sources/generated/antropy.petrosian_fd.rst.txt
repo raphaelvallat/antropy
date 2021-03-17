@@ -1,6 +1,6 @@
-entropy.petrosian\_fd
+antropy.petrosian\_fd
 =====================
 
-.. currentmodule:: entropy
+.. currentmodule:: antropy
 
 .. autofunction:: petrosian_fd

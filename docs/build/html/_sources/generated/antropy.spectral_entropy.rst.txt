@@ -1,6 +1,6 @@
-entropy.spectral\_entropy
+antropy.spectral\_entropy
 =========================
 
-.. currentmodule:: entropy
+.. currentmodule:: antropy
 
 .. autofunction:: spectral_entropy

@@ -1,6 +1,6 @@
-entropy.sample\_entropy
+antropy.sample\_entropy
 =======================
 
-.. currentmodule:: entropy
+.. currentmodule:: antropy
 
 .. autofunction:: sample_entropy

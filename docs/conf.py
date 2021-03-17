@@ -73,7 +73,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'entropy'
+project = 'antropy'
 author = 'Raphael Vallat'
 copyright = u'2018-{}, Raphael Vallat'.format(time.strftime("%Y"))
 
@@ -140,13 +140,13 @@ html_theme_options = {
 
     }
 
-html_logo = 'pictures/entropy_128x128.png'
-html_favicon = 'pictures/entropy.ico'
+html_logo = 'pictures/antropy_128x128.png'
+html_favicon = 'pictures/antropy.ico'
 
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'entropydoc'
+htmlhelp_basename = 'antropydoc'
 html_static_path = ['_static']
 html_show_sourcelink = False
 html_add_permalinks = ""
@@ -176,7 +176,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'entropy.tex', 'entropy Documentation',
+    (master_doc, 'antropy.tex', 'antropy Documentation',
      'Raphael Vallat', 'manual'),
 ]
 
@@ -186,7 +186,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'entropy', 'entropy Documentation',
+    (master_doc, 'antropy', 'antropy Documentation',
      [author], 1)
 ]
 
@@ -197,8 +197,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'entropy', 'entropy Documentation',
-     author, 'entropy', 'Entropy of time-series in Python',
+    (master_doc, 'antropy', 'antropy Documentation',
+     author, 'antropy', 'Entropy of time-series in Python',
      'Miscellaneous'),
 ]
 

@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Installation &#8212; entropy 0.1.3 documentation</title>
+    <title>Installation &#8212; antropy 0.1.3 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/style.css" />
@@ -14,7 +14,7 @@
     <script src="_static/language_data.js"></script>
     <script src="_static/copybutton.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="shortcut icon" href="_static/entropy.ico"/>
+    <link rel="shortcut icon" href="_static/antropy.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
 <meta charset='utf-8'>
@@ -37,8 +37,8 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#"><span><img src="_static/entropy_128x128.png"></span>
-          entropy</a>
+        <a class="navbar-brand" href="#"><span><img src="_static/antropy_128x128.png"></span>
+          antropy</a>
         <span class="navbar-text navbar-version pull-left"><b>0.1.3</b></span>
       </div>
 
@@ -89,27 +89,18 @@
 <div class="line"><br /></div>
 </div>
 <a class="reference external image-reference" href="https://www.python.org/downloads/"><img alt="https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8-blue.svg" src="https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8-blue.svg" /></a>
-<a class="reference external image-reference" href="https://github.com/raphaelvallat/entropy/blob/master/LICENSE"><img alt="https://img.shields.io/github/license/raphaelvallat/entropy.svg" src="https://img.shields.io/github/license/raphaelvallat/entropy.svg" /></a>
-<a class="reference external image-reference" href="https://travis-ci.org/raphaelvallat/entropy"><img alt="https://travis-ci.org/raphaelvallat/entropy.svg?branch=master" src="https://travis-ci.org/raphaelvallat/entropy.svg?branch=master" /></a>
-<a class="reference external image-reference" href="https://codecov.io/gh/raphaelvallat/entropy"><img alt="https://codecov.io/gh/raphaelvallat/entropy/branch/master/graph/badge.svg" src="https://codecov.io/gh/raphaelvallat/entropy/branch/master/graph/badge.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/raphaelvallat/antropy/blob/master/LICENSE"><img alt="https://img.shields.io/github/license/raphaelvallat/antropy.svg" src="https://img.shields.io/github/license/raphaelvallat/antropy.svg" /></a>
+<a class="reference external image-reference" href="https://travis-ci.org/raphaelvallat/antropy"><img alt="https://travis-ci.org/raphaelvallat/antropy.svg?branch=master" src="https://travis-ci.org/raphaelvallat/antropy.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://codecov.io/gh/raphaelvallat/antropy"><img alt="https://codecov.io/gh/raphaelvallat/antropy/branch/master/graph/badge.svg" src="https://codecov.io/gh/raphaelvallat/antropy/branch/master/graph/badge.svg" /></a>
 <hr class="docutils" />
 <div class="figure align-center">
-<img alt="https://raw.githubusercontent.com/raphaelvallat/entropy/master/docs/pictures/logo.png" src="https://raw.githubusercontent.com/raphaelvallat/entropy/master/docs/pictures/logo.png" />
+<img alt="https://raw.githubusercontant.com/raphaelvallat/antropy/master/docs/pictures/logo.png" src="https://raw.githubusercontant.com/raphaelvallat/antropy/master/docs/pictures/logo.png" />
 </div>
-<p>EntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of time-series.
+<p>AntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of time-series.
 It can be used for example to extract features from EEG signals.</p>
 <div class="section" id="installation">
 <h1>Installation</h1>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>EntroPy <strong>CANNOT BE INSTALLED WITH PIP OR CONDA</strong>.
-There is already a package called <em>entropy</em> on the <a class="reference external" href="https://pypi.org/project/entropy/">PyPi repository</a>,
-which should NOT be mistaken with the current package.</p>
-</div>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/raphaelvallat/entropy.git entropy/
-<span class="nb">cd</span> entropy/
-pip install -r requirements.txt
-python setup.py develop
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install antropy
 </pre></div>
 </div>
 <p><strong>Dependencies</strong></p>
@@ -125,25 +116,25 @@ python setup.py develop
 <h1>Functions</h1>
 <p><strong>Entropy</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">entropy</span> <span class="k">as</span> <span class="nn">ent</span>
+<span class="kn">import</span> <span class="nn">antropy</span> <span class="k">as</span> <span class="nn">ant</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234567</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">3000</span><span class="p">)</span>
 <span class="c1"># Permutation entropy</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ant</span><span class="o">.</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 <span class="c1"># Spectral entropy</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ant</span><span class="o">.</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;welch&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 <span class="c1"># Singular value decomposition entropy</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">svd_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ant</span><span class="o">.</span><span class="n">svd_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 <span class="c1"># Approximate entropy</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ant</span><span class="o">.</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 <span class="c1"># Sample entropy</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ant</span><span class="o">.</span><span class="n">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 <span class="c1"># Hjorth mobility and complexity</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">hjorth_params</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ant</span><span class="o">.</span><span class="n">hjorth_params</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 <span class="c1"># Number of zero-crossings</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">num_zerocross</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ant</span><span class="o">.</span><span class="n">num_zerocross</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 <span class="c1"># Lempel-Ziv complexity</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">lziv_complexity</span><span class="p">(</span><span class="s1">&#39;01111000011001&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ant</span><span class="o">.</span><span class="n">lziv_complexity</span><span class="p">(</span><span class="s1">&#39;01111000011001&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.9995371694290871</span>
@@ -158,13 +149,13 @@ python setup.py develop
 </div>
 <p><strong>Fractal dimension</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Petrosian fractal dimension</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ant</span><span class="o">.</span><span class="n">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 <span class="c1"># Katz fractal dimension</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ant</span><span class="o">.</span><span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 <span class="c1"># Higuchi fractal dimension</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ant</span><span class="o">.</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 <span class="c1"># Detrended fluctuation analysis</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ent</span><span class="o">.</span><span class="n">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ant</span><span class="o">.</span><span class="n">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.0310643385753608</span>
@@ -177,20 +168,20 @@ python setup.py develop
 <h2>Execution time</h2>
 <p>Here are some benchmarks computed on a MacBook Pro (2020).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">entropy</span> <span class="k">as</span> <span class="nn">ent</span>
+<span class="kn">import</span> <span class="nn">antropy</span> <span class="k">as</span> <span class="nn">ant</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234567</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
 <span class="c1"># Entropy</span>
-<span class="o">%</span><span class="n">timeit</span> <span class="n">ent</span><span class="o">.</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="o">%</span><span class="n">timeit</span> <span class="n">ent</span><span class="o">.</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="o">%</span><span class="n">timeit</span> <span class="n">ent</span><span class="o">.</span><span class="n">svd_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="o">%</span><span class="n">timeit</span> <span class="n">ent</span><span class="o">.</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Slow</span>
-<span class="o">%</span><span class="n">timeit</span> <span class="n">ent</span><span class="o">.</span><span class="n">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Numba</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">ant</span><span class="o">.</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">ant</span><span class="o">.</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">ant</span><span class="o">.</span><span class="n">svd_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">ant</span><span class="o">.</span><span class="n">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Slow</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">ant</span><span class="o">.</span><span class="n">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Numba</span>
 <span class="c1"># Fractal dimension</span>
-<span class="o">%</span><span class="n">timeit</span> <span class="n">ent</span><span class="o">.</span><span class="n">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="o">%</span><span class="n">timeit</span> <span class="n">ent</span><span class="o">.</span><span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="o">%</span><span class="n">timeit</span> <span class="n">ent</span><span class="o">.</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># Numba</span>
-<span class="o">%</span><span class="n">timeit</span> <span class="n">ent</span><span class="o">.</span><span class="n">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># Numba</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">ant</span><span class="o">.</span><span class="n">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">ant</span><span class="o">.</span><span class="n">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">ant</span><span class="o">.</span><span class="n">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># Numba</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">ant</span><span class="o">.</span><span class="n">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># Numba</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>106 µs ± 5.49 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
@@ -208,13 +199,13 @@ python setup.py develop
 </div>
 <div class="section" id="development">
 <h1>Development</h1>
-<p>EntroPy was created and is maintained by <a class="reference external" href="https://raphaelvallat.com">Raphael Vallat</a>. Contributions are more than welcome so feel free to contact me, open an issue or submit a pull request!</p>
-<p>To see the code or report a bug, please visit the <a class="reference external" href="https://github.com/raphaelvallat/entropy">GitHub repository</a>.</p>
+<p>AntroPy was created and is maintained by <a class="reference external" href="https://raphaelvallat.com">Raphael Vallat</a>. Contributions are more than welcome so feel free to contact me, open an issue or submit a pull request!</p>
+<p>To see the code or report a bug, please visit the <a class="reference external" href="https://github.com/raphaelvallat/antropy">GitHub repository</a>.</p>
 <p>Note that this program is provided with <strong>NO WARRANTY OF ANY KIND</strong>. Always double check the results.</p>
 </div>
 <div class="section" id="acknowledgement">
 <h1>Acknowledgement</h1>
-<p>Several functions of EntroPy were adapted from:</p>
+<p>Several functions of AntroPy were adapted from:</p>
 <ul class="simple">
 <li><p>MNE-features: <a class="reference external" href="https://github.com/mne-tools/mne-features">https://github.com/mne-tools/mne-features</a></p></li>
 <li><p>pyEntropy: <a class="reference external" href="https://github.com/nikdon/pyEntropy">https://github.com/nikdon/pyEntropy</a></p></li>

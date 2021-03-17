@@ -1,6 +1,6 @@
-entropy.hjorth\_params
+antropy.hjorth\_params
 ======================
 
-.. currentmodule:: entropy
+.. currentmodule:: antropy
 
 .. autofunction:: hjorth_params

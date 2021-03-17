@@ -1,6 +1,6 @@
-entropy.katz\_fd
+antropy.katz\_fd
 ================
 
-.. currentmodule:: entropy
+.. currentmodule:: antropy
 
 .. autofunction:: katz_fd

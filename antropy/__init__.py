@@ -1,4 +1,4 @@
-# Import EntroPy objects
+# Import AntroPy objects
 from .utils import *
 from .entropy import *
 from .fractal import *

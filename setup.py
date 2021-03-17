@@ -2,15 +2,15 @@
 #
 # Copyright (C) 2018 Raphael Vallat
 
-DESCRIPTION = "EntroPy: entropy of time-series in Python"
-DISTNAME = 'entropy'
+DESCRIPTION = "AntroPy: entropy of time-series in Python"
+DISTNAME = 'antropy'
 MAINTAINER = 'Raphael Vallat'
 MAINTAINER_EMAIL = 'raphaelvallat9@gmail.com'
-URL = 'https://raphaelvallat.com/entropy/build/html/index.html'
+URL = 'https://raphaelvallat.com/antropy/build/html/index.html'
 LICENSE = 'BSD (3-clause)'
-DOWNLOAD_URL = 'https://github.com/raphaelvallat/entropy/'
+DOWNLOAD_URL = 'https://github.com/raphaelvallat/antropy/'
 VERSION = '0.1.3'
-PACKAGE_DATA = {'entropy.data.icons': ['*.ico']}
+PACKAGE_DATA = {'antropy.data.icons': ['*.ico']}
 
 try:
     from setuptools import setup
@@ -65,11 +65,11 @@ if __name__ == "__main__":
           download_url=DOWNLOAD_URL,
           install_requires=install_requires,
           include_package_data=True,
-          packages=['entropy'],
+          packages=['antropy'],
           package_data=PACKAGE_DATA,
           classifiers=[
               'Intended Audience :: Science/Research',
-              'Programming Language :: Python :: 3.6',
+              'Programming Language :: Python',
               'License :: OSI Approved :: BSD License',
               'Topic :: Scientific/Engineering :: Mathematics',
               'Operating System :: POSIX',

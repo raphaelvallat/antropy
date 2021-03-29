@@ -747,36 +747,50 @@
         <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span></div>
 
 
-<span class="nd">@jit</span><span class="p">(</span><span class="s1">&#39;u8(unicode_type)&#39;</span><span class="p">,</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@jit</span><span class="p">(</span><span class="s2">&quot;uint32(uint32[:])&quot;</span><span class="p">,</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_lz_complexity</span><span class="p">(</span><span class="n">binary_string</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Internal Numba implementation of the Lempel-Ziv (LZ) complexity.</span>
-
 <span class="sd">    https://github.com/Naereen/Lempel-Ziv_Complexity/blob/master/src/lziv_complexity.py</span>
+<span class="sd">    - Updated with strict integer typing instead of strings</span>
+<span class="sd">    - Slight restructuring based on Yacine Mahdid&#39;s notebook:</span>
+<span class="sd">    https://github.com/BIAPT/Notebooks/blob/master/features/Lempel-Ziv%20Complexity.ipynb</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
-    <span class="n">v_max</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">binary_string</span><span class="p">)</span>
+    <span class="c1"># Initialize variables</span>
     <span class="n">complexity</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">binary_string</span><span class="p">[</span><span class="n">u</span> <span class="o">+</span> <span class="n">v</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">binary_string</span><span class="p">[</span><span class="n">w</span> <span class="o">+</span> <span class="n">v</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]:</span>
-            <span class="n">v</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">w</span> <span class="o">+</span> <span class="n">v</span> <span class="o">&gt;=</span> <span class="n">length</span><span class="p">:</span>
-                <span class="n">complexity</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">break</span>
+    <span class="n">prefix_len</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">len_substring</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">max_len_substring</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">pointer</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Iterate until the entire string has not been parsed</span>
+    <span class="k">while</span> <span class="n">prefix_len</span> <span class="o">+</span> <span class="n">len_substring</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">binary_string</span><span class="p">):</span>
+        <span class="c1"># Given a prefix length, find the largest substring</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">binary_string</span><span class="p">[</span><span class="n">pointer</span> <span class="o">+</span> <span class="n">len_substring</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="o">==</span> <span class="n">binary_string</span><span class="p">[</span><span class="n">prefix_len</span> <span class="o">+</span> <span class="n">len_substring</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="n">len_substring</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># increase the length of the substring</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">v_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">v_max</span><span class="p">)</span>
-            <span class="n">u</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span class="n">w</span><span class="p">:</span>
+            <span class="n">max_len_substring</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">len_substring</span><span class="p">,</span> <span class="n">max_len_substring</span><span class="p">)</span>
+            <span class="n">pointer</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># Since all pointers have been scanned, pick largest as the jump</span>
+            <span class="c1"># size</span>
+            <span class="k">if</span> <span class="n">pointer</span> <span class="o">==</span> <span class="n">prefix_len</span><span class="p">:</span>
+                <span class="c1"># Increment complexity</span>
                 <span class="n">complexity</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="n">w</span> <span class="o">+=</span> <span class="n">v_max</span>
-                <span class="k">if</span> <span class="n">w</span> <span class="o">&gt;=</span> <span class="n">length</span><span class="p">:</span>
-                    <span class="k">break</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">u</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="n">v</span> <span class="o">=</span> <span class="mi">1</span>
-                    <span class="n">v_max</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">v</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="c1"># Set prefix length to the max substring size found so far</span>
+                <span class="c1"># (jump size)</span>
+                <span class="n">prefix_len</span> <span class="o">+=</span> <span class="n">max_len_substring</span>
+                <span class="c1"># Reset pointer and max substring size</span>
+                <span class="n">pointer</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">max_len_substring</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="c1"># Reset length of current substring</span>
+            <span class="n">len_substring</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># Check if final iteration occurred in the middle of a substring</span>
+    <span class="k">if</span> <span class="n">len_substring</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">complexity</span> <span class="o">+=</span> <span class="mi">1</span>
+
     <span class="k">return</span> <span class="n">complexity</span>
 
 
@@ -823,14 +837,11 @@
 <span class="sd">      IEEE Transactions on Information Theory / Professional Technical</span>
 <span class="sd">      Group on Information Theory, 22(1), 75–81.</span>
 <span class="sd">      https://doi.org/10.1109/TIT.1976.1055501</span>
-
 <span class="sd">    * Zhang, Y., Hao, J., Zhou, C., &amp; Chang, K. (2009). Normalized</span>
 <span class="sd">      Lempel-Ziv complexity and its application in bio-sequence analysis.</span>
 <span class="sd">      Journal of Mathematical Chemistry, 46(4), 1203–1212.</span>
 <span class="sd">      https://doi.org/10.1007/s10910-008-9512-2</span>
-
 <span class="sd">    * https://en.wikipedia.org/wiki/Lempel-Ziv_complexity</span>
-
 <span class="sd">    * https://github.com/Naereen/Lempel-Ziv_Complexity</span>
 
 <span class="sd">    Examples</span>
@@ -841,18 +852,18 @@
 <span class="sd">    &gt;&gt;&gt; lziv_complexity(s)</span>
 <span class="sd">    6</span>
 
-<span class="sd">    Using a list of integer / boolean instead of a string:</span>
+<span class="sd">    Using a list of integer / boolean instead of a string</span>
 
 <span class="sd">    &gt;&gt;&gt; # 1 / 0 / 10</span>
 <span class="sd">    &gt;&gt;&gt; lziv_complexity([1, 0, 1, 0, 1, 0, 1, 0, 1, 0])</span>
 <span class="sd">    3</span>
 
-<span class="sd">    With normalization:</span>
+<span class="sd">    With normalization</span>
 
 <span class="sd">    &gt;&gt;&gt; lziv_complexity(s, normalize=True)</span>
 <span class="sd">    1.5</span>
 
-<span class="sd">    This function also works with characters and words:</span>
+<span class="sd">    This function also works with characters and words</span>
 
 <span class="sd">    &gt;&gt;&gt; s = &#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</span>
 <span class="sd">    &gt;&gt;&gt; lziv_complexity(s), lziv_complexity(s, normalize=True)</span>
@@ -868,11 +879,16 @@
         <span class="n">sequence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sequence</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="s1">&#39;bfi&#39;</span><span class="p">:</span>
             <span class="c1"># Convert [True, False] or [1., 0.] to [1, 0]</span>
-            <span class="n">sequence</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-        <span class="c1"># Convert to a string, e.g. &quot;10001100&quot;</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint32&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Treat as numpy array of strings</span>
+            <span class="c1"># Map string characters to utf-8 integer representation</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))),</span>
+                            <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint32&quot;</span><span class="p">)</span>
+            <span class="c1"># Can&#39;t preallocate length (by specifying count) due to string</span>
+            <span class="c1"># concatenation</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">sequence</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="n">sequence</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint32&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
         <span class="c1"># 1) Timmermann et al. 2019</span>
@@ -887,7 +903,7 @@
         <span class="c1"># return _lz_complexity(s) / _lz_complexity(s_shuffled)</span>
         <span class="c1"># 2) Zhang et al. 2009</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-        <span class="n">base</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">s</span><span class="p">)))</span>  <span class="c1"># Number of unique characters</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Number of unique characters</span>
         <span class="n">base</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">base</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">base</span>
         <span class="k">return</span> <span class="n">_lz_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">base</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>

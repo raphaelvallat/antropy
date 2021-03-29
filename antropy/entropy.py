@@ -676,7 +676,6 @@ def _lz_complexity(binary_string):
 
     # Iterate until the entire string has not been parsed
     while prefix_len + len_substring <= len(binary_string):
-
         # Given a prefix length, find the largest substring
         if (
             binary_string[pointer + len_substring - 1]
@@ -684,23 +683,19 @@ def _lz_complexity(binary_string):
         ):
             len_substring += 1  # increase the length of the substring
         else:
-
             max_len_substring = max(len_substring, max_len_substring)
             pointer += 1
-
-            # Since all pointers have been scanned, pick largest as the jump size
+            # Since all pointers have been scanned, pick largest as the jump
+            # size
             if pointer == prefix_len:
-
                 # Increment complexity
                 complexity += 1
-
-                # Set prefix length to the max substring size found so far (jump size)
+                # Set prefix length to the max substring size found so far
+                # (jump size)
                 prefix_len += max_len_substring
-
                 # Reset pointer and max substring size
                 pointer = 0
                 max_len_substring = 1
-
             # Reset length of current substring
             len_substring = 1
 
@@ -714,7 +709,9 @@ def _lz_complexity(binary_string):
 def lziv_complexity(sequence, normalize=False):
     """
     Lempel-Ziv (LZ) complexity of (binary) sequence.
+
     .. versionadded:: 0.1.1
+
     Parameters
     ----------
     sequence : str or array
@@ -722,6 +719,7 @@ def lziv_complexity(sequence, normalize=False):
         ``[0, 1, 0, 1, 1]``, or ``'Hello World!'``.
     normalize : bool
         If ``True``, returns the normalized LZ (see Notes).
+
     Returns
     -------
     lz : int or float
@@ -729,17 +727,22 @@ def lziv_complexity(sequence, normalize=False):
         substrings encountered as the stream is viewed from the
         beginning to the end. If ``normalize=False``, the output is an
         integer (counts), otherwise the output is a float.
+
     Notes
     -----
     LZ complexity is defined as the number of different substrings encountered
     as the sequence is viewed from begining to the end.
+
     Although the raw LZ is an important complexity indicator, it is heavily
     influenced by sequence length (longer sequence will result in higher LZ).
     Zhang and colleagues (2009) have therefore proposed the normalized LZ,
     which is defined by
+
     .. math:: \\text{LZn} = \\frac{\\text{LZ}}{(n / \\log_b{n})}
+
     where :math:`n` is the length of the sequence and :math:`b` the number of
     unique characters in the sequence.
+
     References
     ----------
     * Lempel, A., & Ziv, J. (1976). On the Complexity of Finite Sequences.
@@ -752,6 +755,7 @@ def lziv_complexity(sequence, normalize=False):
       https://doi.org/10.1007/s10910-008-9512-2
     * https://en.wikipedia.org/wiki/Lempel-Ziv_complexity
     * https://github.com/Naereen/Lempel-Ziv_Complexity
+
     Examples
     --------
     >>> from antropy import lziv_complexity
@@ -759,17 +763,24 @@ def lziv_complexity(sequence, normalize=False):
     >>> s = '1001111011000010'
     >>> lziv_complexity(s)
     6
-    Using a list of integer / boolean instead of a string:
+
+    Using a list of integer / boolean instead of a string
+
     >>> # 1 / 0 / 10
     >>> lziv_complexity([1, 0, 1, 0, 1, 0, 1, 0, 1, 0])
     3
-    With normalization:
+
+    With normalization
+
     >>> lziv_complexity(s, normalize=True)
     1.5
-    This function also works with characters and words:
+
+    This function also works with characters and words
+
     >>> s = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     >>> lziv_complexity(s), lziv_complexity(s, normalize=True)
     (26, 1.0)
+
     >>> s = 'HELLO WORLD! HELLO WORLD! HELLO WORLD! HELLO WORLD!'
     >>> lziv_complexity(s), lziv_complexity(s, normalize=True)
     (11, 0.38596001132145313)
@@ -784,8 +795,10 @@ def lziv_complexity(sequence, normalize=False):
         else:
             # Treat as numpy array of strings
             # Map string characters to utf-8 integer representation
-            s = np.fromiter(map(ord, "".join(sequence.astype(str))), dtype="uint32")
-            # Can't preallocate length (by specifying count) due to string concatenation
+            s = np.fromiter(map(ord, "".join(sequence.astype(str))),
+                            dtype="uint32")
+            # Can't preallocate length (by specifying count) due to string
+            # concatenation
     else:
         s = np.fromiter(map(ord, sequence), dtype="uint32")
 

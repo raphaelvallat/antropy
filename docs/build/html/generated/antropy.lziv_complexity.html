@@ -146,18 +146,18 @@ Journal of Mathematical Chemistry, 46(4), 1203–1212.
 <span class="go">6</span>
 </pre></div>
 </div>
-<p>Using a list of integer / boolean instead of a string:</p>
+<p>Using a list of integer / boolean instead of a string</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># 1 / 0 / 10</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lziv_complexity</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="go">3</span>
 </pre></div>
 </div>
-<p>With normalization:</p>
+<p>With normalization</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lziv_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">1.5</span>
 </pre></div>
 </div>
-<p>This function also works with characters and words:</p>
+<p>This function also works with characters and words</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lziv_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">lziv_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">(26, 1.0)</span>

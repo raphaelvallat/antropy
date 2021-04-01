@@ -3,13 +3,12 @@
 What's new
 ##########
 
-v0.1.4 (dev)
-------------
+v0.1.4 (April 2021)
+-------------------
 
-.. important:: The package has now been renamed AntroPy!
+.. important:: The package has now been renamed AntroPy (previously EntroPy)!
 
-a. Updated :py:func:`antropy.lziv_complexity` using integer arrays with `Numba` in `PR1 <https://github.com/raphaelvallat/entropy/pull/1>`_.
-b. :py:func:`antropy.lziv_complexity` now maps strings to UTF-8 integer representations.
+a. Faster implementation of :py:func:`antropy.lziv_complexity` (see `PR1 <https://github.com/raphaelvallat/entropy/pull/1>`_). Among other improvements, strings are now mapped to UTF-8 integer representations.
 
 v0.1.3 (March 2021)
 -------------------

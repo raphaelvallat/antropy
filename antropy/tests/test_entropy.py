@@ -28,6 +28,10 @@ class TestEntropy(unittest.TestCase):
         # Compare with Bandt and Pompe 2002
         self.assertEqual(np.round(perm_entropy(BANDT_PERM, order=2), 3), 0.918)
         self.assertEqual(np.round(perm_entropy(BANDT_PERM, order=3), 3), 1.522)
+
+        # Average of multiple delays
+        assert isinstance(perm_entropy(
+            RANDOM_TS, order=3, delay=[1, 2, 3]), float)
         # Error
         with self.assertRaises(ValueError):
             perm_entropy(BANDT_PERM, order=4, delay=3)

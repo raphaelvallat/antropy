@@ -20,8 +20,10 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
         One-dimensional time series of shape (n_times)
     order : int
         Order of permutation entropy. Default is 3.
-    delay : int
-        Time delay (lag). Default is 1.
+    delay : int, list, np.ndarray or range
+        Time delay (lag). Default is 1. If multiple values are passed
+        (e.g. [1, 2, 3]), AntroPy will calculate the average permutation
+        entropy across all these delays.
     normalize : bool
         If True, divide by log2(order!) to normalize the entropy between 0
         and 1. Otherwise, return the permutation entropy in bit.
@@ -80,26 +82,18 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     >>> print(f"{ant.perm_entropy(x, normalize=True):.4f}")
     0.5888
 
-    Fractional Gaussian noise with H = 0.5
-
+    Fractional Gaussian noise with H = 0.5, averaged across multiple delays
     >>> rng = np.random.default_rng(seed=42)
     >>> x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
-    >>> print(f"{ant.perm_entropy(x, normalize=True):.4f}")
-    0.9998
+    >>> print(f"{ant.perm_entropy(x, delay=[1, 2, 3], normalize=True):.4f}")
+    0.9999
 
-    Fractional Gaussian noise with H = 0.9
-
-    >>> rng = np.random.default_rng(seed=42)
-    >>> x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)
-    >>> print(f"{ant.perm_entropy(x, normalize=True):.4f}")
-    0.9926
-
-    Fractional Gaussian noise with H = 0.1
+    Fractional Gaussian noise with H = 0.1, averaged across multiple delays
 
     >>> rng = np.random.default_rng(seed=42)
     >>> x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)
-    >>> print(f"{ant.perm_entropy(x, normalize=True):.4f}")
-    0.9959
+    >>> print(f"{ant.perm_entropy(x, delay=[1, 2, 3], normalize=True):.4f}")
+    0.9986
 
     Random
 
@@ -119,9 +113,14 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     >>> print(f"{ant.perm_entropy(x, normalize=True):.4f}")
     -0.0000
     """
+    # If multiple delay are passed, return the average across all d
+    if isinstance(delay, (list, np.ndarray, range)):
+        return np.mean([perm_entropy(x, order=order, delay=d,
+                        normalize=normalize) for d in delay])
     x = np.array(x)
     ran_order = range(order)
     hashmult = np.power(order, ran_order)
+    assert delay > 0, "delay must be greater than zero."
     # Embed x and sort the order of permutations
     sorted_idx = _embed(x, order=order, delay=delay).argsort(kind='quicksort')
     # Associate unique integer to each permutations

@@ -3,6 +3,11 @@
 What's new
 ##########
 
+v0.1.5 (dev)
+------------
+
+a. :py:func:`antropy.perm_entropy` will now return the average entropy across all delays if a list or range of delays is provided.
+
 v0.1.4 (April 2021)
 -------------------
 

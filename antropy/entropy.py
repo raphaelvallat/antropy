@@ -129,7 +129,7 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     _, c = np.unique(hashval, return_counts=True)
     # Use np.true_divide for Python 2 compatibility
     p = np.true_divide(c, c.sum())
-    pe = -np.multiply(p, np.log2(p)).sum()
+    pe = -_xlog2x(p).sum()
     if normalize:
         pe /= np.log2(factorial(order))
     return pe
@@ -245,7 +245,7 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False,
     elif method == 'welch':
         _, psd = welch(x, sf, nperseg=nperseg, axis=axis)
     psd_norm = psd / psd.sum(axis=axis, keepdims=True)
-    se = -(psd_norm * np.log2(psd_norm)).sum(axis=axis)
+    se = -_xlog2x(psd_norm).sum(axis=axis)
     if normalize:
         se /= np.log2(psd_norm.shape[axis])
     return se
@@ -358,7 +358,7 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
     W = np.linalg.svd(mat, compute_uv=False)
     # Normalize the singular values
     W /= sum(W)
-    svd_e = -np.multiply(W, np.log2(W)).sum()
+    svd_e = -_xlog2x(W).sum()
     if normalize:
         svd_e /= np.log2(order)
     return svd_e
@@ -703,6 +703,15 @@ def _lz_complexity(binary_string):
         complexity += 1
 
     return complexity
+
+
+@np.vectorize
+def _xlog2x(x):
+    """Returns x log2 x if x is positive, 0 if x == 0, and np.nan
+    otherwise. This handles the case when the power spectrum density
+    takes any zero value.
+    """
+    return 0.0 if x == 0 else x * np.log2(x)
 
 
 def lziv_complexity(sequence, normalize=False):

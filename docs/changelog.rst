@@ -7,6 +7,7 @@ v0.1.5 (dev)
 ------------
 
 a. :py:func:`antropy.perm_entropy` will now return the average entropy across all delays if a list or range of delays is provided.
+b. Handle the limit of p = 0 in functions that evaluate the product p * log2(p), to give 0 instead of nan (see `PR3 <https://github.com/raphaelvallat/antropy/pull/3>`_).
 
 v0.1.4 (April 2021)
 -------------------

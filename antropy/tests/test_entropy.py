@@ -135,3 +135,12 @@ class TestEntropy(unittest.TestCase):
         # 2D data (avoid warning with flat line variance)
         assert_equal(aal(hjorth_params, axis=-1, arr=data[:-1, :]).T,
                      hjorth_params(data[:-1, :], axis=-1))
+
+    def test_xlog2x_handles_zero(self):
+        assert_equal(_xlog2x(0), 0)
+
+    def test_xlog2x_handles_array(self):
+        np.testing.assert_allclose(
+            _xlog2x(np.array([0, 0.25, 1, 2, 3, 4, -1])),
+            np.array([0, -0.5, 0, 2, 4.754887502163468, 8, np.nan])
+        )

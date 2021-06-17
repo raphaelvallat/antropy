@@ -1,3 +1,4 @@
+"""Test entropy functions."""
 import unittest
 import numpy as np
 from numpy.testing import assert_equal
@@ -5,6 +6,8 @@ from numpy import apply_along_axis as aal
 from antropy import (perm_entropy, spectral_entropy, svd_entropy,
                      sample_entropy, app_entropy, lziv_complexity,
                      num_zerocross, hjorth_params)
+
+from antropy.utils import _xlog2x
 
 np.random.seed(1234567)
 RANDOM_TS = np.random.rand(3000)

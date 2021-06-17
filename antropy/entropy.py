@@ -5,7 +5,7 @@ from math import factorial, log
 from sklearn.neighbors import KDTree
 from scipy.signal import periodogram, welch
 
-from .utils import _embed
+from .utils import _embed, _xlog2x
 
 all = ['perm_entropy', 'spectral_entropy', 'svd_entropy', 'app_entropy',
        'sample_entropy', 'lziv_complexity', 'num_zerocross', 'hjorth_params']
@@ -703,15 +703,6 @@ def _lz_complexity(binary_string):
         complexity += 1
 
     return complexity
-
-
-@np.vectorize
-def _xlog2x(x):
-    """Returns x log2 x if x is positive, 0 if x == 0, and np.nan
-    otherwise. This handles the case when the power spectrum density
-    takes any zero value.
-    """
-    return 0.0 if x == 0 else x * np.log2(x)
 
 
 def lziv_complexity(sequence, normalize=False):

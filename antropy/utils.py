@@ -3,7 +3,7 @@ import numpy as np
 from numba import jit
 from math import log, floor
 
-all = ['_embed', '_linear_regression', '_log_n']
+all = ['_embed', '_linear_regression', '_log_n', '_xlog2x']
 
 
 def _embed(x, order=3, delay=1):
@@ -102,3 +102,12 @@ def _log_n(min_n, max_n, factor):
         if n > ns[-1]:
             ns.append(n)
     return np.array(ns, dtype=np.int64)
+
+
+@np.vectorize
+def _xlog2x(x):
+    """Returns x log2 x if x is positive, 0 if x == 0, and np.nan
+    otherwise. This handles the case when the power spectrum density
+    takes any zero value.
+    """
+    return 0.0 if x == 0 else x * np.log2(x)

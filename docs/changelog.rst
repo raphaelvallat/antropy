@@ -3,6 +3,12 @@
 What's new
 ##########
 
+v0.1.5 (June 2021)
+------------------
+
+a. Handle the limit of p = 0 in functions that evaluate the product p * log2(p), to give 0 instead of nan.
+
+
 v0.1.4 (April 2021)
 -------------------
 

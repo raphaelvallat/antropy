@@ -104,9 +104,10 @@ def _log_n(min_n, max_n, factor):
     return np.array(ns, dtype=np.int64)
 
 
+@jit(nopython=True)
 def _xlog2x(x):
     """Returns x log2 x if x is positive, 0 if x == 0, and np.nan
     otherwise. This handles the case when the power spectrum density
     takes any zero value.
     """
-    return np.nan_to_num(x * np.log2(x), nan=0.0)
+    return np.where(x == 0, 0, x * np.log2(x))

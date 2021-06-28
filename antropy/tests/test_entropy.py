@@ -7,7 +7,7 @@ from antropy import (perm_entropy, spectral_entropy, svd_entropy,
                      sample_entropy, app_entropy, lziv_complexity,
                      num_zerocross, hjorth_params)
 
-from antropy.utils import _xlog2x
+from antropy.utils import _xlogx
 
 np.random.seed(1234567)
 RANDOM_TS = np.random.rand(3000)
@@ -139,11 +139,29 @@ class TestEntropy(unittest.TestCase):
         assert_equal(aal(hjorth_params, axis=-1, arr=data[:-1, :]).T,
                      hjorth_params(data[:-1, :], axis=-1))
 
-    def test_xlog2x_handles_zero(self):
-        assert_equal(_xlog2x(0), 0)
+    def test_xlogx_handles_zero(self):
+        assert_equal(_xlogx(0), 0)
 
-    def test_xlog2x_handles_array(self):
+    def test_xlogx_handles_array(self):
         np.testing.assert_allclose(
-            _xlog2x(np.array([0, 0.25, 1, 2, 3, 4, -1])),
+            _xlogx(np.array([0, 0.25, 1, 2, 3, 4, -1])),
             np.array([0, -0.5, 0, 2, 4.754887502163468, 8, np.nan])
+        )
+
+    def test_xlogx_handles_2d_array(self):
+        np.testing.assert_allclose(
+            _xlogx(np.array([
+                [0, 0.25, 1, 2, 3, 4, -1],
+                [-1, 0, 3, 4, -1, 0, 3]
+            ])),
+            np.array([
+                [0, -0.5, 0, 2, 4.754887502163468, 8, np.nan],
+                [np.nan, 0, 4.754887502163468, 8, np.nan, 0, 4.754887502163468]
+            ])
+        )
+
+    def test_xlogx_accepts_other_base(self):
+        np.testing.assert_allclose(
+            _xlogx(np.array([0, 1, 3, 9, -1]), base=3),
+            np.array([0, 0, 3, 18, np.nan])
         )

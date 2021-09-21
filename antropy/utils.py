@@ -109,4 +109,9 @@ def _xlogx(x, base=2):
     otherwise. This handles the case when the power spectrum density
     takes any zero value.
     """
-    return np.where(x == 0, 0, x * np.log(x) / np.log(base))
+    x = np.asarray(x)
+    xlogx = np.zeros(x.shape)
+    xlogx[x < 0] = np.nan
+    valid = x > 0
+    xlogx[valid] = x[valid] * np.log(x[valid]) / np.log(base)
+    return xlogx

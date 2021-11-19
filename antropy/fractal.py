@@ -1,6 +1,6 @@
 """Fractal functions"""
 import numpy as np
-from numba import jit
+from numba import jit, types
 from math import log, floor
 
 from .entropy import num_zerocross
@@ -194,7 +194,7 @@ def katz_fd(x, axis=-1):
     return kfd
 
 
-@jit('float64(float64[:], int32)')
+@jit((types.Array(types.float64, 1, 'C', readonly=True), types.int32))
 def _higuchi_fd(x, kmax):
     """Utility function for `higuchi_fd`.
     """

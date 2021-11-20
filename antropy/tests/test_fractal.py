@@ -44,6 +44,10 @@ class TestEntropy(unittest.TestCase):
         """
         # Compare with MNE-features
         self.assertEqual(np.round(higuchi_fd(RANDOM_TS), 8), 1.9914198)
+        # Check if readonly arrays can be processed as well
+        x = RANDOM_TS.copy().astype(np.float64)
+        x.flags.writeable = False
+        self.assertEqual(np.round(higuchi_fd(x), 8), 1.9914198)
         higuchi_fd(list(RANDOM_TS), kmax=20)
 
     def test_detrended_fluctuation(self):

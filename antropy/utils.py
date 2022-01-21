@@ -6,13 +6,12 @@ from math import log, floor
 all = ['_embed', '_linear_regression', '_log_n', '_xlog2x']
 
 
-def _embed(x, order=3, delay=1):
+def _embed_modified(x, order=3, delay=1):
     """Time-delay embedding.
 
     Parameters
     ----------
-    x : 2d-array
-        Time series, of shape (signal_indice, n_times)
+    x : 1D-array of shape (n_times) or 2D-array of shape (signal_indice, n_times)
     order : int
         Embedding dimension (order).
     delay : int
@@ -20,36 +19,55 @@ def _embed(x, order=3, delay=1):
 
     Returns
     -------
-    embedded : 3D array
+    embedded : 2D-array (if x is 1D)
+        Embedded time-series, of shape (n_times - (order - 1) * delay, order)
+    embedded : 3D-array if (x is 2D)
         Embedded time-series, of shape (signal_indice, n_times - (order - 1) * delay, order_num) 
     """
-    
+
+    assert type(order) == int, "order must be integer!"
+    # check order is int
+
     N = x.shape[-1]
-    # define the singal length
-    
     if order * delay > N:
         raise ValueError("Error: order * delay should be lower than x.size")
     if delay < 1:
         raise ValueError("Delay has to be at least 1.")
     if order < 2:
         raise ValueError("Order has to be at least 2.")
-        
-    Y = []
-    # pre-defiend an empty list to store numpy.array (concatenate with a list is faster)
-    embed_signal_length = N - (order - 1) * delay
-    # define the new signal length
-    indice = [[(i * delay), (i * delay)] for i in range(order)]
-    # generate a list of slice indice on input signal
-    for i in range(order):
+    # check parameters
+
+    if x.ndim == 1:
+    # pass 1D array
+
+        Y = np.zeros((order, N - (order - 1) * delay))
+        for i in range(order):
+            Y[i] = x[(i * delay):(i * delay + Y.shape[1])]
+        return Y.T
+
+    else:
+    # pass 2D array
+
+        Y = []
+        # pre-defiend an empty list to store numpy.array (concatenate with a list is faster)
+
+        embed_signal_length = N - (order - 1) * delay
+        # define the new signal length
+
+        indice = [[(i * delay), (i * delay+embed_signal_length)] for i in range(order)]
+        # generate a list of slice indice on input signal
+
+        for i in range(order):
         # loop with the order
-        temp = x[:, indice[i][0]: indice[i][1]].reshape(-1, length, 1)
-        # slicing the signal with the indice of each order (vectorized operation)
-        Y.append(temp)
-        # append the sliced signal to list 
-        
-    Y = np.concatenate(Y, axis=-1)
-    # concatenate the sliced signal to a 3D array (signal_indice, n_times - (order - 1) * delay, order_num) 
-    return Y
+            temp = x[:, indice[i][0]: indice[i][1]].reshape(-1, embed_signal_length, 1)
+            # slicing the signal with the indice of each order (vectorized operation)
+
+            Y.append(temp)
+            # append the sliced signal to list 
+
+        Y = np.concatenate(Y, axis=-1)
+        # concatenate the sliced signal to a 3D array (signal_indice, n_times - (order - 1) * delay, order_num) 
+        return Y
 
 
 @jit('UniTuple(float64, 2)(float64[:], float64[:])', nopython=True)

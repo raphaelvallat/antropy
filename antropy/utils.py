@@ -6,7 +6,7 @@ from math import log, floor
 all = ['_embed', '_linear_regression', '_log_n', '_xlog2x']
 
 
-def _embed_modified(x, order=3, delay=1):
+def _embed(x, order=3, delay=1):
     """Time-delay embedding.
 
     Parameters

@@ -202,12 +202,12 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False,
     >>> np.random.seed(42)
     >>> x = np.random.rand(3000)
     >>> ant.spectral_entropy(x, sf=100, method='welch')
-    6.980045662371389
+    6.98004566237139
 
     Normalized spectral entropy
 
     >>> ant.spectral_entropy(x, sf=100, method='welch', normalize=True)
-    0.9955526198316071
+    0.9955526198316073
 
     Normalized spectral entropy of 2D data
 

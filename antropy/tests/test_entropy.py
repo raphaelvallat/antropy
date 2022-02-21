@@ -25,9 +25,8 @@ data = np.vstack((RANDOM_TS, NORMAL_TS, PURE_SINE, ARANGE))
 class TestEntropy(unittest.TestCase):
 
     def test_perm_entropy(self):
-        self.assertEqual(np.round(perm_entropy(RANDOM_TS, order=3,
-                                               delay=1, normalize=True), 1),
-                         1.0)
+        self.assertEqual(np.round(
+            perm_entropy(RANDOM_TS, order=3, delay=1, normalize=True), 1), 1.0)
         # Compare with Bandt and Pompe 2002
         self.assertEqual(np.round(perm_entropy(BANDT_PERM, order=2), 3), 0.918)
         self.assertEqual(np.round(perm_entropy(BANDT_PERM, order=3), 3), 1.522)
@@ -47,13 +46,12 @@ class TestEntropy(unittest.TestCase):
         spectral_entropy(RANDOM_TS, SF_TS, method='fft')
         spectral_entropy(RANDOM_TS, SF_TS, method='welch')
         spectral_entropy(RANDOM_TS, SF_TS, method='welch', nperseg=400)
-        self.assertEqual(np.round(spectral_entropy(RANDOM_TS, SF_TS,
-                                                   normalize=True), 1), 0.9)
+        self.assertEqual(np.round(spectral_entropy(RANDOM_TS, SF_TS, normalize=True), 1), 0.9)
         self.assertEqual(np.round(spectral_entropy(PURE_SINE, 100), 2), 0.0)
         # 2D data
         params = dict(sf=SF_TS, normalize=True, method='welch', nperseg=100)
-        assert_equal(aal(spectral_entropy, axis=1, arr=data, **params),
-                     spectral_entropy(data, **params))
+        assert_equal(
+            aal(spectral_entropy, axis=1, arr=data, **params), spectral_entropy(data, **params))
 
     def test_svd_entropy(self):
         svd_entropy(RANDOM_TS, order=3, delay=1, normalize=False)
@@ -136,8 +134,8 @@ class TestEntropy(unittest.TestCase):
         assert mob_sine < mob
         assert com_sine < com
         # 2D data (avoid warning with flat line variance)
-        assert_equal(aal(hjorth_params, axis=-1, arr=data[:-1, :]).T,
-                     hjorth_params(data[:-1, :], axis=-1))
+        assert_equal(
+            aal(hjorth_params, axis=-1, arr=data[:-1, :]).T, hjorth_params(data[:-1, :], axis=-1))
 
     def test_xlogx_handles_zero(self):
         assert_equal(_xlogx(0), 0)
@@ -162,6 +160,4 @@ class TestEntropy(unittest.TestCase):
 
     def test_xlogx_accepts_other_base(self):
         np.testing.assert_allclose(
-            _xlogx(np.array([0, 1, 3, 9, -1]), base=3),
-            np.array([0, 0, 3, 18, np.nan])
-        )
+            _xlogx(np.array([0, 1, 3, 9, -1]), base=3), np.array([0, 0, 3, 18, np.nan]))

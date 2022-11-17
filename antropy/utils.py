@@ -4,7 +4,7 @@ from numba import jit
 from math import log, floor
 
 all = ['_embed', '_linear_regression', '_log_n', '_xlog2x']
-epsilon = 10e-9
+# epsilon = 10e-9
 
 
 def _embed(x, order=3, delay=1):
@@ -86,7 +86,7 @@ def _linear_regression(x, y):
         sy += y[j]
     den = n_times * sx2 - (sx ** 2)
     num = n_times * sxy - sx * sy
-    slope = num / (den + epsilon)
+    slope = num / den
     intercept = np.mean(y) - slope * np.mean(x)
     return slope, intercept
 

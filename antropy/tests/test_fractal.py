@@ -11,7 +11,6 @@ NORMAL_TS = np.random.normal(size=3000)
 RANDOM_TS_LONG = np.random.rand(6000)
 SF_TS = 100
 PURE_SINE = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
-PURE_SINE2 = np.sin(2 * np.pi * 1 * np.arange(12) / 8)
 ARANGE = np.arange(3000)
 PPG_SIGNAL = np.array([-4.18272436e-07, 4.29464204e-07, -5.14206643e-06, 1.66113061e-05, 2.80120692e-05, 8.83404336e-05, 1.98141181e-04, -2.88309770e-05,
                        1.97888389e-04, -1.23435636e-03, -7.56440358e-04, -2.97200186e-03, -1.34446557e-03, 8.17779135e-04, 2.52697129e-03, 1.52477197e-02,

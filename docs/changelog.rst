@@ -3,6 +3,11 @@
 What's new
 ##########
 
+v0.1.6 (November 2022)
+------------
+
+a. :py:func:`antropy.detrended_fluctuation` will now return alpha = 0 when the coefficient of correlation of the fluctuations (in linear regression) of an input signal is 0 (see `PR21 <https://github.com/raphaelvallat/antropy/pull/21>`_).
+
 v0.1.5 (dev)
 ------------
 

@@ -3,16 +3,12 @@
 What's new
 ##########
 
-v0.1.6 (November 2022)
-------------
-
-a. :py:func:`antropy.detrended_fluctuation` will now return alpha = 0 when the coefficient of correlation of the fluctuations (in linear regression) of an input signal is 0 (see `PR21 <https://github.com/raphaelvallat/antropy/pull/21>`_).
-
 v0.1.5 (dev)
 ------------
 
 a. :py:func:`antropy.perm_entropy` will now return the average entropy across all delays if a list or range of delays is provided.
 b. Handle the limit of p = 0 in functions that evaluate the product p * log2(p), to give 0 instead of nan (see `PR3 <https://github.com/raphaelvallat/antropy/pull/3>`_).
+c. :py:func:`antropy.detrended_fluctuation` will now return alpha = 0 when the correlation coefficient of the fluctuations of an input signal is 0 (see `PR21 <https://github.com/raphaelvallat/antropy/pull/21>`_).
 
 v0.1.4 (April 2021)
 -------------------

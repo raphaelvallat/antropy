@@ -1,4 +1,4 @@
-antropy.svd\_entropy
+﻿antropy.svd\_entropy
 ====================
 
 .. currentmodule:: antropy

@@ -1,4 +1,4 @@
-antropy.lziv\_complexity
+﻿antropy.lziv\_complexity
 ========================
 
 .. currentmodule:: antropy

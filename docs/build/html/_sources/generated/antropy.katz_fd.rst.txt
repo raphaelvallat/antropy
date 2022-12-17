@@ -1,4 +1,4 @@
-antropy.katz\_fd
+﻿antropy.katz\_fd
 ================
 
 .. currentmodule:: antropy

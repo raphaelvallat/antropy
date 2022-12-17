@@ -1,4 +1,4 @@
-antropy.sample\_entropy
+﻿antropy.sample\_entropy
 =======================
 
 .. currentmodule:: antropy

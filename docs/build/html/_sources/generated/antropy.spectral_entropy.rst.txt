@@ -1,4 +1,4 @@
-antropy.spectral\_entropy
+﻿antropy.spectral\_entropy
 =========================
 
 .. currentmodule:: antropy

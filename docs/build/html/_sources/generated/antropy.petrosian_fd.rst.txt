@@ -1,4 +1,4 @@
-antropy.petrosian\_fd
+﻿antropy.petrosian\_fd
 =====================
 
 .. currentmodule:: antropy

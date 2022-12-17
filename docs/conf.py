@@ -48,6 +48,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     # 'plot_generator',
     # 'plot_directive',
+    "sphinx_copybutton",
     "numpydoc",
 ]
 
@@ -55,14 +56,16 @@ extensions = [
 autosummary_generate = True
 numpydoc_show_class_members = False
 
+# configure sphinx-copybutton
+# https://github.com/executablebooks/sphinx-copybutton
+copybutton_prompt_text = r">>> |\.\.\. |\$ "
+copybutton_prompt_is_regexp = True
+
 # Include the example source for plots in API docs
 plot_include_source = True
 plot_formats = [("png", 90)]
 plot_html_show_formats = False
 plot_html_show_source_link = False
-
-# Add any paths that contain templates here, relative to this directory.
-templates_path = ["_templates"]
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -93,7 +96,7 @@ release = antropy.__version__
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -129,15 +132,16 @@ html_theme = "bootstrap"
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 html_theme_options = {
     "source_link_position": "footer",
-    "bootswatch_theme": "readable",
+    "bootswatch_theme": "cosmo",
     "navbar_sidebarrel": False,
     "nosidebar": True,
     "navbar_pagenav": False,
     "bootstrap_version": "3",
-    "navbar_links": [("Functions", "api"), ("What's new", "changelog")],
+    "navbar_class": "navbar",
+    "navbar_links": [("API", "api"), ("What's new", "changelog")],
 }
 
-html_logo = "pictures/antropy_128x128.png"
+# html_logo = "pictures/antropy_128x128.png"
 html_favicon = "pictures/antropy.ico"
 
 # -- Options for HTMLHelp output ------------------------------------------
@@ -146,64 +150,10 @@ html_favicon = "pictures/antropy.ico"
 htmlhelp_basename = "antropydoc"
 html_static_path = ["_static"]
 html_show_sourcelink = False
-html_add_permalinks = ""
+templates_path = ["templates"]  # To remove the searchbar
 
-
-# -- Options for LaTeX output ---------------------------------------------
-
-latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
-}
-
-# Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title,
-#  author, documentclass [howto, manual, or own class]).
-latex_documents = [
-    (master_doc, "antropy.tex", "antropy Documentation", "Raphael Vallat", "manual"),
-]
-
-
-# -- Options for manual page output ---------------------------------------
-
-# One entry per manual page. List of tuples
-# (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "antropy", "antropy Documentation", [author], 1)]
-
-
-# -- Options for Texinfo output -------------------------------------------
-
-# Grouping the document tree into Texinfo files. List of tuples
-# (source start file, target name, title, author,
-#  dir menu entry, description, category)
-texinfo_documents = [
-    (
-        master_doc,
-        "antropy",
-        "antropy Documentation",
-        author,
-        "antropy",
-        "Entropy and complexity of time-series in Python",
-        "Miscellaneous",
-    ),
-]
-
-# Add the 'copybutton' javascript, to hide/show the prompt in code
-# examples, originally taken from scikit-learn's doc/conf.py
 def setup(app):
-    app.add_javascript("copybutton.js")
-    app.add_stylesheet("style.css")
-
+    app.add_css_file("style.css")
 
 # -- Intersphinx ------------------------------------------------
 

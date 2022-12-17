@@ -1,4 +1,4 @@
-antropy.detrended\_fluctuation
+﻿antropy.detrended\_fluctuation
 ==============================
 
 .. currentmodule:: antropy

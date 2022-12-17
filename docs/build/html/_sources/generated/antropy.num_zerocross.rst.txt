@@ -1,4 +1,4 @@
-antropy.num\_zerocross
+﻿antropy.num\_zerocross
 ======================
 
 .. currentmodule:: antropy

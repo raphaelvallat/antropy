@@ -1,4 +1,4 @@
-antropy.hjorth\_params
+﻿antropy.hjorth\_params
 ======================
 
 .. currentmodule:: antropy

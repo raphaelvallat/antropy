@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>antropy.perm_entropy &#8212; antropy 0.1.4 documentation</title>
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>antropy.perm_entropy &#8212; antropy 0.1.5 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="shortcut icon" href="../_static/antropy.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -21,10 +24,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
-<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -37,15 +40,15 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="../index.html"><span><img src="../_static/antropy_128x128.png"></span>
+        <a class="navbar-brand" href="../index.html">
           antropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
             
-                <li><a href="../api.html">Functions</a></li>
+                <li><a href="../api.html">API</a></li>
                 <li><a href="../changelog.html">What's new</a></li>
             
             
@@ -69,13 +72,6 @@
 
           
             
-<form class="navbar-form navbar-right" action="../search.html" method="get">
- <div class="form-group">
-  <input type="text" name="q" class="form-control" placeholder="Search" />
- </div>
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
           
         </div>
     </div>
@@ -85,11 +81,11 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="antropy-perm-entropy">
-<h1>antropy.perm_entropy</h1>
+  <section id="antropy-perm-entropy">
+<h1>antropy.perm_entropy<a class="headerlink" href="#antropy-perm-entropy" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="antropy.perm_entropy">
-<code class="sig-prename descclassname">antropy.</code><code class="sig-name descname">perm_entropy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">delay</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/antropy/entropy.html#perm_entropy"><span class="viewcode-link">[source]</span></a></dt>
+<dt class="sig sig-object py" id="antropy.perm_entropy">
+<span class="sig-prename descclassname"><span class="pre">antropy.</span></span><span class="sig-name descname"><span class="pre">perm_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/antropy/entropy.html#perm_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#antropy.perm_entropy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Permutation Entropy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -98,7 +94,9 @@
 </dd>
 <dt><strong>order</strong><span class="classifier">int</span></dt><dd><p>Order of permutation entropy. Default is 3.</p>
 </dd>
-<dt><strong>delay</strong><span class="classifier">int</span></dt><dd><p>Time delay (lag). Default is 1.</p>
+<dt><strong>delay</strong><span class="classifier">int, list, np.ndarray or range</span></dt><dd><p>Time delay (lag). Default is 1. If multiple values are passed
+(e.g. [1, 2, 3]), AntroPy will calculate the average permutation
+entropy across all these delays.</p>
 </dd>
 <dt><strong>normalize</strong><span class="classifier">bool</span></dt><dd><p>If True, divide by log2(order!) to normalize the entropy between 0
 and 1. Otherwise, return the permutation entropy in bit.</p>
@@ -152,25 +150,16 @@ natural complexity measure for time series.” Physical review letters
 <span class="go">0.5888</span>
 </pre></div>
 </div>
-<p>Fractional Gaussian noise with H = 0.5</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">FractionalGaussianNoise</span><span class="p">(</span><span class="n">hurst</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">0.9998</span>
-</pre></div>
-</div>
-<p>Fractional Gaussian noise with H = 0.9</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">FractionalGaussianNoise</span><span class="p">(</span><span class="n">hurst</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">0.9926</span>
-</pre></div>
-</div>
-<p>Fractional Gaussian noise with H = 0.1</p>
+<p>Fractional Gaussian noise with H = 0.5, averaged across multiple delays
+&gt;&gt;&gt; rng = np.random.default_rng(seed=42)
+&gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
+&gt;&gt;&gt; print(f”{ant.perm_entropy(x, delay=[1, 2, 3], normalize=True):.4f}”)
+0.9999</p>
+<p>Fractional Gaussian noise with H = 0.1, averaged across multiple delays</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">FractionalGaussianNoise</span><span class="p">(</span><span class="n">hurst</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">0.9959</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ant</span><span class="o">.</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">0.9986</span>
 </pre></div>
 </div>
 <p>Random</p>
@@ -193,7 +182,7 @@ natural complexity measure for time series.” Physical review letters
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
     </div>
@@ -210,8 +199,8 @@ natural complexity measure for time series.” Physical review letters
       
     </p>
     <p>
-        &copy; Copyright 2018-2021, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.<br/>
+        &copy; Copyright 2018-2022, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br/>
     </p>
   </div>
 </footer>

@@ -1,4 +1,4 @@
-antropy.higuchi\_fd
+﻿antropy.higuchi\_fd
 ===================
 
 .. currentmodule:: antropy

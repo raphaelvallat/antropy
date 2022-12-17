@@ -1,4 +1,4 @@
-antropy.app\_entropy
+﻿antropy.app\_entropy
 ====================
 
 .. currentmodule:: antropy

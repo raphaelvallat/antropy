@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>antropy.entropy &#8212; antropy 0.1.4 documentation</title>
-    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>antropy.entropy &#8212; antropy 0.1.5 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../../_static/antropy.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -21,10 +22,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
-<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -39,13 +40,13 @@
         </button>
         <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/antropy_128x128.png"></span>
           antropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
             
-                <li><a href="../../api.html">Functions</a></li>
+                <li><a href="../../api.html">API</a></li>
                 <li><a href="../../changelog.html">What's new</a></li>
             
             
@@ -69,13 +70,6 @@
 
           
             
-<form class="navbar-form navbar-right" action="../../search.html" method="get">
- <div class="form-group">
-  <input type="text" name="q" class="form-control" placeholder="Search" />
- </div>
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
           
         </div>
     </div>
@@ -93,10 +87,18 @@
 <span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KDTree</span>
 <span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">periodogram</span><span class="p">,</span> <span class="n">welch</span>
 
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">_embed</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">_embed</span><span class="p">,</span> <span class="n">_xlogx</span>
 
-<span class="nb">all</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;perm_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;spectral_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;svd_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;app_entropy&#39;</span><span class="p">,</span>
-       <span class="s1">&#39;sample_entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;lziv_complexity&#39;</span><span class="p">,</span> <span class="s1">&#39;num_zerocross&#39;</span><span class="p">,</span> <span class="s1">&#39;hjorth_params&#39;</span><span class="p">]</span>
+<span class="nb">all</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;perm_entropy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;spectral_entropy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;svd_entropy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;app_entropy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sample_entropy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lziv_complexity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;num_zerocross&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hjorth_params&quot;</span><span class="p">,</span>
+<span class="p">]</span>
 
 
 <div class="viewcode-block" id="perm_entropy"><a class="viewcode-back" href="../../generated/antropy.perm_entropy.html#antropy.perm_entropy">[docs]</a><span class="k">def</span> <span class="nf">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -108,8 +110,10 @@
 <span class="sd">        One-dimensional time series of shape (n_times)</span>
 <span class="sd">    order : int</span>
 <span class="sd">        Order of permutation entropy. Default is 3.</span>
-<span class="sd">    delay : int</span>
-<span class="sd">        Time delay (lag). Default is 1.</span>
+<span class="sd">    delay : int, list, np.ndarray or range</span>
+<span class="sd">        Time delay (lag). Default is 1. If multiple values are passed</span>
+<span class="sd">        (e.g. [1, 2, 3]), AntroPy will calculate the average permutation</span>
+<span class="sd">        entropy across all these delays.</span>
 <span class="sd">    normalize : bool</span>
 <span class="sd">        If True, divide by log2(order!) to normalize the entropy between 0</span>
 <span class="sd">        and 1. Otherwise, return the permutation entropy in bit.</span>
@@ -168,26 +172,18 @@
 <span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    0.5888</span>
 
-<span class="sd">    Fractional Gaussian noise with H = 0.5</span>
-
+<span class="sd">    Fractional Gaussian noise with H = 0.5, averaged across multiple delays</span>
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, normalize=True):.4f}&quot;)</span>
-<span class="sd">    0.9998</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, delay=[1, 2, 3], normalize=True):.4f}&quot;)</span>
+<span class="sd">    0.9999</span>
 
-<span class="sd">    Fractional Gaussian noise with H = 0.9</span>
-
-<span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
-<span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, normalize=True):.4f}&quot;)</span>
-<span class="sd">    0.9926</span>
-
-<span class="sd">    Fractional Gaussian noise with H = 0.1</span>
+<span class="sd">    Fractional Gaussian noise with H = 0.1, averaged across multiple delays</span>
 
 <span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng(seed=42)</span>
 <span class="sd">    &gt;&gt;&gt; x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, normalize=True):.4f}&quot;)</span>
-<span class="sd">    0.9959</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, delay=[1, 2, 3], normalize=True):.4f}&quot;)</span>
+<span class="sd">    0.9986</span>
 
 <span class="sd">    Random</span>
 
@@ -207,25 +203,28 @@
 <span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.perm_entropy(x, normalize=True):.4f}&quot;)</span>
 <span class="sd">    -0.0000</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># If multiple delay are passed, return the average across all d</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">delay</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">range</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">delay</span><span class="p">])</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="n">ran_order</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
     <span class="n">hashmult</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">ran_order</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">delay</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;delay must be greater than zero.&quot;</span>
     <span class="c1"># Embed x and sort the order of permutations</span>
-    <span class="n">sorted_idx</span> <span class="o">=</span> <span class="n">_embed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">delay</span><span class="p">)</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;quicksort&#39;</span><span class="p">)</span>
+    <span class="n">sorted_idx</span> <span class="o">=</span> <span class="n">_embed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">delay</span><span class="p">)</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;quicksort&quot;</span><span class="p">)</span>
     <span class="c1"># Associate unique integer to each permutations</span>
     <span class="n">hashval</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">sorted_idx</span><span class="p">,</span> <span class="n">hashmult</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="c1"># Return the counts</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">hashval</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># Use np.true_divide for Python 2 compatibility</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">true_divide</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-    <span class="n">pe</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">pe</span> <span class="o">=</span> <span class="o">-</span><span class="n">_xlogx</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
         <span class="n">pe</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">factorial</span><span class="p">(</span><span class="n">order</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">pe</span></div>
 
 
-<div class="viewcode-block" id="spectral_entropy"><a class="viewcode-back" href="../../generated/antropy.spectral_entropy.html#antropy.spectral_entropy">[docs]</a><span class="k">def</span> <span class="nf">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fft&#39;</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                     <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="spectral_entropy"><a class="viewcode-back" href="../../generated/antropy.spectral_entropy.html#antropy.spectral_entropy">[docs]</a><span class="k">def</span> <span class="nf">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;fft&quot;</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Spectral Entropy.</span>
 
 <span class="sd">    Parameters</span>
@@ -291,12 +290,12 @@
 <span class="sd">    &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">    &gt;&gt;&gt; x = np.random.rand(3000)</span>
 <span class="sd">    &gt;&gt;&gt; ant.spectral_entropy(x, sf=100, method=&#39;welch&#39;)</span>
-<span class="sd">    6.980045662371389</span>
+<span class="sd">    6.98004566237139</span>
 
 <span class="sd">    Normalized spectral entropy</span>
 
 <span class="sd">    &gt;&gt;&gt; ant.spectral_entropy(x, sf=100, method=&#39;welch&#39;, normalize=True)</span>
-<span class="sd">    0.9955526198316071</span>
+<span class="sd">    0.9955526198316073</span>
 
 <span class="sd">    Normalized spectral entropy of 2D data</span>
 
@@ -329,12 +328,12 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="c1"># Compute and normalize power spectrum</span>
-    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;fft&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;fft&quot;</span><span class="p">:</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">periodogram</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;welch&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;welch&quot;</span><span class="p">:</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">welch</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="n">nperseg</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
     <span class="n">psd_norm</span> <span class="o">=</span> <span class="n">psd</span> <span class="o">/</span> <span class="n">psd</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">se</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">psd_norm</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">psd_norm</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="o">-</span><span class="n">_xlogx</span><span class="p">(</span><span class="n">psd_norm</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
         <span class="n">se</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">psd_norm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">se</span></div>
@@ -447,19 +446,20 @@
     <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">compute_uv</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="c1"># Normalize the singular values</span>
     <span class="n">W</span> <span class="o">/=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
-    <span class="n">svd_e</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">W</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">svd_e</span> <span class="o">=</span> <span class="o">-</span><span class="n">_xlogx</span><span class="p">(</span><span class="n">W</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
         <span class="n">svd_e</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">svd_e</span></div>
 
 
-<span class="k">def</span> <span class="nf">_app_samp_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">,</span> <span class="n">approximate</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Utility function for `app_entropy`` and `sample_entropy`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">_app_samp_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;chebyshev&quot;</span><span class="p">,</span> <span class="n">approximate</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Utility function for `app_entropy`` and `sample_entropy`.&quot;&quot;&quot;</span>
     <span class="n">_all_metrics</span> <span class="o">=</span> <span class="n">KDTree</span><span class="o">.</span><span class="n">valid_metrics</span>
     <span class="k">if</span> <span class="n">metric</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_all_metrics</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The given metric (</span><span class="si">%s</span><span class="s1">) is not valid. The valid &#39;</span>
-                         <span class="s1">&#39;metric names are: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">_all_metrics</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The given metric (</span><span class="si">%s</span><span class="s2">) is not valid. The valid &quot;</span>
+            <span class="s2">&quot;metric names are: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">_all_metrics</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">r</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
@@ -469,14 +469,18 @@
         <span class="n">emb_data1</span> <span class="o">=</span> <span class="n">_emb_data1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">emb_data1</span> <span class="o">=</span> <span class="n">_emb_data1</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">count1</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">emb_data1</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span><span class="o">.</span><span class="n">query_radius</span><span class="p">(</span><span class="n">emb_data1</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span>
-                                                           <span class="n">count_only</span><span class="o">=</span><span class="kc">True</span>
-                                                           <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">count1</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">KDTree</span><span class="p">(</span><span class="n">emb_data1</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">query_radius</span><span class="p">(</span><span class="n">emb_data1</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">count_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="c1"># compute phi(order + 1, r)</span>
     <span class="n">emb_data2</span> <span class="o">=</span> <span class="n">_embed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">count2</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">emb_data2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span><span class="o">.</span><span class="n">query_radius</span><span class="p">(</span><span class="n">emb_data2</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span>
-                                                           <span class="n">count_only</span><span class="o">=</span><span class="kc">True</span>
-                                                           <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">count2</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">KDTree</span><span class="p">(</span><span class="n">emb_data2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">query_radius</span><span class="p">(</span><span class="n">emb_data2</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">count_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="k">if</span> <span class="n">approximate</span><span class="p">:</span>
         <span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">count1</span> <span class="o">/</span> <span class="n">emb_data1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
         <span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">count2</span> <span class="o">/</span> <span class="n">emb_data2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
@@ -486,7 +490,7 @@
     <span class="k">return</span> <span class="n">phi</span>
 
 
-<span class="nd">@jit</span><span class="p">(</span><span class="s1">&#39;f8(f8[:], i4, f8)&#39;</span><span class="p">,</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@jit</span><span class="p">(</span><span class="s2">&quot;f8(f8[:], i4, f8)&quot;</span><span class="p">,</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_numba_sampen</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fast evaluation of the sample entropy using Numba.</span>
@@ -541,7 +545,7 @@
     <span class="k">return</span> <span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
 
-<div class="viewcode-block" id="app_entropy"><a class="viewcode-back" href="../../generated/antropy.app_entropy.html#antropy.app_entropy">[docs]</a><span class="k">def</span> <span class="nf">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="app_entropy"><a class="viewcode-back" href="../../generated/antropy.app_entropy.html#antropy.app_entropy">[docs]</a><span class="k">def</span> <span class="nf">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;chebyshev&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Approximate Entropy.</span>
 
 <span class="sd">    Parameters</span>
@@ -633,7 +637,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="sample_entropy"><a class="viewcode-back" href="../../generated/antropy.sample_entropy.html#antropy.sample_entropy">[docs]</a><span class="k">def</span> <span class="nf">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="sample_entropy"><a class="viewcode-back" href="../../generated/antropy.sample_entropy.html#antropy.sample_entropy">[docs]</a><span class="k">def</span> <span class="nf">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;chebyshev&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Sample Entropy.</span>
 
 <span class="sd">    Parameters</span>
@@ -739,11 +743,10 @@
 <span class="sd">    -0.0000</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="s1">&#39;chebyshev&#39;</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">5000</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;chebyshev&quot;</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">5000</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_numba_sampen</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">phi</span> <span class="o">=</span> <span class="n">_app_samp_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span>
-                                <span class="n">approximate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">_app_samp_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span> <span class="n">approximate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span></div>
 
 
@@ -877,14 +880,13 @@
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">normalize</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
         <span class="n">sequence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">sequence</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="s1">&#39;bfi&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sequence</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="s2">&quot;bfi&quot;</span><span class="p">:</span>
             <span class="c1"># Convert [True, False] or [1., 0.] to [1, 0]</span>
             <span class="n">s</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint32&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Treat as numpy array of strings</span>
             <span class="c1"># Map string characters to utf-8 integer representation</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))),</span>
-                            <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint32&quot;</span><span class="p">)</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint32&quot;</span><span class="p">)</span>
             <span class="c1"># Can&#39;t preallocate length (by specifying count) due to string</span>
             <span class="c1"># concatenation</span>
     <span class="k">else</span><span class="p">:</span>
@@ -913,6 +915,7 @@
 <span class="c1">###############################################################################</span>
 <span class="c1"># OTHER TIME-DOMAIN METRICS</span>
 <span class="c1">###############################################################################</span>
+
 
 <div class="viewcode-block" id="num_zerocross"><a class="viewcode-back" href="../../generated/antropy.num_zerocross.html#antropy.num_zerocross">[docs]</a><span class="k">def</span> <span class="nf">num_zerocross</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Number of zero-crossings.</span>
@@ -1115,8 +1118,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2018-2021, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.<br/>
+        &copy; Copyright 2018-2022, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br/>
     </p>
   </div>
 </footer>

@@ -57,7 +57,8 @@ class TestEntropy(unittest.TestCase):
         # 2D data
         params = dict(sf=SF_TS, normalize=True, method="welch", nperseg=100)
         assert_equal(
-            aal(spectral_entropy, axis=1, arr=data, **params), spectral_entropy(data, **params)
+            aal(spectral_entropy, axis=1, arr=data, **params),
+            spectral_entropy(data, **params),
         )
 
     def test_svd_entropy(self):
@@ -143,7 +144,8 @@ class TestEntropy(unittest.TestCase):
         assert com_sine < com
         # 2D data (avoid warning with flat line variance)
         assert_equal(
-            aal(hjorth_params, axis=-1, arr=data[:-1, :]).T, hjorth_params(data[:-1, :], axis=-1)
+            aal(hjorth_params, axis=-1, arr=data[:-1, :]).T,
+            hjorth_params(data[:-1, :], axis=-1),
         )
 
     def test_xlogx_handles_zero(self):

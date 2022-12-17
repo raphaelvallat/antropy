@@ -152,8 +152,10 @@ html_static_path = ["_static"]
 html_show_sourcelink = False
 templates_path = ["templates"]  # To remove the searchbar
 
+
 def setup(app):
     app.add_css_file("style.css")
+
 
 # -- Intersphinx ------------------------------------------------
 

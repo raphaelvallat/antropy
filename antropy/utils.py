@@ -3,7 +3,7 @@ import numpy as np
 from numba import jit
 from math import log, floor
 
-all = ['_embed', '_linear_regression', '_log_n', '_xlog2x']
+all = ["_embed", "_linear_regression", "_log_n", "_xlog2x"]
 epsilon = 10e-9
 
 
@@ -38,7 +38,7 @@ def _embed(x, order=3, delay=1):
         # 1D array (n_times)
         Y = np.zeros((order, N - (order - 1) * delay))
         for i in range(order):
-            Y[i] = x[(i * delay):(i * delay + Y.shape[1])]
+            Y[i] = x[(i * delay) : (i * delay + Y.shape[1])]
         return Y.T
     else:
         # 2D array (signal_indice, n_times)
@@ -50,7 +50,7 @@ def _embed(x, order=3, delay=1):
         # generate a list of slice indice on input signal
         for i in range(order):
             # loop with the order
-            temp = x[:, indice[i][0]: indice[i][1]].reshape(-1, embed_signal_length, 1)
+            temp = x[:, indice[i][0] : indice[i][1]].reshape(-1, embed_signal_length, 1)
             # slicing the signal with the indice of each order (vectorized operation)
             Y.append(temp)
             # append the sliced signal to list
@@ -58,7 +58,7 @@ def _embed(x, order=3, delay=1):
         return Y
 
 
-@jit('UniTuple(float64, 2)(float64[:], float64[:])', nopython=True)
+@jit("UniTuple(float64, 2)(float64[:], float64[:])", nopython=True)
 def _linear_regression(x, y):
     """Fast linear regression using Numba.
 
@@ -84,14 +84,14 @@ def _linear_regression(x, y):
         sx += x[j]
         sxy += x[j] * y[j]
         sy += y[j]
-    den = n_times * sx2 - (sx ** 2)
+    den = n_times * sx2 - (sx**2)
     num = n_times * sxy - sx * sy
     slope = num / (den + epsilon)
     intercept = np.mean(y) - slope * np.mean(x)
     return slope, intercept
 
 
-@jit('i8[:](f8, f8, f8)', nopython=True)
+@jit("i8[:](f8, f8, f8)", nopython=True)
 def _log_n(min_n, max_n, factor):
     """
     Creates a list of integer values by successively multiplying a minimum
@@ -120,7 +120,7 @@ def _log_n(min_n, max_n, factor):
     max_i = int(floor(log(1.0 * max_n / min_n) / log(factor)))
     ns = [min_n]
     for i in range(max_i + 1):
-        n = int(floor(min_n * (factor ** i)))
+        n = int(floor(min_n * (factor**i)))
         if n > ns[-1]:
             ns.append(n)
     return np.array(ns, dtype=np.int64)

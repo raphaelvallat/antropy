@@ -6,7 +6,7 @@ from math import log, floor
 from .entropy import num_zerocross
 from .utils import _linear_regression, _log_n
 
-all = ['petrosian_fd', 'katz_fd', 'higuchi_fd', 'detrended_fluctuation']
+all = ["petrosian_fd", "katz_fd", "higuchi_fd", "detrended_fluctuation"]
 
 
 def petrosian_fd(x, axis=-1):
@@ -194,10 +194,9 @@ def katz_fd(x, axis=-1):
     return kfd
 
 
-@jit((types.Array(types.float64, 1, 'C', readonly=True), types.int32))
+@jit((types.Array(types.float64, 1, "C", readonly=True), types.int32))
 def _higuchi_fd(x, kmax):
-    """Utility function for `higuchi_fd`.
-    """
+    """Utility function for `higuchi_fd`."""
     n_times = x.size
     lk = np.empty(kmax)
     x_reg = np.empty(kmax)
@@ -219,7 +218,7 @@ def _higuchi_fd(x, kmax):
             m_lm += lm[m]
         m_lm /= k
         lk[k - 1] = m_lm
-        x_reg[k - 1] = log(1. / k)
+        x_reg[k - 1] = log(1.0 / k)
         y_reg[k - 1] = log(m_lm)
     higuchi, _ = _linear_regression(x_reg, y_reg)
     return higuchi
@@ -300,7 +299,7 @@ def higuchi_fd(x, kmax=10):
     return _higuchi_fd(x, kmax)
 
 
-@jit('f8(f8[:])', nopython=True)
+@jit("f8(f8[:])", nopython=True)
 def _dfa(x):
     """
     Utility function for detrended fluctuation analysis
@@ -311,7 +310,7 @@ def _dfa(x):
     fluctuations = np.zeros(len(nvals))
 
     for i_n, n in enumerate(nvals):
-        d = np.reshape(walk[:N - (N % n)], (N // n, n))
+        d = np.reshape(walk[: N - (N % n)], (N // n, n))
         ran_n = np.array([float(na) for na in range(n)])
         d_len = len(d)
         trend = np.empty((d_len, ran_n.size))

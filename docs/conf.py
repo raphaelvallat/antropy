@@ -38,17 +38,18 @@ import sphinx_bootstrap_theme
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-sys.path.insert(0, os.path.abspath('sphinxext'))
+sys.path.insert(0, os.path.abspath("sphinxext"))
 extensions = [
-              # 'sphinx.ext.mathjax',
-              'sphinx.ext.viewcode',
-              'sphinx.ext.githubpages',
-              'sphinx.ext.autosummary',
-              'sphinx.ext.autodoc',
-              'sphinx.ext.intersphinx',
-              # 'plot_generator',
-              # 'plot_directive',
-              'numpydoc']
+    # 'sphinx.ext.mathjax',
+    "sphinx.ext.viewcode",
+    "sphinx.ext.githubpages",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.intersphinx",
+    # 'plot_generator',
+    # 'plot_directive',
+    "numpydoc",
+]
 
 # Generate the API documentation when building
 autosummary_generate = True
@@ -61,21 +62,21 @@ plot_html_show_formats = False
 plot_html_show_source_link = False
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ".rst"
 
 # The master toctree document.
-master_doc = 'index'
+master_doc = "index"
 
 # General information about the project.
-project = 'antropy'
-author = 'Raphael Vallat'
-copyright = u'2018-{}, Raphael Vallat'.format(time.strftime("%Y"))
+project = "antropy"
+author = "Raphael Vallat"
+copyright = "2018-{}, Raphael Vallat".format(time.strftime("%Y"))
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -97,10 +98,10 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = "sphinx"
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
@@ -124,30 +125,26 @@ todo_include_todos = False
 # }
 
 # Bootstrap theme
-html_theme = 'bootstrap'
+html_theme = "bootstrap"
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 html_theme_options = {
-    'source_link_position': "footer",
-    'bootswatch_theme': "readable",
-    'navbar_sidebarrel': False,
-    'nosidebar': True,
-    'navbar_pagenav': False,
-    'bootstrap_version': "3",
-    'navbar_links': [
-                     ("Functions", "api"),
-                     ("What's new", "changelog")
-                     ],
+    "source_link_position": "footer",
+    "bootswatch_theme": "readable",
+    "navbar_sidebarrel": False,
+    "nosidebar": True,
+    "navbar_pagenav": False,
+    "bootstrap_version": "3",
+    "navbar_links": [("Functions", "api"), ("What's new", "changelog")],
+}
 
-    }
-
-html_logo = 'pictures/antropy_128x128.png'
-html_favicon = 'pictures/antropy.ico'
+html_logo = "pictures/antropy_128x128.png"
+html_favicon = "pictures/antropy.ico"
 
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'antropydoc'
-html_static_path = ['_static']
+htmlhelp_basename = "antropydoc"
+html_static_path = ["_static"]
 html_show_sourcelink = False
 html_add_permalinks = ""
 
@@ -158,15 +155,12 @@ latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
-
     # The font size ('10pt', '11pt' or '12pt').
     #
     # 'pointsize': '10pt',
-
     # Additional stuff for the LaTeX preamble.
     #
     # 'preamble': '',
-
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
@@ -176,8 +170,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'antropy.tex', 'antropy Documentation',
-     'Raphael Vallat', 'manual'),
+    (master_doc, "antropy.tex", "antropy Documentation", "Raphael Vallat", "manual"),
 ]
 
 
@@ -185,10 +178,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'antropy', 'antropy Documentation',
-     [author], 1)
-]
+man_pages = [(master_doc, "antropy", "antropy Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output -------------------------------------------
@@ -197,21 +187,30 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'antropy', 'antropy Documentation',
-     author, 'antropy', 'Entropy and complexity of time-series in Python',
-     'Miscellaneous'),
+    (
+        master_doc,
+        "antropy",
+        "antropy Documentation",
+        author,
+        "antropy",
+        "Entropy and complexity of time-series in Python",
+        "Miscellaneous",
+    ),
 ]
 
 # Add the 'copybutton' javascript, to hide/show the prompt in code
 # examples, originally taken from scikit-learn's doc/conf.py
 def setup(app):
-    app.add_javascript('copybutton.js')
-    app.add_stylesheet('style.css')
+    app.add_javascript("copybutton.js")
+    app.add_stylesheet("style.css")
+
 
 # -- Intersphinx ------------------------------------------------
 
-intersphinx_mapping = {'numpy': ('http://docs.scipy.org/doc/numpy/', None),
-                       'scipy': ('http://docs.scipy.org/doc/scipy/reference/', None),
-                       'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
-                       'sklearn': ('https://scikit-learn.org/stable/', None),
-                       'mne': ('https://martinos.org/mne/stable/', None)}
+intersphinx_mapping = {
+    "numpy": ("http://docs.scipy.org/doc/numpy/", None),
+    "scipy": ("http://docs.scipy.org/doc/scipy/reference/", None),
+    "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
+    "sklearn": ("https://scikit-learn.org/stable/", None),
+    "mne": ("https://martinos.org/mne/stable/", None),
+}

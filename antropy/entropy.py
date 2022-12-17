@@ -7,8 +7,16 @@ from scipy.signal import periodogram, welch
 
 from .utils import _embed, _xlogx
 
-all = ['perm_entropy', 'spectral_entropy', 'svd_entropy', 'app_entropy',
-       'sample_entropy', 'lziv_complexity', 'num_zerocross', 'hjorth_params']
+all = [
+    "perm_entropy",
+    "spectral_entropy",
+    "svd_entropy",
+    "app_entropy",
+    "sample_entropy",
+    "lziv_complexity",
+    "num_zerocross",
+    "hjorth_params",
+]
 
 
 def perm_entropy(x, order=3, delay=1, normalize=False):
@@ -115,14 +123,13 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     """
     # If multiple delay are passed, return the average across all d
     if isinstance(delay, (list, np.ndarray, range)):
-        return np.mean([perm_entropy(x, order=order, delay=d,
-                        normalize=normalize) for d in delay])
+        return np.mean([perm_entropy(x, order=order, delay=d, normalize=normalize) for d in delay])
     x = np.array(x)
     ran_order = range(order)
     hashmult = np.power(order, ran_order)
     assert delay > 0, "delay must be greater than zero."
     # Embed x and sort the order of permutations
-    sorted_idx = _embed(x, order=order, delay=delay).argsort(kind='quicksort')
+    sorted_idx = _embed(x, order=order, delay=delay).argsort(kind="quicksort")
     # Associate unique integer to each permutations
     hashval = (np.multiply(sorted_idx, hashmult)).sum(1)
     # Return the counts
@@ -135,8 +142,7 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     return pe
 
 
-def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False,
-                     axis=-1):
+def spectral_entropy(x, sf, method="fft", nperseg=None, normalize=False, axis=-1):
     """Spectral Entropy.
 
     Parameters
@@ -240,9 +246,9 @@ def spectral_entropy(x, sf, method='fft', nperseg=None, normalize=False,
     """
     x = np.asarray(x)
     # Compute and normalize power spectrum
-    if method == 'fft':
+    if method == "fft":
         _, psd = periodogram(x, sf, axis=axis)
-    elif method == 'welch':
+    elif method == "welch":
         _, psd = welch(x, sf, nperseg=nperseg, axis=axis)
     psd_norm = psd / psd.sum(axis=axis, keepdims=True)
     se = -_xlogx(psd_norm).sum(axis=axis)
@@ -364,13 +370,14 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
     return svd_e
 
 
-def _app_samp_entropy(x, order, metric='chebyshev', approximate=True):
-    """Utility function for `app_entropy`` and `sample_entropy`.
-    """
+def _app_samp_entropy(x, order, metric="chebyshev", approximate=True):
+    """Utility function for `app_entropy`` and `sample_entropy`."""
     _all_metrics = KDTree.valid_metrics
     if metric not in _all_metrics:
-        raise ValueError('The given metric (%s) is not valid. The valid '
-                         'metric names are: %s' % (metric, _all_metrics))
+        raise ValueError(
+            "The given metric (%s) is not valid. The valid "
+            "metric names are: %s" % (metric, _all_metrics)
+        )
     phi = np.zeros(2)
     r = 0.2 * np.std(x, ddof=0)
 
@@ -380,14 +387,18 @@ def _app_samp_entropy(x, order, metric='chebyshev', approximate=True):
         emb_data1 = _emb_data1
     else:
         emb_data1 = _emb_data1[:-1]
-    count1 = KDTree(emb_data1, metric=metric).query_radius(emb_data1, r,
-                                                           count_only=True
-                                                           ).astype(np.float64)
+    count1 = (
+        KDTree(emb_data1, metric=metric)
+        .query_radius(emb_data1, r, count_only=True)
+        .astype(np.float64)
+    )
     # compute phi(order + 1, r)
     emb_data2 = _embed(x, order + 1, 1)
-    count2 = KDTree(emb_data2, metric=metric).query_radius(emb_data2, r,
-                                                           count_only=True
-                                                           ).astype(np.float64)
+    count2 = (
+        KDTree(emb_data2, metric=metric)
+        .query_radius(emb_data2, r, count_only=True)
+        .astype(np.float64)
+    )
     if approximate:
         phi[0] = np.mean(np.log(count1 / emb_data1.shape[0]))
         phi[1] = np.mean(np.log(count2 / emb_data2.shape[0]))
@@ -397,7 +408,7 @@ def _app_samp_entropy(x, order, metric='chebyshev', approximate=True):
     return phi
 
 
-@jit('f8(f8[:], i4, f8)', nopython=True)
+@jit("f8(f8[:], i4, f8)", nopython=True)
 def _numba_sampen(x, order, r):
     """
     Fast evaluation of the sample entropy using Numba.
@@ -452,7 +463,7 @@ def _numba_sampen(x, order, r):
     return -log(p[-1])
 
 
-def app_entropy(x, order=2, metric='chebyshev'):
+def app_entropy(x, order=2, metric="chebyshev"):
     """Approximate Entropy.
 
     Parameters
@@ -544,7 +555,7 @@ def app_entropy(x, order=2, metric='chebyshev'):
     return np.subtract(phi[0], phi[1])
 
 
-def sample_entropy(x, order=2, metric='chebyshev'):
+def sample_entropy(x, order=2, metric="chebyshev"):
     """Sample Entropy.
 
     Parameters
@@ -650,11 +661,10 @@ def sample_entropy(x, order=2, metric='chebyshev'):
     -0.0000
     """
     x = np.asarray(x, dtype=np.float64)
-    if metric == 'chebyshev' and x.size < 5000:
+    if metric == "chebyshev" and x.size < 5000:
         return _numba_sampen(x, order=order, r=(0.2 * x.std(ddof=0)))
     else:
-        phi = _app_samp_entropy(x, order=order, metric=metric,
-                                approximate=False)
+        phi = _app_samp_entropy(x, order=order, metric=metric, approximate=False)
         return -np.log(np.divide(phi[1], phi[0]))
 
 
@@ -788,14 +798,13 @@ def lziv_complexity(sequence, normalize=False):
     assert isinstance(normalize, bool)
     if isinstance(sequence, (list, np.ndarray)):
         sequence = np.asarray(sequence)
-        if sequence.dtype.kind in 'bfi':
+        if sequence.dtype.kind in "bfi":
             # Convert [True, False] or [1., 0.] to [1, 0]
             s = sequence.astype("uint32")
         else:
             # Treat as numpy array of strings
             # Map string characters to utf-8 integer representation
-            s = np.fromiter(map(ord, "".join(sequence.astype(str))),
-                            dtype="uint32")
+            s = np.fromiter(map(ord, "".join(sequence.astype(str))), dtype="uint32")
             # Can't preallocate length (by specifying count) due to string
             # concatenation
     else:
@@ -824,6 +833,7 @@ def lziv_complexity(sequence, normalize=False):
 ###############################################################################
 # OTHER TIME-DOMAIN METRICS
 ###############################################################################
+
 
 def num_zerocross(x, normalize=False, axis=-1):
     """Number of zero-crossings.

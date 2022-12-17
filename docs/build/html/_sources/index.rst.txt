@@ -2,14 +2,14 @@
 
 |
 
-.. image:: https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8-blue.svg
+.. image:: https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9-blue.svg
     :target: https://www.python.org/downloads/
 
 .. image:: https://img.shields.io/github/license/raphaelvallat/antropy.svg
   :target: https://github.com/raphaelvallat/antropy/blob/master/LICENSE
 
-.. image:: https://travis-ci.org/raphaelvallat/antropy.svg?branch=master
-    :target: https://travis-ci.org/raphaelvallat/antropy
+.. image:: https://github.com/raphaelvallat/antropy/actions/workflows/python_tests.yml/badge.svg
+  :target: https://github.com/raphaelvallat/antropy/actions/workflows/python_tests.yml
 
 .. image:: https://codecov.io/gh/raphaelvallat/antropy/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/raphaelvallat/antropy

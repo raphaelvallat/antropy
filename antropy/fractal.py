@@ -194,7 +194,7 @@ def katz_fd(x, axis=-1):
     return kfd
 
 
-@jit((types.Array(types.float64, 1, "C", readonly=True), types.int32))
+@jit((types.Array(types.float64, 1, "C", readonly=True), types.int32), nopython=True)
 def _higuchi_fd(x, kmax):
     """Utility function for `higuchi_fd`."""
     n_times = x.size

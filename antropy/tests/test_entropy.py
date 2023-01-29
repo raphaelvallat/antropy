@@ -143,7 +143,7 @@ class TestEntropy(unittest.TestCase):
             aal(hjorth_params, axis=-1, arr=data[:-1, :]).T,
             hjorth_params(data[:-1, :], axis=-1),
         )
-    
+
     def test_notwritable_dtypes(self):
         entropy_funcs = [
             perm_entropy,

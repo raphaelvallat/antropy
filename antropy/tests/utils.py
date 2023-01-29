@@ -9,7 +9,18 @@ ARANGE = np.arange(3000)
 
 # Data types for which to test input array compatibility
 TEST_DTYPES = [
-    np.float16, np.float32, np.float64,         # floats
-    np.int8, np.int16, np.int32, np.int64,      # ints
-    np.uint8, np.uint16, np.uint32, np.uint64,  # unsigned ints
+    # floats
+    np.float16,
+    np.float32,
+    np.float64,
+    np.int8,
+    # ints
+    np.int16,
+    np.int32,
+    np.int64,
+    # unsigned ints
+    np.uint8,
+    np.uint16,
+    np.uint32,
+    np.uint64,
 ]

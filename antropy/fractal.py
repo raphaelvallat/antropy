@@ -299,7 +299,7 @@ def higuchi_fd(x, kmax=10):
     return _higuchi_fd(x, kmax)
 
 
-@jit("f8(f8[:])", nopython=True)
+@jit((types.Array(types.float64, 1, "C", readonly=True),), nopython=True)
 def _dfa(x):
     """
     Utility function for detrended fluctuation analysis

@@ -5,13 +5,9 @@ from numpy.testing import assert_equal
 from numpy import apply_along_axis as aal
 from antropy import petrosian_fd, katz_fd, higuchi_fd, detrended_fluctuation
 
-np.random.seed(1234567)
-RANDOM_TS = np.random.rand(3000)
-NORMAL_TS = np.random.normal(size=3000)
-RANDOM_TS_LONG = np.random.rand(6000)
-SF_TS = 100
-PURE_SINE = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
-ARANGE = np.arange(3000)
+
+from utils import RANDOM_TS, NORMAL_TS, PURE_SINE, ARANGE, TEST_DTYPES
+
 PPG_SIGNAL = np.array(
     [
         -4.18272436e-07,
@@ -68,10 +64,6 @@ class TestEntropy(unittest.TestCase):
         """
         # Compare with MNE-features
         self.assertEqual(np.round(higuchi_fd(RANDOM_TS), 8), 1.9914198)
-        # Check if readonly arrays can be processed as well
-        x = RANDOM_TS.copy().astype(np.float64)
-        x.flags.writeable = False
-        self.assertEqual(np.round(higuchi_fd(x), 8), 1.9914198)
         higuchi_fd(list(RANDOM_TS), kmax=20)
 
     def test_detrended_fluctuation(self):
@@ -84,3 +76,12 @@ class TestEntropy(unittest.TestCase):
         self.assertEqual(np.round(detrended_fluctuation(RANDOM_TS), 4), 0.4976)
         self.assertEqual(np.round(detrended_fluctuation(PURE_SINE), 4), 1.5848)
         self.assertEqual(np.round(detrended_fluctuation(PPG_SIGNAL), 4), 0.0)
+
+    def test_notwritable_dtypes(self):
+        fractal_funcs = [petrosian_fd, katz_fd, higuchi_fd, detrended_fluctuation]
+        # Make sure that the functions can handle non-writable arrays
+        for func in fractal_funcs:
+            for dtype in TEST_DTYPES:
+                x = RANDOM_TS.astype(dtype)
+                x.flags.writeable = False
+                func(x)

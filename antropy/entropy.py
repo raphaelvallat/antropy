@@ -1,6 +1,6 @@
 """Entropy functions"""
 import numpy as np
-from numba import jit
+from numba import jit, types
 from math import factorial, log
 from sklearn.neighbors import KDTree
 from scipy.signal import periodogram, welch
@@ -408,7 +408,7 @@ def _app_samp_entropy(x, order, metric="chebyshev", approximate=True):
     return phi
 
 
-@jit("f8(f8[:], i4, f8)", nopython=True)
+@jit((types.Array(types.float64, 1, "C", readonly=True), types.int32, types.float64), nopython=True)
 def _numba_sampen(x, order, r):
     """
     Fast evaluation of the sample entropy using Numba.

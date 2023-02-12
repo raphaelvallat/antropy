@@ -16,14 +16,10 @@ from antropy import (
 
 from antropy.utils import _xlogx
 
-np.random.seed(1234567)
-RANDOM_TS = np.random.rand(3000)
-NORMAL_TS = np.random.normal(size=3000)
-RANDOM_TS_LONG = np.random.rand(6000)
+from utils import RANDOM_TS, NORMAL_TS, RANDOM_TS_LONG, PURE_SINE, ARANGE, TEST_DTYPES
+
 SF_TS = 100
 BANDT_PERM = [4, 7, 9, 10, 6, 11, 3]
-PURE_SINE = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
-ARANGE = np.arange(3000)
 
 # Concatenate 2D data
 data = np.vstack((RANDOM_TS, NORMAL_TS, PURE_SINE, ARANGE))
@@ -147,6 +143,24 @@ class TestEntropy(unittest.TestCase):
             aal(hjorth_params, axis=-1, arr=data[:-1, :]).T,
             hjorth_params(data[:-1, :], axis=-1),
         )
+
+    def test_notwritable_dtypes(self):
+        entropy_funcs = [
+            perm_entropy,
+            lambda x: spectral_entropy(x, sf=100),  # sf is required arg
+            svd_entropy,
+            sample_entropy,
+            app_entropy,
+            lziv_complexity,
+            num_zerocross,
+            hjorth_params,
+        ]
+        # Make sure that the functions can handle non-writable arrays
+        for func in entropy_funcs:
+            for dtype in TEST_DTYPES:
+                x = RANDOM_TS.astype(dtype)
+                x.flags.writeable = False
+                func(x)
 
     def test_xlogx_handles_zero(self):
         assert_equal(_xlogx(0), 0)

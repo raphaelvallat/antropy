@@ -409,58 +409,63 @@ def _app_samp_entropy(x, order, metric="chebyshev", approximate=True):
 
 
 @jit((types.Array(types.float64, 1, "C", readonly=True), types.int32, types.float64), nopython=True)
-def _numba_sampen(x, order, r):
+def _numba_sampen(sequence, order, r):
     """
     Fast evaluation of the sample entropy using Numba.
     """
-    n = x.size
-    n1 = n - 1
-    order += 1
-    order_dbld = 2 * order
 
-    # Define threshold
-    # r *= x.std()
 
-    # initialize the lists
-    run = [0] * n
-    run1 = run[:]
-    r1 = [0] * (n * order_dbld)
-    a = [0] * order
-    b = a[:]
-    p = a[:]
+    size = sequence.size
+    # sequence = sequence.tolist()
 
-    for i in range(n1):
-        nj = n1 - i
+    numerator = 0
+    denominator = 0
 
-        for jj in range(nj):
-            j = jj + i + 1
-            if abs(x[j] - x[i]) < r:
-                run[jj] = run1[jj] + 1
-                m1 = order if order < run[jj] else run[jj]
-                for m in range(m1):
-                    a[m] += 1
-                    if j < n1:
-                        b[m] += 1
-            else:
-                run[jj] = 0
-        for j in range(order_dbld):
-            run1[j] = run[j]
-            r1[i + n * j] = run[j]
-        if nj > order_dbld - 1:
-            for j in range(order_dbld, nj):
-                run1[j] = run[j]
+    for offset in range(1, size - order):
+        n_numerator = int(
+            abs(sequence[order] - sequence[order + offset]) >= r
+        )
+        n_denominator = 0
 
-    m = order - 1
+        for idx in range(order):
+            n_numerator += abs(sequence[idx] - sequence[idx + offset]) >= r
+            n_denominator += abs(sequence[idx] - sequence[idx + offset]) >= r
 
-    while m > 0:
-        b[m] = b[m - 1]
-        m -= 1
+        if n_numerator == 0:
+            numerator += 1
+        if n_denominator == 0:
+            denominator += 1
 
-    b[0] = n * n1 / 2
-    a = np.array([float(aa) for aa in a])
-    b = np.array([float(bb) for bb in b])
-    p = np.true_divide(a, b)
-    return -log(p[-1])
+        prev_in_diff = int(
+            abs(sequence[order] - sequence[offset + order]) >= r
+        )
+        for idx in range(1, size - offset - order):
+            out_diff = int(
+                abs(sequence[idx - 1] - sequence[idx + offset - 1]) >= r
+            )
+            in_diff = int(
+                abs(
+                    sequence[idx + order]
+                    - sequence[idx + offset + order]
+                )
+                >= r
+            )
+            n_numerator += in_diff - out_diff
+            n_denominator += prev_in_diff - out_diff
+            prev_in_diff = in_diff
+
+            if n_numerator == 0:
+                numerator += 1
+            if n_denominator == 0:
+                denominator += 1
+    
+
+    if denominator == 0:
+        return 0  # use 0/0 == 0
+    elif numerator == 0:
+        return np.inf
+    else:
+        return -log(numerator / denominator)
 
 
 def app_entropy(x, order=2, metric="chebyshev"):

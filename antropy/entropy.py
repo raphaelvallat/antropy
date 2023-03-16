@@ -414,7 +414,6 @@ def _numba_sampen(sequence, order, r):
     Fast evaluation of the sample entropy using Numba.
     """
 
-
     size = sequence.size
     # sequence = sequence.tolist()
 
@@ -422,9 +421,7 @@ def _numba_sampen(sequence, order, r):
     denominator = 0
 
     for offset in range(1, size - order):
-        n_numerator = int(
-            abs(sequence[order] - sequence[order + offset]) >= r
-        )
+        n_numerator = int(abs(sequence[order] - sequence[order + offset]) >= r)
         n_denominator = 0
 
         for idx in range(order):
@@ -436,20 +433,10 @@ def _numba_sampen(sequence, order, r):
         if n_denominator == 0:
             denominator += 1
 
-        prev_in_diff = int(
-            abs(sequence[order] - sequence[offset + order]) >= r
-        )
+        prev_in_diff = int(abs(sequence[order] - sequence[offset + order]) >= r)
         for idx in range(1, size - offset - order):
-            out_diff = int(
-                abs(sequence[idx - 1] - sequence[idx + offset - 1]) >= r
-            )
-            in_diff = int(
-                abs(
-                    sequence[idx + order]
-                    - sequence[idx + offset + order]
-                )
-                >= r
-            )
+            out_diff = int(abs(sequence[idx - 1] - sequence[idx + offset - 1]) >= r)
+            in_diff = int(abs(sequence[idx + order] - sequence[idx + offset + order]) >= r)
             n_numerator += in_diff - out_diff
             n_denominator += prev_in_diff - out_diff
             prev_in_diff = in_diff
@@ -458,7 +445,6 @@ def _numba_sampen(sequence, order, r):
                 numerator += 1
             if n_denominator == 0:
                 denominator += 1
-    
 
     if denominator == 0:
         return 0  # use 0/0 == 0
@@ -693,7 +679,7 @@ def _lz_complexity(binary_string):
         # Given a prefix length, find the largest substring
         if (
             binary_string[pointer + len_substring - 1]
-            == binary_string[prefix_len + len_substring - 1]
+            == binary_string[prefix_len + len_substring - 1]  # noqa: W503
         ):
             len_substring += 1  # increase the length of the substring
         else:

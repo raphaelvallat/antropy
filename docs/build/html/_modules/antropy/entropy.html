@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>antropy.entropy &#8212; antropy 0.1.5 documentation</title>
+    <title>antropy.entropy &#8212; antropy 0.1.6 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
@@ -38,9 +38,9 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/antropy_128x128.png"></span>
+        <a class="navbar-brand" href="../../index.html">
           antropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.6</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -82,7 +82,7 @@
   <h1>Source code for antropy.entropy</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Entropy functions&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">jit</span>
+<span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">jit</span><span class="p">,</span> <span class="n">types</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">factorial</span><span class="p">,</span> <span class="n">log</span>
 <span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KDTree</span>
 <span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">periodogram</span><span class="p">,</span> <span class="n">welch</span>
@@ -455,6 +455,7 @@
 <span class="k">def</span> <span class="nf">_app_samp_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;chebyshev&quot;</span><span class="p">,</span> <span class="n">approximate</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Utility function for `app_entropy`` and `sample_entropy`.&quot;&quot;&quot;</span>
     <span class="n">_all_metrics</span> <span class="o">=</span> <span class="n">KDTree</span><span class="o">.</span><span class="n">valid_metrics</span>
+    <span class="n">_all_metrics</span> <span class="o">=</span> <span class="n">_all_metrics</span><span class="p">()</span> <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">_all_metrics</span><span class="p">)</span> <span class="k">else</span> <span class="n">_all_metrics</span>
     <span class="k">if</span> <span class="n">metric</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_all_metrics</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">&quot;The given metric (</span><span class="si">%s</span><span class="s2">) is not valid. The valid &quot;</span>
@@ -490,59 +491,50 @@
     <span class="k">return</span> <span class="n">phi</span>
 
 
-<span class="nd">@jit</span><span class="p">(</span><span class="s2">&quot;f8(f8[:], i4, f8)&quot;</span><span class="p">,</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_numba_sampen</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+<span class="nd">@jit</span><span class="p">((</span><span class="n">types</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">types</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_numba_sampen</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fast evaluation of the sample entropy using Numba.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span>
-    <span class="n">n1</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">order</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="n">order_dbld</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">order</span>
 
-    <span class="c1"># Define threshold</span>
-    <span class="c1"># r *= x.std()</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">size</span>
+    <span class="c1"># sequence = sequence.tolist()</span>
 
-    <span class="c1"># initialize the lists</span>
-    <span class="n">run</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
-    <span class="n">run1</span> <span class="o">=</span> <span class="n">run</span><span class="p">[:]</span>
-    <span class="n">r1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">order_dbld</span><span class="p">)</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">order</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:]</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:]</span>
+    <span class="n">numerator</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">denominator</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n1</span><span class="p">):</span>
-        <span class="n">nj</span> <span class="o">=</span> <span class="n">n1</span> <span class="o">-</span> <span class="n">i</span>
+    <span class="k">for</span> <span class="n">offset</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span> <span class="o">-</span> <span class="n">order</span><span class="p">):</span>
+        <span class="n">n_numerator</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">sequence</span><span class="p">[</span><span class="n">order</span><span class="p">]</span> <span class="o">-</span> <span class="n">sequence</span><span class="p">[</span><span class="n">order</span> <span class="o">+</span> <span class="n">offset</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">r</span><span class="p">)</span>
+        <span class="n">n_denominator</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nj</span><span class="p">):</span>
-            <span class="n">j</span> <span class="o">=</span> <span class="n">jj</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">:</span>
-                <span class="n">run</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">run1</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
-                <span class="n">m1</span> <span class="o">=</span> <span class="n">order</span> <span class="k">if</span> <span class="n">order</span> <span class="o">&lt;</span> <span class="n">run</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="k">else</span> <span class="n">run</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span>
-                <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m1</span><span class="p">):</span>
-                    <span class="n">a</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-                    <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n1</span><span class="p">:</span>
-                        <span class="n">b</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">run</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order_dbld</span><span class="p">):</span>
-            <span class="n">run1</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">run</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-            <span class="n">r1</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">n</span> <span class="o">*</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">run</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">nj</span> <span class="o">&gt;</span> <span class="n">order_dbld</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order_dbld</span><span class="p">,</span> <span class="n">nj</span><span class="p">):</span>
-                <span class="n">run1</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">run</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+            <span class="n">n_numerator</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sequence</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">sequence</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="n">offset</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">r</span>
+            <span class="n">n_denominator</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sequence</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">sequence</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="n">offset</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">r</span>
 
-    <span class="n">m</span> <span class="o">=</span> <span class="n">order</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">n_numerator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">numerator</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">n_denominator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">denominator</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="k">while</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">b</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">m</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">prev_in_diff</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">sequence</span><span class="p">[</span><span class="n">order</span><span class="p">]</span> <span class="o">-</span> <span class="n">sequence</span><span class="p">[</span><span class="n">offset</span> <span class="o">+</span> <span class="n">order</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">r</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">-</span> <span class="n">order</span><span class="p">):</span>
+            <span class="n">out_diff</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">sequence</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">sequence</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">r</span><span class="p">)</span>
+            <span class="n">in_diff</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">sequence</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="n">order</span><span class="p">]</span> <span class="o">-</span> <span class="n">sequence</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">order</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">r</span><span class="p">)</span>
+            <span class="n">n_numerator</span> <span class="o">+=</span> <span class="n">in_diff</span> <span class="o">-</span> <span class="n">out_diff</span>
+            <span class="n">n_denominator</span> <span class="o">+=</span> <span class="n">prev_in_diff</span> <span class="o">-</span> <span class="n">out_diff</span>
+            <span class="n">prev_in_diff</span> <span class="o">=</span> <span class="n">in_diff</span>
 
-    <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">n1</span> <span class="o">/</span> <span class="mi">2</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">aa</span><span class="p">)</span> <span class="k">for</span> <span class="n">aa</span> <span class="ow">in</span> <span class="n">a</span><span class="p">])</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">bb</span><span class="p">)</span> <span class="k">for</span> <span class="n">bb</span> <span class="ow">in</span> <span class="n">b</span><span class="p">])</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">true_divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-    <span class="k">return</span> <span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">n_numerator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">numerator</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">n_denominator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">denominator</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">denominator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># use 0/0 == 0</span>
+    <span class="k">elif</span> <span class="n">numerator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="app_entropy"><a class="viewcode-back" href="../../generated/antropy.app_entropy.html#antropy.app_entropy">[docs]</a><span class="k">def</span> <span class="nf">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;chebyshev&quot;</span><span class="p">):</span>
@@ -770,7 +762,7 @@
         <span class="c1"># Given a prefix length, find the largest substring</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">binary_string</span><span class="p">[</span><span class="n">pointer</span> <span class="o">+</span> <span class="n">len_substring</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="o">==</span> <span class="n">binary_string</span><span class="p">[</span><span class="n">prefix_len</span> <span class="o">+</span> <span class="n">len_substring</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="o">==</span> <span class="n">binary_string</span><span class="p">[</span><span class="n">prefix_len</span> <span class="o">+</span> <span class="n">len_substring</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># noqa: W503</span>
         <span class="p">):</span>
             <span class="n">len_substring</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># increase the length of the substring</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1118,7 +1110,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2018-2022, Raphael Vallat.<br/>
+        &copy; Copyright 2018-2023, Raphael Vallat.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br/>
     </p>
   </div>

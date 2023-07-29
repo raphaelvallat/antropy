@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>antropy.fractal &#8212; antropy 0.1.5 documentation</title>
+    <title>antropy.fractal &#8212; antropy 0.1.6 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
@@ -38,9 +38,9 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/antropy_128x128.png"></span>
+        <a class="navbar-brand" href="../../index.html">
           antropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.6</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -276,7 +276,7 @@
     <span class="k">return</span> <span class="n">kfd</span></div>
 
 
-<span class="nd">@jit</span><span class="p">((</span><span class="n">types</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">types</span><span class="o">.</span><span class="n">int32</span><span class="p">))</span>
+<span class="nd">@jit</span><span class="p">((</span><span class="n">types</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">types</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Utility function for `higuchi_fd`.&quot;&quot;&quot;</span>
     <span class="n">n_times</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span>
@@ -381,7 +381,7 @@
     <span class="k">return</span> <span class="n">_higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="p">)</span></div>
 
 
-<span class="nd">@jit</span><span class="p">(</span><span class="s2">&quot;f8(f8[:])&quot;</span><span class="p">,</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@jit</span><span class="p">((</span><span class="n">types</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">),),</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_dfa</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Utility function for detrended fluctuation analysis</span>
@@ -542,7 +542,7 @@
       
     </p>
     <p>
-        &copy; Copyright 2018-2022, Raphael Vallat.<br/>
+        &copy; Copyright 2018-2023, Raphael Vallat.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br/>
     </p>
   </div>

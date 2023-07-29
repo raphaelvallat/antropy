@@ -373,6 +373,7 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
 def _app_samp_entropy(x, order, metric="chebyshev", approximate=True):
     """Utility function for `app_entropy`` and `sample_entropy`."""
     _all_metrics = KDTree.valid_metrics
+    _all_metrics = _all_metrics() if callable(_all_metrics) else _all_metrics
     if metric not in _all_metrics:
         raise ValueError(
             "The given metric (%s) is not valid. The valid "

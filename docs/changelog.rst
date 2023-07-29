@@ -3,6 +3,15 @@
 What's new
 ##########
 
+v0.1.6 (July 2023)
+------------------
+
+This version requires numba >= 0.57.
+
+a. Allow readonly arrays in numba jit signature. https://github.com/raphaelvallat/antropy/pull/23
+b. Improved sample entropy kernel. https://github.com/raphaelvallat/antropy/pull/25
+c. Fox for KDTree.valid_metrics which is method since sklearn 1.3. https://github.com/raphaelvallat/antropy/pull/30
+
 v0.1.5 (December 2022)
 ----------------------
 

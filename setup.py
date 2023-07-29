@@ -9,7 +9,7 @@ MAINTAINER_EMAIL = "raphaelvallat9@gmail.com"
 URL = "https://raphaelvallat.com/antropy/build/html/index.html"
 LICENSE = "BSD (3-clause)"
 DOWNLOAD_URL = "https://github.com/raphaelvallat/antropy/"
-VERSION = "0.1.5"
+VERSION = "0.1.6"
 PACKAGE_DATA = {"antropy.data.icons": ["*.ico"]}
 
 try:
@@ -40,7 +40,7 @@ def check_dependencies():
     try:
         import numba
     except ImportError:
-        install_requires.append("numba")
+        install_requires.append("numba>=0.57")
 
     try:
         import stochastic

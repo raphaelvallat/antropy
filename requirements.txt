@@ -1,5 +1,5 @@
 numpy
 scipy
 scikit-learn
-numba
+numba>=0.57
 stochastic

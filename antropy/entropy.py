@@ -391,14 +391,14 @@ def _app_samp_entropy(x, order, r, metric="chebyshev", approximate=True):
         emb_data1 = _emb_data1[:-1]
     count1 = (
         KDTree(emb_data1, metric=metric)
-        .query_radius(emb_data1, tolerance, count_only=True)
+        .query_radius(emb_data1, r, count_only=True)
         .astype(np.float64)
     )
     # compute phi(order + 1, r)
     emb_data2 = _embed(x, order + 1, 1)
     count2 = (
         KDTree(emb_data2, metric=metric)
-        .query_radius(emb_data2, tolerance, count_only=True)
+        .query_radius(emb_data2, r, count_only=True)
         .astype(np.float64)
     )
     if approximate:
@@ -456,7 +456,7 @@ def _numba_sampen(sequence, order, r):
         return -log(numerator / denominator)
 
 
-def app_entropy(x, order=2, tolerance=0.2, metric="chebyshev", tolerance_reference="SD"):
+def app_entropy(x, order=2, tolerance=None, metric="chebyshev"):
     """Approximate Entropy.
 
     Parameters
@@ -466,16 +466,13 @@ def app_entropy(x, order=2, tolerance=0.2, metric="chebyshev", tolerance_referen
     order : int
         Embedding dimension. Default is 2.
     tolerance : float
-        Tolerance value for acceptance of template vector. Default is 0.2
+        Tolerance value for acceptance of the template vector. Default is 0.2
         times the standard deviation. 
     metric : str
         Name of the distance metric function used with
         :py:class:`sklearn.neighbors.KDTree`. Default is to use the
         `Chebyshev <https://en.wikipedia.org/wiki/Chebyshev_distance>`_
         distance.
-    tolerance_reference : str
-        Switch between tolerance value relative to standard deviation (`SD`)
-        and absolute values (`abs`). Default is `SD`. 
     Returns
     -------
     ae : float
@@ -550,19 +547,14 @@ def app_entropy(x, order=2, tolerance=0.2, metric="chebyshev", tolerance_referen
     -0.0010
     """
     # define r
-    if tolerance_reference =="SD":
-        r = tolerance * np.std(x, ddof=0)
-    elif tolerance_reference == "abs":
-        r = tolerance
+    if tolerance is None:
+        r = 0.2 * np.std(x, ddof=0)
     else:
-        raise ValueError(
-            "The given reference for the tolerance r of %s is not valid."
-            "The valid options are: SD and abs" %(tolerance_reference)
-        )
+        r = tolerance
     phi = _app_samp_entropy(x, order=order, r=r, metric=metric, approximate=True)
     return np.subtract(phi[0], phi[1])
 
-def sample_entropy(x, order=2, tolerance=0.2, metric="chebyshev", tolerance_reference="SD"):
+def sample_entropy(x, order=2, tolerance=None, metric="chebyshev"):
     """Sample Entropy.
 
     Parameters
@@ -571,6 +563,9 @@ def sample_entropy(x, order=2, tolerance=0.2, metric="chebyshev", tolerance_refe
         One-dimensional time series of shape (n_times).
     order : int
         Embedding dimension. Default is 2.
+    tolerance : float
+        Tolerance value for acceptance of the template vector. Default is 0.2
+        times the standard deviation. 
     metric : str
         Name of the distance metric function used with
         :py:class:`sklearn.neighbors.KDTree`. Default is to use the
@@ -668,15 +663,10 @@ def sample_entropy(x, order=2, tolerance=0.2, metric="chebyshev", tolerance_refe
     -0.0000
     """
     # define r
-    if tolerance_reference =="SD":
-        r = tolerance * np.std(x, ddof=0)
-    elif tolerance_reference == "abs":
-        r = tolerance
+    if tolerance is None:
+        r = 0.2 * np.std(x, ddof=0)
     else:
-        raise ValueError(
-            "The given reference for the tolerance r of %s is not valid."
-            "The valid options are: SD and abs" %(tolerance_reference)
-        )
+        r = tolerance
     x = np.asarray(x, dtype=np.float64)
     if metric == "chebyshev" and x.size < 5000:
         return _numba_sampen(x, order=order, r=r)

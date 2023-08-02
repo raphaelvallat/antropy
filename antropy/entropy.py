@@ -467,7 +467,7 @@ def app_entropy(x, order=2, tolerance=None, metric="chebyshev"):
         Embedding dimension. Default is 2.
     tolerance : float
         Tolerance value for acceptance of the template vector. Default is 0.2
-        times the standard deviation. 
+        times the standard deviation of x. 
     metric : str
         Name of the distance metric function used with
         :py:class:`sklearn.neighbors.KDTree`. Default is to use the
@@ -550,6 +550,7 @@ def app_entropy(x, order=2, tolerance=None, metric="chebyshev"):
     if tolerance is None:
         r = 0.2 * np.std(x, ddof=0)
     else:
+        assert isinstance(tolerance, (float, int))
         r = tolerance
     phi = _app_samp_entropy(x, order=order, r=r, metric=metric, approximate=True)
     return np.subtract(phi[0], phi[1])
@@ -565,7 +566,7 @@ def sample_entropy(x, order=2, tolerance=None, metric="chebyshev"):
         Embedding dimension. Default is 2.
     tolerance : float
         Tolerance value for acceptance of the template vector. Default is 0.2
-        times the standard deviation. 
+        times the standard deviation of x. 
     metric : str
         Name of the distance metric function used with
         :py:class:`sklearn.neighbors.KDTree`. Default is to use the
@@ -666,6 +667,7 @@ def sample_entropy(x, order=2, tolerance=None, metric="chebyshev"):
     if tolerance is None:
         r = 0.2 * np.std(x, ddof=0)
     else:
+        assert isinstance(tolerance, (float, int))
         r = tolerance
     x = np.asarray(x, dtype=np.float64)
     if metric == "chebyshev" and x.size < 5000:

@@ -370,7 +370,7 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
     return svd_e
 
 
-def _app_samp_entropy(x, order, metric="chebyshev", approximate=True):
+def _app_samp_entropy(x, order, r, metric="chebyshev", approximate=True):
     """Utility function for `app_entropy`` and `sample_entropy`."""
     _all_metrics = KDTree.valid_metrics
     _all_metrics = _all_metrics() if callable(_all_metrics) else _all_metrics
@@ -380,7 +380,6 @@ def _app_samp_entropy(x, order, metric="chebyshev", approximate=True):
             "metric names are: %s" % (metric, _all_metrics)
         )
     phi = np.zeros(2)
-    r = 0.2 * np.std(x, ddof=0)
 
     # compute phi(order, r)
     _emb_data1 = _embed(x, order, 1)
@@ -455,7 +454,7 @@ def _numba_sampen(sequence, order, r):
         return -log(numerator / denominator)
 
 
-def app_entropy(x, order=2, metric="chebyshev"):
+def app_entropy(x, order=2, tolerance=None, metric="chebyshev"):
     """Approximate Entropy.
 
     Parameters
@@ -464,12 +463,14 @@ def app_entropy(x, order=2, metric="chebyshev"):
         One-dimensional time series of shape (n_times).
     order : int
         Embedding dimension. Default is 2.
+    tolerance : float
+        Tolerance value for acceptance of the template vector. Default is 0.2
+        times the standard deviation of x.
     metric : str
         Name of the distance metric function used with
         :py:class:`sklearn.neighbors.KDTree`. Default is to use the
         `Chebyshev <https://en.wikipedia.org/wiki/Chebyshev_distance>`_
         distance.
-
     Returns
     -------
     ae : float
@@ -481,7 +482,7 @@ def app_entropy(x, order=2, metric="chebyshev"):
     regularity and the unpredictability of fluctuations over time-series data.
     Smaller values indicates that the data is more regular and predictable.
 
-    The tolerance value (:math:`r`) is set to :math:`0.2 * \\text{std}(x)`.
+    The default tolerance value (:math:`r`) is set to :math:`0.2 * \\text{std}(x)`.
 
     Code adapted from the `mne-features <https://mne.tools/mne-features/>`_
     package by Jean-Baptiste Schiratti and Alexandre Gramfort.
@@ -543,11 +544,17 @@ def app_entropy(x, order=2, metric="chebyshev"):
     >>> print(f"{ant.app_entropy(x):.4f}")
     -0.0010
     """
-    phi = _app_samp_entropy(x, order=order, metric=metric, approximate=True)
+    # define r
+    if tolerance is None:
+        r = 0.2 * np.std(x, ddof=0)
+    else:
+        assert isinstance(tolerance, (float, int))
+        r = tolerance
+    phi = _app_samp_entropy(x, order=order, r=r, metric=metric, approximate=True)
     return np.subtract(phi[0], phi[1])
 
 
-def sample_entropy(x, order=2, metric="chebyshev"):
+def sample_entropy(x, order=2, tolerance=None, metric="chebyshev"):
     """Sample Entropy.
 
     Parameters
@@ -556,6 +563,9 @@ def sample_entropy(x, order=2, metric="chebyshev"):
         One-dimensional time series of shape (n_times).
     order : int
         Embedding dimension. Default is 2.
+    tolerance : float
+        Tolerance value for acceptance of the template vector. Default is 0.2
+        times the standard deviation of x.
     metric : str
         Name of the distance metric function used with
         :py:class:`sklearn.neighbors.KDTree`. Default is to use the
@@ -652,11 +662,17 @@ def sample_entropy(x, order=2, metric="chebyshev"):
     >>> print(f"{ant.sample_entropy(x):.4f}")
     -0.0000
     """
+    # define r
+    if tolerance is None:
+        r = 0.2 * np.std(x, ddof=0)
+    else:
+        assert isinstance(tolerance, (float, int))
+        r = tolerance
     x = np.asarray(x, dtype=np.float64)
     if metric == "chebyshev" and x.size < 5000:
-        return _numba_sampen(x, order=order, r=(0.2 * x.std(ddof=0)))
+        return _numba_sampen(x, order=order, r=r)
     else:
-        phi = _app_samp_entropy(x, order=order, metric=metric, approximate=False)
+        phi = _app_samp_entropy(x, order=order, r=r, metric=metric, approximate=False)
         return -np.log(np.divide(phi[1], phi[0]))
 
 

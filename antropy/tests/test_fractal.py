@@ -51,12 +51,16 @@ class TestEntropy(unittest.TestCase):
         assert_equal(aal(petrosian_fd, axis=1, arr=data), petrosian_fd(data))
         assert_equal(aal(petrosian_fd, axis=0, arr=data), petrosian_fd(data, axis=0))
 
-    def test_katz_fd(self):
+        def test_kfd(self):
         x_k = [0.0, 0.0, 2.0, -2.0, 0.0, -1.0, -1.0, 0.0]
+        x_straight = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]
+        # 1D
         self.assertEqual(np.round(katz_fd(x_k), 3), 5.783)
-        # 2D data
+        self.assertEqual(np.round(katz_fd(x_straight), 3), 1)
+        # 2D
         assert_equal(aal(katz_fd, axis=1, arr=data), katz_fd(data))
         assert_equal(aal(katz_fd, axis=0, arr=data), katz_fd(data, axis=0))
+
 
     def test_higuchi_fd(self):
         """Test for function `higuchi_fd`.

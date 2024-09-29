@@ -183,14 +183,35 @@ def katz_fd(x, axis=-1):
     1.0000
     """
     x = np.asarray(x)
-    dists = np.abs(np.diff(x, axis=axis))
-    ll = dists.sum(axis=axis)
-    ln = np.log10(ll / dists.mean(axis=axis))
-    aux_d = x - np.take(x, indices=[0], axis=axis)
-    d = np.max(np.abs(aux_d), axis=axis)
-    kfd = np.squeeze(ln / (ln + np.log10(d / ll)))
+
+    # euclidian distance calculation
+    euclidean_distance = np.sqrt(1+np.square(np.diff(x, axis=axis)))
+
+    # total and average path lengths
+    total_path_length = euclidean_distance.sum(axis=axis)
+    average_path_length = euclidean_distance.mean(axis=axis)
+
+    # max distance from first to all
+    horizontal_diffs = np.arange(1, x.shape[axis])
+    vertical_diffs = np.take(x, indices=np.arange(1, x.shape[axis]), axis=axis) - np.take(x, indices=[0], axis=axis)
+
+    if axis == 1:   # reshape if needed
+        horizontal_diffs = horizontal_diffs.reshape(1, -1)
+    elif axis == 0:
+        horizontal_diffs = horizontal_diffs.reshape(-1, 1)
+
+    # Euclidean distance and max distance
+    distances = np.sqrt(np.square(horizontal_diffs) + np.square(vertical_diffs))
+    max_distance = np.max(distances, axis=axis)
+
+    # Katz Fractal Dimension Calculation
+    full_distance = np.log10(total_path_length / average_path_length)
+    kfd = np.squeeze(full_distance / (full_distance + np.log10(max_distance / total_path_length)))
+
+    # ensure scalar output
     if not kfd.ndim:
         kfd = kfd.item()
+
     return kfd
 
 

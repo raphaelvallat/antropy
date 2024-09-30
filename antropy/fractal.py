@@ -1,4 +1,5 @@
 """Fractal functions"""
+
 import numpy as np
 from numba import jit, types
 from math import log, floor
@@ -185,7 +186,7 @@ def katz_fd(x, axis=-1):
     x = np.asarray(x)
 
     # euclidian distance calculation
-    euclidean_distance = np.sqrt(1+np.square(np.diff(x, axis=axis)))
+    euclidean_distance = np.sqrt(1 + np.square(np.diff(x, axis=axis)))
 
     # total and average path lengths
     total_path_length = euclidean_distance.sum(axis=axis)
@@ -193,9 +194,11 @@ def katz_fd(x, axis=-1):
 
     # max distance from first to all
     horizontal_diffs = np.arange(1, x.shape[axis])
-    vertical_diffs = np.take(x, indices=np.arange(1, x.shape[axis]), axis=axis) - np.take(x, indices=[0], axis=axis)
+    vertical_diffs = np.take(
+        x, indices=np.arange(1, x.shape[axis]), axis=axis
+    ) - np.take(x, indices=[0], axis=axis)
 
-    if axis == 1:   # reshape if needed
+    if axis == 1:  # reshape if needed
         horizontal_diffs = horizontal_diffs.reshape(1, -1)
     elif axis == 0:
         horizontal_diffs = horizontal_diffs.reshape(-1, 1)
@@ -206,7 +209,9 @@ def katz_fd(x, axis=-1):
 
     # Katz Fractal Dimension Calculation
     full_distance = np.log10(total_path_length / average_path_length)
-    kfd = np.squeeze(full_distance / (full_distance + np.log10(max_distance / total_path_length)))
+    kfd = np.squeeze(
+        full_distance / (full_distance + np.log10(max_distance / total_path_length))
+    )
 
     # ensure scalar output
     if not kfd.ndim:

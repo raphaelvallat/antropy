@@ -17,7 +17,8 @@ try:
 
     _has_setuptools = True
 except ImportError:
-    from distutils.core import setup
+    pass
+    # from distutils.core import setup
 
 
 def check_dependencies():

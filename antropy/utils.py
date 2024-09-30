@@ -1,4 +1,5 @@
 """Helper functions"""
+
 import numpy as np
 from numba import jit
 from math import log, floor
@@ -46,7 +47,9 @@ def _embed(x, order=3, delay=1):
         # pre-defiend an empty list to store numpy.array (concatenate with a list is faster)
         embed_signal_length = N - (order - 1) * delay
         # define the new signal length
-        indice = [[(i * delay), (i * delay + embed_signal_length)] for i in range(order)]
+        indice = [
+            [(i * delay), (i * delay + embed_signal_length)] for i in range(order)
+        ]
         # generate a list of slice indice on input signal
         for i in range(order):
             # loop with the order

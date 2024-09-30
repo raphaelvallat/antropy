@@ -49,9 +49,7 @@ class TestEntropy(unittest.TestCase):
         spectral_entropy(RANDOM_TS, SF_TS, method="fft")
         spectral_entropy(RANDOM_TS, SF_TS, method="welch")
         spectral_entropy(RANDOM_TS, SF_TS, method="welch", nperseg=400)
-        self.assertEqual(
-            np.round(spectral_entropy(RANDOM_TS, SF_TS, normalize=True), 1), 0.9
-        )
+        self.assertEqual(np.round(spectral_entropy(RANDOM_TS, SF_TS, normalize=True), 1), 0.9)
         self.assertEqual(np.round(spectral_entropy(PURE_SINE, 100), 2), 0.0)
         # 2D data
         params = dict(sf=SF_TS, normalize=True, method="welch", nperseg=100)

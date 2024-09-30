@@ -124,9 +124,7 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     """
     # If multiple delay are passed, return the average across all d
     if isinstance(delay, (list, np.ndarray, range)):
-        return np.mean(
-            [perm_entropy(x, order=order, delay=d, normalize=normalize) for d in delay]
-        )
+        return np.mean([perm_entropy(x, order=order, delay=d, normalize=normalize) for d in delay])
     x = np.array(x)
     ran_order = range(order)
     hashmult = np.power(order, ran_order)
@@ -442,9 +440,7 @@ def _numba_sampen(sequence, order, r):
         prev_in_diff = int(abs(sequence[order] - sequence[offset + order]) >= r)
         for idx in range(1, size - offset - order):
             out_diff = int(abs(sequence[idx - 1] - sequence[idx + offset - 1]) >= r)
-            in_diff = int(
-                abs(sequence[idx + order] - sequence[idx + offset + order]) >= r
-            )
+            in_diff = int(abs(sequence[idx + order] - sequence[idx + offset + order]) >= r)
             n_numerator += in_diff - out_diff
             n_denominator += prev_in_diff - out_diff
             prev_in_diff = in_diff

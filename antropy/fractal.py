@@ -182,15 +182,11 @@ def katz_fd(x, axis=-1):
     >>> x = np.arange(1000)
     >>> print(f"{ant.katz_fd(x):.4f}")
     1.0000
+        euclidean_distance = np.sqrt(1 + np.square(np.diff(x, axis=axis)))
     """
     x = np.asarray(x)
 
-    # euclidian distance calculation
     euclidean_distance = np.sqrt(1 + np.square(np.diff(x, axis=axis)))
-
-    # total and average path lengths
-    total_path_length = euclidean_distance.sum(axis=axis)
-    average_path_length = euclidean_distance.mean(axis=axis)
 
     # max distance from first to all
     horizontal_diffs = np.arange(1, x.shape[axis])
@@ -205,13 +201,18 @@ def katz_fd(x, axis=-1):
 
     # Euclidean distance and max distance
     distances = np.sqrt(np.square(horizontal_diffs) + np.square(vertical_diffs))
-    max_distance = np.max(distances, axis=axis)
 
     # Katz Fractal Dimension Calculation
-    full_distance = np.log10(total_path_length / average_path_length)
-    kfd = np.squeeze(full_distance / (full_distance + np.log10(max_distance / total_path_length)))
+    full_distance = np.log10(euclidean_distance.sum(axis=axis) / euclidean_distance.mean(axis=axis))
 
-    # ensure scalar output
+    kfd = np.squeeze(
+        full_distance
+        / (
+            full_distance
+            + np.log10(np.max(distances, axis=axis) / euclidean_distance.sum(axis=axis))
+        )
+    )
+
     if not kfd.ndim:
         kfd = kfd.item()
 

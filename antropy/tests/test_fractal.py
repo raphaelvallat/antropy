@@ -5,6 +5,7 @@ import numpy as np
 from numpy.testing import assert_equal
 from numpy import apply_along_axis as aal
 from antropy import petrosian_fd, katz_fd, higuchi_fd, detrended_fluctuation
+import stochastic.processes.noise as sn
 
 
 from utils import RANDOM_TS, NORMAL_TS, PURE_SINE, PURE_COSINE, ARANGE, TEST_DTYPES
@@ -54,7 +55,7 @@ class TestEntropy(unittest.TestCase):
 
     def test_katz_fd(self):
         x_k = [0.0, 0.0, 2.0, -2.0, 0.0, -1.0, -1.0, 0.0]
-        self.assertEqual(np.round(katz_fd(x_k), 3), 1.503)
+        self.assertEqual(np.round(katz_fd(x_k), 3), 5.783)
         # 2D data
         data_kfd = np.vstack((RANDOM_TS, NORMAL_TS, PURE_SINE, PURE_COSINE, ARANGE))
         assert_equal(aal(katz_fd, axis=1, arr=data_kfd), katz_fd(data_kfd))

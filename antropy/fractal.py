@@ -182,7 +182,6 @@ def katz_fd(x, axis=-1):
     >>> x = np.arange(1000)
     >>> print(f"{ant.katz_fd(x):.4f}")
     1.0000
-        euclidean_distance = np.sqrt(1 + np.square(np.diff(x, axis=axis)))
     """
     x = np.asarray(x)
 
@@ -194,10 +193,30 @@ def katz_fd(x, axis=-1):
     a = np.mean(dists, axis=axis)
 
     # Compute the farthest distance between starting point and any other point
-    # d = np.max(np.abs(x.T - x[..., 0]).T, axis=axis)
     d = np.max(np.abs(x - x.take([0], axis=axis)), axis=axis)
     kfd_val = np.log10(L / a) / (np.log10(d / a))
     return kfd_val
+
+
+def katz_fractal_dimension(x):
+    x = np.asarray(x)
+
+    # Step 1: Calculate n
+    n = len(x) - 1
+
+    # Step 2: Calculate L (total length of the waveform)
+    dists = np.sqrt(1 + np.square(np.diff(x)))
+    L = np.sum(dists)
+
+    # Step 3: Calculate d (diameter of the waveform)
+    d = np.max(np.abs(x - x[0]))
+
+    # Step 4: Apply the formula for D
+    if d == 0 or L == 0:  # Prevent division by zero
+        return 1.0  # Assign D = 1 for a flat line or single point
+    D = np.log10(n) / (np.log10(n) + np.log10(d / L))
+
+    return D
 
 
 @jit((types.Array(types.float64, 1, "C", readonly=True), types.int32), nopython=True)

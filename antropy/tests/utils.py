@@ -5,6 +5,7 @@ RANDOM_TS = np.random.rand(3000)
 NORMAL_TS = np.random.normal(size=3000)
 RANDOM_TS_LONG = np.random.rand(6000)
 PURE_SINE = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
+PURE_COSINE = np.cos(2 * np.pi * 1 * np.arange(3000) / 100)
 ARANGE = np.arange(3000)
 
 # Data types for which to test input array compatibility

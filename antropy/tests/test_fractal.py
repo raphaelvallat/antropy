@@ -1,12 +1,14 @@
 """Test fractal dimension functions."""
+
 import unittest
 import numpy as np
 from numpy.testing import assert_equal
 from numpy import apply_along_axis as aal
 from antropy import petrosian_fd, katz_fd, higuchi_fd, detrended_fluctuation
+import stochastic.processes.noise as sn
 
 
-from utils import RANDOM_TS, NORMAL_TS, PURE_SINE, ARANGE, TEST_DTYPES
+from utils import RANDOM_TS, NORMAL_TS, PURE_SINE, PURE_COSINE, ARANGE, TEST_DTYPES
 
 PPG_SIGNAL = np.array(
     [
@@ -55,8 +57,9 @@ class TestEntropy(unittest.TestCase):
         x_k = [0.0, 0.0, 2.0, -2.0, 0.0, -1.0, -1.0, 0.0]
         self.assertEqual(np.round(katz_fd(x_k), 3), 5.783)
         # 2D data
-        assert_equal(aal(katz_fd, axis=1, arr=data), katz_fd(data))
-        assert_equal(aal(katz_fd, axis=0, arr=data), katz_fd(data, axis=0))
+        data_kfd = np.vstack((RANDOM_TS, NORMAL_TS, PURE_SINE, PURE_COSINE, ARANGE))
+        assert_equal(aal(katz_fd, axis=1, arr=data_kfd), katz_fd(data_kfd))
+        assert_equal(aal(katz_fd, axis=0, arr=data_kfd), katz_fd(data_kfd, axis=0))
 
     def test_higuchi_fd(self):
         """Test for function `higuchi_fd`.

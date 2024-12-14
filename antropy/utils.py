@@ -1,4 +1,5 @@
 """Helper functions"""
+
 import numpy as np
 from numba import jit
 from math import log, floor

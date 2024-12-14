@@ -1,4 +1,5 @@
 """Entropy functions"""
+
 import numpy as np
 from numba import jit, types
 from math import factorial, log
@@ -408,7 +409,10 @@ def _app_samp_entropy(x, order, r, metric="chebyshev", approximate=True):
     return phi
 
 
-@jit((types.Array(types.float64, 1, "C", readonly=True), types.int32, types.float64), nopython=True)
+@jit(
+    (types.Array(types.float64, 1, "C", readonly=True), types.int32, types.float64),
+    nopython=True,
+)
 def _numba_sampen(sequence, order, r):
     """
     Fast evaluation of the sample entropy using Numba.

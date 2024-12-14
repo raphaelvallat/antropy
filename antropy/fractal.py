@@ -1,4 +1,5 @@
 """Fractal functions"""
+
 import numpy as np
 from numba import jit, types
 from math import log, floor
@@ -183,15 +184,18 @@ def katz_fd(x, axis=-1):
     1.0000
     """
     x = np.asarray(x)
+
+    # Define total length of curve
     dists = np.abs(np.diff(x, axis=axis))
-    ll = dists.sum(axis=axis)
-    ln = np.log10(ll / dists.mean(axis=axis))
-    aux_d = x - np.take(x, indices=[0], axis=axis)
-    d = np.max(np.abs(aux_d), axis=axis)
-    kfd = np.squeeze(ln / (ln + np.log10(d / ll)))
-    if not kfd.ndim:
-        kfd = kfd.item()
-    return kfd
+    L = np.sum(dists, axis=axis)
+
+    # Average distance between successive points
+    a = np.mean(dists, axis=axis)
+
+    # Compute the farthest distance between starting point and any other point
+    d = np.max(np.abs(x - x.take([0], axis=axis)), axis=axis)
+    kfd_val = np.log10(L / a) / (np.log10(d / a))
+    return kfd_val
 
 
 @jit((types.Array(types.float64, 1, "C", readonly=True), types.int32), nopython=True)

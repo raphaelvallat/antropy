@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>antropy.entropy &#8212; antropy 0.1.6 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/clipboard.min.js"></script>
-    <script src="../../_static/copybutton.js"></script>
-    <link rel="shortcut icon" href="../../_static/antropy.ico"/>
+    <title>antropy.entropy &#8212; antropy 0.1.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css?v=9f61996d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css?v=917eae1c" />
+    <script src="../../_static/documentation_options.js?v=ca7ad2ea"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fe0808e4"></script>
+    <link rel="icon" href="../../_static/antropy.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
@@ -40,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           antropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -81,6 +80,7 @@
       
   <h1>Source code for antropy.entropy</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Entropy functions&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">jit</span><span class="p">,</span> <span class="n">types</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">factorial</span><span class="p">,</span> <span class="n">log</span>
@@ -101,8 +101,10 @@
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="perm_entropy"><a class="viewcode-back" href="../../generated/antropy.perm_entropy.html#antropy.perm_entropy">[docs]</a><span class="k">def</span> <span class="nf">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Permutation Entropy.</span>
+<div class="viewcode-block" id="perm_entropy">
+<a class="viewcode-back" href="../../generated/antropy.perm_entropy.html#antropy.perm_entropy">[docs]</a>
+<span class="k">def</span> <span class="nf">perm_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Permutation Entropy.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -224,8 +226,11 @@
     <span class="k">return</span> <span class="n">pe</span></div>
 
 
-<div class="viewcode-block" id="spectral_entropy"><a class="viewcode-back" href="../../generated/antropy.spectral_entropy.html#antropy.spectral_entropy">[docs]</a><span class="k">def</span> <span class="nf">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;fft&quot;</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Spectral Entropy.</span>
+
+<div class="viewcode-block" id="spectral_entropy">
+<a class="viewcode-back" href="../../generated/antropy.spectral_entropy.html#antropy.spectral_entropy">[docs]</a>
+<span class="k">def</span> <span class="nf">spectral_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;fft&quot;</span><span class="p">,</span> <span class="n">nperseg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spectral Entropy.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -339,8 +344,11 @@
     <span class="k">return</span> <span class="n">se</span></div>
 
 
-<div class="viewcode-block" id="svd_entropy"><a class="viewcode-back" href="../../generated/antropy.svd_entropy.html#antropy.svd_entropy">[docs]</a><span class="k">def</span> <span class="nf">svd_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Singular Value Decomposition entropy.</span>
+
+<div class="viewcode-block" id="svd_entropy">
+<a class="viewcode-back" href="../../generated/antropy.svd_entropy.html#antropy.svd_entropy">[docs]</a>
+<span class="k">def</span> <span class="nf">svd_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Singular Value Decomposition entropy.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -452,17 +460,17 @@
     <span class="k">return</span> <span class="n">svd_e</span></div>
 
 
-<span class="k">def</span> <span class="nf">_app_samp_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;chebyshev&quot;</span><span class="p">,</span> <span class="n">approximate</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Utility function for `app_entropy`` and `sample_entropy`.&quot;&quot;&quot;</span>
+
+<span class="k">def</span> <span class="nf">_app_samp_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;chebyshev&quot;</span><span class="p">,</span> <span class="n">approximate</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Utility function for `app_entropy`` and `sample_entropy`.&quot;&quot;&quot;</span>
     <span class="n">_all_metrics</span> <span class="o">=</span> <span class="n">KDTree</span><span class="o">.</span><span class="n">valid_metrics</span>
-    <span class="n">_all_metrics</span> <span class="o">=</span> <span class="n">_all_metrics</span><span class="p">()</span> <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">_all_metrics</span><span class="p">)</span> <span class="k">else</span> <span class="n">_all_metrics</span>
+    <span class="n">_all_metrics</span> <span class="o">=</span> <span class="n">_all_metrics</span><span class="p">()</span> <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">_all_metrics</span><span class="p">)</span> <span class="k">else</span> <span class="n">_all_metrics</span>
     <span class="k">if</span> <span class="n">metric</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_all_metrics</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">&quot;The given metric (</span><span class="si">%s</span><span class="s2">) is not valid. The valid &quot;</span>
             <span class="s2">&quot;metric names are: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">_all_metrics</span><span class="p">)</span>
         <span class="p">)</span>
     <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># compute phi(order, r)</span>
     <span class="n">_emb_data1</span> <span class="o">=</span> <span class="n">_embed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -491,9 +499,12 @@
     <span class="k">return</span> <span class="n">phi</span>
 
 
-<span class="nd">@jit</span><span class="p">((</span><span class="n">types</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">types</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@jit</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">types</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+    <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="k">def</span> <span class="nf">_numba_sampen</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fast evaluation of the sample entropy using Numba.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -537,8 +548,10 @@
         <span class="k">return</span> <span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="app_entropy"><a class="viewcode-back" href="../../generated/antropy.app_entropy.html#antropy.app_entropy">[docs]</a><span class="k">def</span> <span class="nf">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;chebyshev&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Approximate Entropy.</span>
+<div class="viewcode-block" id="app_entropy">
+<a class="viewcode-back" href="../../generated/antropy.app_entropy.html#antropy.app_entropy">[docs]</a>
+<span class="k">def</span> <span class="nf">app_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;chebyshev&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Approximate Entropy.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -546,12 +559,14 @@
 <span class="sd">        One-dimensional time series of shape (n_times).</span>
 <span class="sd">    order : int</span>
 <span class="sd">        Embedding dimension. Default is 2.</span>
+<span class="sd">    tolerance : float</span>
+<span class="sd">        Tolerance value for acceptance of the template vector. Default is 0.2</span>
+<span class="sd">        times the standard deviation of x.</span>
 <span class="sd">    metric : str</span>
 <span class="sd">        Name of the distance metric function used with</span>
 <span class="sd">        :py:class:`sklearn.neighbors.KDTree`. Default is to use the</span>
 <span class="sd">        `Chebyshev &lt;https://en.wikipedia.org/wiki/Chebyshev_distance&gt;`_</span>
 <span class="sd">        distance.</span>
-
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    ae : float</span>
@@ -563,7 +578,7 @@
 <span class="sd">    regularity and the unpredictability of fluctuations over time-series data.</span>
 <span class="sd">    Smaller values indicates that the data is more regular and predictable.</span>
 
-<span class="sd">    The tolerance value (:math:`r`) is set to :math:`0.2 * \\text{std}(x)`.</span>
+<span class="sd">    The default tolerance value (:math:`r`) is set to :math:`0.2 * \\text{std}(x)`.</span>
 
 <span class="sd">    Code adapted from the `mne-features &lt;https://mne.tools/mne-features/&gt;`_</span>
 <span class="sd">    package by Jean-Baptiste Schiratti and Alexandre Gramfort.</span>
@@ -625,12 +640,21 @@
 <span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.app_entropy(x):.4f}&quot;)</span>
 <span class="sd">    -0.0010</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">phi</span> <span class="o">=</span> <span class="n">_app_samp_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span> <span class="n">approximate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># define r</span>
+    <span class="k">if</span> <span class="n">tolerance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tolerance</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">tolerance</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">_app_samp_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span> <span class="n">approximate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="sample_entropy"><a class="viewcode-back" href="../../generated/antropy.sample_entropy.html#antropy.sample_entropy">[docs]</a><span class="k">def</span> <span class="nf">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;chebyshev&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sample Entropy.</span>
+
+<div class="viewcode-block" id="sample_entropy">
+<a class="viewcode-back" href="../../generated/antropy.sample_entropy.html#antropy.sample_entropy">[docs]</a>
+<span class="k">def</span> <span class="nf">sample_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;chebyshev&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample Entropy.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -638,6 +662,9 @@
 <span class="sd">        One-dimensional time series of shape (n_times).</span>
 <span class="sd">    order : int</span>
 <span class="sd">        Embedding dimension. Default is 2.</span>
+<span class="sd">    tolerance : float</span>
+<span class="sd">        Tolerance value for acceptance of the template vector. Default is 0.2</span>
+<span class="sd">        times the standard deviation of x.</span>
 <span class="sd">    metric : str</span>
 <span class="sd">        Name of the distance metric function used with</span>
 <span class="sd">        :py:class:`sklearn.neighbors.KDTree`. Default is to use the</span>
@@ -734,17 +761,24 @@
 <span class="sd">    &gt;&gt;&gt; print(f&quot;{ant.sample_entropy(x):.4f}&quot;)</span>
 <span class="sd">    -0.0000</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># define r</span>
+    <span class="k">if</span> <span class="n">tolerance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tolerance</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">tolerance</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;chebyshev&quot;</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">5000</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_numba_sampen</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">_numba_sampen</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">phi</span> <span class="o">=</span> <span class="n">_app_samp_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span> <span class="n">approximate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">_app_samp_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span> <span class="n">approximate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span></div>
+
 
 
 <span class="nd">@jit</span><span class="p">(</span><span class="s2">&quot;uint32(uint32[:])&quot;</span><span class="p">,</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_lz_complexity</span><span class="p">(</span><span class="n">binary_string</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Internal Numba implementation of the Lempel-Ziv (LZ) complexity.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Internal Numba implementation of the Lempel-Ziv (LZ) complexity.</span>
 <span class="sd">    https://github.com/Naereen/Lempel-Ziv_Complexity/blob/master/src/lziv_complexity.py</span>
 <span class="sd">    - Updated with strict integer typing instead of strings</span>
 <span class="sd">    - Slight restructuring based on Yacine Mahdid&#39;s notebook:</span>
@@ -789,8 +823,10 @@
     <span class="k">return</span> <span class="n">complexity</span>
 
 
-<div class="viewcode-block" id="lziv_complexity"><a class="viewcode-back" href="../../generated/antropy.lziv_complexity.html#antropy.lziv_complexity">[docs]</a><span class="k">def</span> <span class="nf">lziv_complexity</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="lziv_complexity">
+<a class="viewcode-back" href="../../generated/antropy.lziv_complexity.html#antropy.lziv_complexity">[docs]</a>
+<span class="k">def</span> <span class="nf">lziv_complexity</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Lempel-Ziv (LZ) complexity of (binary) sequence.</span>
 
 <span class="sd">    .. versionadded:: 0.1.1</span>
@@ -904,13 +940,16 @@
         <span class="k">return</span> <span class="n">_lz_complexity</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
 
 
+
 <span class="c1">###############################################################################</span>
 <span class="c1"># OTHER TIME-DOMAIN METRICS</span>
 <span class="c1">###############################################################################</span>
 
 
-<div class="viewcode-block" id="num_zerocross"><a class="viewcode-back" href="../../generated/antropy.num_zerocross.html#antropy.num_zerocross">[docs]</a><span class="k">def</span> <span class="nf">num_zerocross</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Number of zero-crossings.</span>
+<div class="viewcode-block" id="num_zerocross">
+<a class="viewcode-back" href="../../generated/antropy.num_zerocross.html#antropy.num_zerocross">[docs]</a>
+<span class="k">def</span> <span class="nf">num_zerocross</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Number of zero-crossings.</span>
 
 <span class="sd">    .. versionadded: 0.1.3</span>
 
@@ -995,8 +1034,11 @@
     <span class="k">return</span> <span class="n">nzc</span></div>
 
 
-<div class="viewcode-block" id="hjorth_params"><a class="viewcode-back" href="../../generated/antropy.hjorth_params.html#antropy.hjorth_params">[docs]</a><span class="k">def</span> <span class="nf">hjorth_params</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate Hjorth mobility and complexity on given axis.</span>
+
+<div class="viewcode-block" id="hjorth_params">
+<a class="viewcode-back" href="../../generated/antropy.hjorth_params.html#antropy.hjorth_params">[docs]</a>
+<span class="k">def</span> <span class="nf">hjorth_params</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate Hjorth mobility and complexity on given axis.</span>
 
 <span class="sd">    .. versionadded: 0.1.3</span>
 
@@ -1094,6 +1136,7 @@
     <span class="n">mob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dx_var</span> <span class="o">/</span> <span class="n">x_var</span><span class="p">)</span>
     <span class="n">com</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ddx_var</span> <span class="o">/</span> <span class="n">dx_var</span><span class="p">)</span> <span class="o">/</span> <span class="n">mob</span>
     <span class="k">return</span> <span class="n">mob</span><span class="p">,</span> <span class="n">com</span></div>
+
 </pre></div>
 
     </div>
@@ -1110,8 +1153,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2018-2023, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br/>
+        &copy; Copyright 2018-2024, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.4.7.<br/>
     </p>
   </div>
 </footer>

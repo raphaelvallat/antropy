@@ -9,7 +9,7 @@ MAINTAINER_EMAIL = "raphaelvallat9@gmail.com"
 URL = "https://raphaelvallat.com/antropy/build/html/index.html"
 LICENSE = "BSD (3-clause)"
 DOWNLOAD_URL = "https://github.com/raphaelvallat/antropy/"
-VERSION = "0.1.6"
+VERSION = "0.1.7"
 PACKAGE_DATA = {"antropy.data.icons": ["*.ico"]}
 
 try:

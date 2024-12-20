@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>antropy.fractal &#8212; antropy 0.1.6 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/clipboard.min.js"></script>
-    <script src="../../_static/copybutton.js"></script>
-    <link rel="shortcut icon" href="../../_static/antropy.ico"/>
+    <title>antropy.fractal &#8212; antropy 0.1.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css?v=9f61996d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css?v=917eae1c" />
+    <script src="../../_static/documentation_options.js?v=ca7ad2ea"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fe0808e4"></script>
+    <link rel="icon" href="../../_static/antropy.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
@@ -40,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           antropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -81,6 +80,7 @@
       
   <h1>Source code for antropy.fractal</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Fractal functions&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">jit</span><span class="p">,</span> <span class="n">types</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">floor</span>
@@ -91,8 +91,10 @@
 <span class="nb">all</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;petrosian_fd&quot;</span><span class="p">,</span> <span class="s2">&quot;katz_fd&quot;</span><span class="p">,</span> <span class="s2">&quot;higuchi_fd&quot;</span><span class="p">,</span> <span class="s2">&quot;detrended_fluctuation&quot;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="petrosian_fd"><a class="viewcode-back" href="../../generated/antropy.petrosian_fd.html#antropy.petrosian_fd">[docs]</a><span class="k">def</span> <span class="nf">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Petrosian fractal dimension.</span>
+<div class="viewcode-block" id="petrosian_fd">
+<a class="viewcode-back" href="../../generated/antropy.petrosian_fd.html#antropy.petrosian_fd">[docs]</a>
+<span class="k">def</span> <span class="nf">petrosian_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Petrosian fractal dimension.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -181,8 +183,11 @@
     <span class="k">return</span> <span class="n">pfd</span></div>
 
 
-<div class="viewcode-block" id="katz_fd"><a class="viewcode-back" href="../../generated/antropy.katz_fd.html#antropy.katz_fd">[docs]</a><span class="k">def</span> <span class="nf">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Katz Fractal Dimension.</span>
+
+<div class="viewcode-block" id="katz_fd">
+<a class="viewcode-back" href="../../generated/antropy.katz_fd.html#antropy.katz_fd">[docs]</a>
+<span class="k">def</span> <span class="nf">katz_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Katz Fractal Dimension.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -265,20 +270,24 @@
 <span class="sd">    1.0000</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Define total length of curve</span>
     <span class="n">dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span>
-    <span class="n">ll</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-    <span class="n">ln</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">ll</span> <span class="o">/</span> <span class="n">dists</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span>
-    <span class="n">aux_d</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">aux_d</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-    <span class="n">kfd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">ln</span> <span class="o">/</span> <span class="p">(</span><span class="n">ln</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">d</span> <span class="o">/</span> <span class="n">ll</span><span class="p">)))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">kfd</span><span class="o">.</span><span class="n">ndim</span><span class="p">:</span>
-        <span class="n">kfd</span> <span class="o">=</span> <span class="n">kfd</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">kfd</span></div>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dists</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+
+    <span class="c1"># Average distance between successive points</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dists</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+
+    <span class="c1"># Compute the farthest distance between starting point and any other point</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">take</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">kfd_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">L</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">d</span> <span class="o">/</span> <span class="n">a</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">kfd_val</span></div>
+
 
 
 <span class="nd">@jit</span><span class="p">((</span><span class="n">types</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">types</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Utility function for `higuchi_fd`.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Utility function for `higuchi_fd`.&quot;&quot;&quot;</span>
     <span class="n">n_times</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span>
     <span class="n">lk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">kmax</span><span class="p">)</span>
     <span class="n">x_reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">kmax</span><span class="p">)</span>
@@ -306,8 +315,10 @@
     <span class="k">return</span> <span class="n">higuchi</span>
 
 
-<div class="viewcode-block" id="higuchi_fd"><a class="viewcode-back" href="../../generated/antropy.higuchi_fd.html#antropy.higuchi_fd">[docs]</a><span class="k">def</span> <span class="nf">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Higuchi Fractal Dimension.</span>
+<div class="viewcode-block" id="higuchi_fd">
+<a class="viewcode-back" href="../../generated/antropy.higuchi_fd.html#antropy.higuchi_fd">[docs]</a>
+<span class="k">def</span> <span class="nf">higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Higuchi Fractal Dimension.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -381,9 +392,10 @@
     <span class="k">return</span> <span class="n">_higuchi_fd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kmax</span><span class="p">)</span></div>
 
 
+
 <span class="nd">@jit</span><span class="p">((</span><span class="n">types</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">),),</span> <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_dfa</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Utility function for detrended fluctuation analysis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -417,8 +429,10 @@
     <span class="k">return</span> <span class="n">dfa</span>
 
 
-<div class="viewcode-block" id="detrended_fluctuation"><a class="viewcode-back" href="../../generated/antropy.detrended_fluctuation.html#antropy.detrended_fluctuation">[docs]</a><span class="k">def</span> <span class="nf">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="detrended_fluctuation">
+<a class="viewcode-back" href="../../generated/antropy.detrended_fluctuation.html#antropy.detrended_fluctuation">[docs]</a>
+<span class="k">def</span> <span class="nf">detrended_fluctuation</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Detrended fluctuation analysis (DFA).</span>
 
 <span class="sd">    Parameters</span>
@@ -526,6 +540,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_dfa</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
 </pre></div>
 
     </div>
@@ -542,8 +557,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2018-2023, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br/>
+        &copy; Copyright 2018-2024, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.4.7.<br/>
     </p>
   </div>
 </footer>

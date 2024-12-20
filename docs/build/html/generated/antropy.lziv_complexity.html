@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>antropy.lziv_complexity &#8212; antropy 0.1.6 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
+    <title>antropy.lziv_complexity &#8212; antropy 0.1.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css?v=9f61996d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=917eae1c" />
+    <script src="../_static/documentation_options.js?v=ca7ad2ea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fe0808e4"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <link rel="shortcut icon" href="../_static/antropy.ico"/>
+    <link rel="icon" href="../_static/antropy.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
@@ -42,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           antropy</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -82,16 +81,16 @@
     <div class="body col-md-12 content" role="main">
       
   <section id="antropy-lziv-complexity">
-<h1>antropy.lziv_complexity<a class="headerlink" href="#antropy-lziv-complexity" title="Permalink to this headline">¶</a></h1>
+<h1>antropy.lziv_complexity<a class="headerlink" href="#antropy-lziv-complexity" title="Link to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="antropy.lziv_complexity">
-<span class="sig-prename descclassname"><span class="pre">antropy.</span></span><span class="sig-name descname"><span class="pre">lziv_complexity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/antropy/entropy.html#lziv_complexity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#antropy.lziv_complexity" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">antropy.</span></span><span class="sig-name descname"><span class="pre">lziv_complexity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/antropy/entropy.html#lziv_complexity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#antropy.lziv_complexity" title="Link to this definition">¶</a></dt>
 <dd><p>Lempel-Ziv (LZ) complexity of (binary) sequence.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.1.</span></p>
+<p><span class="versionmodified added">Added in version 0.1.1.</span></p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>sequence</strong><span class="classifier">str or array</span></dt><dd><p>A sequence of character, e.g. <code class="docutils literal notranslate"><span class="pre">'1001111011000010'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">1]</span></code>, or <code class="docutils literal notranslate"><span class="pre">'Hello</span> <span class="pre">World!'</span></code>.</p>
@@ -100,7 +99,7 @@
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>lz</strong><span class="classifier">int or float</span></dt><dd><p>LZ complexity, which corresponds to the number of different
 substrings encountered as the stream is viewed from the
@@ -183,8 +182,8 @@ Journal of Mathematical Chemistry, 46(4), 1203–1212.
       
     </p>
     <p>
-        &copy; Copyright 2018-2023, Raphael Vallat.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br/>
+        &copy; Copyright 2018-2024, Raphael Vallat.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.4.7.<br/>
     </p>
   </div>
 </footer>

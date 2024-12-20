@@ -5,7 +5,7 @@ What's new
 
 
 v0.1.7 (December 2024)
-------------------
+----------------------
 
 - Simplify Katz FD implementation. https://github.com/raphaelvallat/antropy/pull/30
 - Add tolerance parameter to the approximate and sample entropy. https://github.com/raphaelvallat/antropy/pull/32

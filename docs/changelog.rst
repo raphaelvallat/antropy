@@ -3,6 +3,14 @@
 What's new
 ##########
 
+
+v0.1.7 (December 2024)
+------------------
+
+- Simplify Katz FD implementation. https://github.com/raphaelvallat/antropy/pull/30
+- Add tolerance parameter to the approximate and sample entropy. https://github.com/raphaelvallat/antropy/pull/32
+- Fix for scikit-learn ≥ 1.3 in approximate and sample entropy. https://github.com/raphaelvallat/antropy/pull/36
+
 v0.1.6 (July 2023)
 ------------------
 

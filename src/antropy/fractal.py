@@ -1,8 +1,9 @@
 """Fractal functions"""
 
+from math import floor, log
+
 import numpy as np
 from numba import jit, types
-from math import log, floor
 
 from .entropy import num_zerocross
 from .utils import _linear_regression, _log_n

@@ -1,5 +1,0 @@
-numpy
-scipy
-scikit-learn
-numba>=0.57
-stochastic

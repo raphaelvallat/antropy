@@ -1,2 +1,114 @@
-[tool.black]
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "antropy"
+description = "AntroPy: entropy and complexity of time-series in Python"
+readme = "README.rst"
+license = {text = "BSD (3-clause)"}
+authors = [
+    {name = "Raphael Vallat", email = "raphaelvallat9@gmail.com"},
+]
+maintainers = [
+    {name = "Raphael Vallat", email = "raphaelvallat9@gmail.com"},
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+dynamic = ["version"]
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "scipy",
+    "scikit-learn",
+    "numba>=0.57",
+    "stochastic",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=6",
+    "pytest-cov",
+    # Ensure coverage is new enough for `source_pkgs`.
+    "coverage[toml]>=5.3",
+    "ruff"
+]
+docs = [
+    "sphinx>7.0.0",
+    # "pydata_sphinx_theme",
+    "numpydoc",
+    "sphinx-copybutton",
+    "sphinx-design",
+    # "sphinx-notfound-page",
+]
+
+[project.urls]
+Homepage = "https://github.com/raphaelvallat/antropy/"
+Downloads = "https://github.com/raphaelvallat/antropy/"
+
+[tool.setuptools]
+py-modules = ["antropy"]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+namespaces = false
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {attr = "antropy.__version__"}
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--showlocals --durations=10 --maxfail=2 --cov"
+doctest_optionflags= ["NORMALIZE_WHITESPACE", "IGNORE_EXCEPTION_DETAIL"]
+filterwarnings = [
+    "ignore::UserWarning",
+    "ignore::RuntimeWarning",
+    "ignore::FutureWarning",
+]
+markers = ["slow"]
+
+[tool.coverage.run]
+branch = true
+omit = [
+    "*/tests/*",
+]
+source_pkgs = ["antropy"]
+
+[tool.coverage.paths]
+source = ["src"]
+
+[tool.coverage.report]
+show_missing = true
+# sort = "Cover"
+
+[tool.ruff]
 line-length = 100
+target-version = "py311"
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+lint.select = ["E4", "E7", "E9", "F", "I", "NPY201"]
+exclude = [
+    "notebooks",  # Skip jupyter notebook examples
+    "docs",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "F403"]  # Ignore star and unused import violations for __init__.py files
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.format]
+docstring-code-format = false
+docstring-code-line-length = 90

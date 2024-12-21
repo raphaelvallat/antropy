@@ -85,7 +85,7 @@ omit = [
 source_pkgs = ["antropy"]
 
 [tool.coverage.paths]
-source = ["src"]
+source = ["src", "tests"]
 
 [tool.coverage.report]
 show_missing = true

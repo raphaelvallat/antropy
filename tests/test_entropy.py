@@ -1,23 +1,23 @@
 """Test entropy functions."""
 
 import unittest
+
 import numpy as np
-from numpy.testing import assert_equal
 from numpy import apply_along_axis as aal
+from numpy.testing import assert_equal
+from utils import ARANGE, NORMAL_TS, PURE_SINE, RANDOM_TS, RANDOM_TS_LONG, TEST_DTYPES
+
 from antropy import (
-    perm_entropy,
-    spectral_entropy,
-    svd_entropy,
-    sample_entropy,
     app_entropy,
+    hjorth_params,
     lziv_complexity,
     num_zerocross,
-    hjorth_params,
+    perm_entropy,
+    sample_entropy,
+    spectral_entropy,
+    svd_entropy,
 )
-
 from antropy.utils import _xlogx
-
-from utils import RANDOM_TS, NORMAL_TS, RANDOM_TS_LONG, PURE_SINE, ARANGE, TEST_DTYPES
 
 SF_TS = 100
 BANDT_PERM = [4, 7, 9, 10, 6, 11, 3]

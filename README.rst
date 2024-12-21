@@ -41,6 +41,15 @@ or conda
   conda config --set channel_priority strict
   conda install antropy
 
+To build and install from source, clone this repository or download the source archive and decompress the files
+
+.. code-block:: shell
+
+  cd antropy
+  pip install ".[test]"     # install the package
+  pip install -e ".[test]"  # or editable install
+  pytest
+
 **Dependencies**
 
 - `numpy <https://numpy.org/>`_

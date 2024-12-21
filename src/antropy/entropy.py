@@ -1,10 +1,11 @@
 """Entropy functions"""
 
+from math import factorial, log
+
 import numpy as np
 from numba import jit, types
-from math import factorial, log
-from sklearn.neighbors import KDTree
 from scipy.signal import periodogram, welch
+from sklearn.neighbors import KDTree
 
 from .utils import _embed, _xlogx
 

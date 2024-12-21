@@ -1,8 +1,9 @@
 """Helper functions"""
 
+from math import floor, log
+
 import numpy as np
 from numba import jit
-from math import log, floor
 
 all = ["_embed", "_linear_regression", "_log_n", "_xlog2x"]
 epsilon = 10e-9

@@ -105,3 +105,4 @@ desktop.ini
 docs/build/doctrees/
 docs/generated/
 .DS_Store
+push_pypi.md

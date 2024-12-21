@@ -1,14 +1,13 @@
 """Test fractal dimension functions."""
 
 import unittest
+
 import numpy as np
-from numpy.testing import assert_equal
 from numpy import apply_along_axis as aal
-from antropy import petrosian_fd, katz_fd, higuchi_fd, detrended_fluctuation
-import stochastic.processes.noise as sn
+from numpy.testing import assert_equal
+from utils import ARANGE, NORMAL_TS, PURE_COSINE, PURE_SINE, RANDOM_TS, TEST_DTYPES
 
-
-from utils import RANDOM_TS, NORMAL_TS, PURE_SINE, PURE_COSINE, ARANGE, TEST_DTYPES
+from antropy import detrended_fluctuation, higuchi_fd, katz_fd, petrosian_fd
 
 PPG_SIGNAL = np.array(
     [

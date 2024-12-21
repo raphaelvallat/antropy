@@ -3,6 +3,11 @@
 What's new
 ##########
 
+v0.1.8 (December 2024)
+----------------------
+
+- Switch to modern python packaging
+- Use ruff instead of black/flake8
 
 v0.1.7 (December 2024)
 ----------------------

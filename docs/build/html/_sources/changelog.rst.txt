@@ -3,6 +3,11 @@
 What's new
 ##########
 
+v0.1.9 (February 2025)
+----------------------
+
+- Remove `stochastic` package from dependency to enable support for Numpy 2.x
+
 v0.1.8 (December 2024)
 ----------------------
 

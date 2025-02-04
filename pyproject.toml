@@ -31,7 +31,6 @@ dependencies = [
     "scipy",
     "scikit-learn",
     "numba>=0.57",
-    "stochastic",
 ]
 
 [project.optional-dependencies]
@@ -48,6 +47,7 @@ docs = [
     "numpydoc",
     "sphinx-copybutton",
     "sphinx-design",
+    "stochastic",  # for doctests
     # "sphinx-notfound-page",
 ]
 

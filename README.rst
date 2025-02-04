@@ -56,7 +56,6 @@ To build and install from source, clone this repository or download the source a
 - `scipy <https://www.scipy.org/>`_
 - `scikit-learn <https://scikit-learn.org/>`_
 - `numba <http://numba.pydata.org/>`_
-- `stochastic <https://github.com/crflynn/stochastic>`_
 
 Functions
 =========

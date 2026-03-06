@@ -2,6 +2,12 @@
 
 |
 
+.. image:: https://badge.fury.io/py/antropy.svg
+  :target: https://badge.fury.io/py/antropy
+
+.. image:: https://img.shields.io/conda/vn/conda-forge/antropy.svg
+  :target: https://anaconda.org/conda-forge/antropy
+
 .. image:: https://img.shields.io/github/license/raphaelvallat/antropy.svg
   :target: https://github.com/raphaelvallat/antropy/blob/master/LICENSE
 
@@ -9,20 +15,58 @@
   :target: https://github.com/raphaelvallat/antropy/actions/workflows/python_tests.yml
 
 .. image:: https://codecov.io/gh/raphaelvallat/antropy/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/raphaelvallat/antropy
+  :target: https://codecov.io/gh/raphaelvallat/antropy
+
+.. image:: https://static.pepy.tech/badge/antropy
+  :target: https://pepy.tech/projects/antropy
+
+.. image:: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
+  :target: https://github.com/astral-sh/ruff
+  :alt: Ruff
 
 ----------------
 
-.. figure::  https://github.com/raphaelvallat/antropy/blob/master/docs/pictures/logo.png?raw=true
-   :align:   center
+.. Add a hidden ToC including any page that should show up in the navigation bar
+.. toctree::
+    :hidden:
 
-AntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of time-series.
-It can be used for example to extract features from EEG signals.
+    API <api>
+    What's new <changelog>
+    Contribute <contributing>
+
+.. figure:: /pictures/logo.png
+   :align: center
+
+**AntroPy** is a Python 3 package providing several time-efficient algorithms for computing
+the complexity of time-series. It can be used for example to extract features from EEG signals.
+
+**********
 
 Installation
 ============
 
-AntroPy can be installed with pip
+AntroPy is a Python 3 package and is currently tested for Python 3.10+.
+
+Dependencies
+------------
+
+The main dependencies of AntroPy are:
+
+* `NumPy <https://numpy.org/>`_ >= 1.22.4
+* `SciPy <https://scipy.org/>`_ >= 1.8.0
+* `scikit-learn <https://scikit-learn.org/>`_ >= 1.2.0
+* `Numba <https://numba.readthedocs.io/>`_ >= 0.57
+
+User installation
+-----------------
+
+AntroPy can be easily installed using `uv <https://docs.astral.sh/uv/>`_
+
+.. code-block:: shell
+
+  uv pip install antropy
+
+pip
 
 .. code-block:: shell
 
@@ -32,26 +76,23 @@ or conda
 
 .. code-block:: shell
 
-  conda config --add channels conda-forge
-  conda config --set channel_priority strict
-  conda install antropy
+  conda install -c conda-forge antropy
 
-To build and install from source, clone this repository or download the source archive and decompress the files
+Development
+-----------
+
+To build and install from source, clone this repository and install in editable mode with `uv <https://docs.astral.sh/uv/>`_
 
 .. code-block:: shell
 
+  git clone https://github.com/raphaelvallat/antropy.git
   cd antropy
-  pip install ".[test]"     # install the package
-  pip install -e ".[test]"  # or editable install
-  pytest
+  uv pip install --group=test --editable .
 
-**Dependencies**
+  # test the package
+  pytest --verbose
 
-- `numpy <https://numpy.org/>`_
-- `scipy <https://www.scipy.org/>`_
-- `scikit-learn <https://scikit-learn.org/>`_
-- `numba <http://numba.pydata.org/>`_
-- `stochastic <https://github.com/crflynn/stochastic>`_
+**********
 
 Functions
 =========
@@ -112,40 +153,7 @@ Functions
     2.005040632258251
     0.47903505674073327
 
-Execution time
-~~~~~~~~~~~~~~
-
-Here are some benchmarks computed on a MacBook Pro (2020).
-
-.. code-block:: python
-
-    import numpy as np
-    import antropy as ant
-    np.random.seed(1234567)
-    x = np.random.rand(1000)
-    # Entropy
-    %timeit ant.perm_entropy(x)
-    %timeit ant.spectral_entropy(x, sf=100)
-    %timeit ant.svd_entropy(x)
-    %timeit ant.app_entropy(x)  # Slow
-    %timeit ant.sample_entropy(x)  # Numba
-    # Fractal dimension
-    %timeit ant.petrosian_fd(x)
-    %timeit ant.katz_fd(x)
-    %timeit ant.higuchi_fd(x) # Numba
-    %timeit ant.detrended_fluctuation(x) # Numba
-
-.. parsed-literal::
-
-    106 µs ± 5.49 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-    138 µs ± 3.53 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-    40.7 µs ± 303 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-    2.44 ms ± 134 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-    2.21 ms ± 35.4 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-    23.5 µs ± 695 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-    40.1 µs ± 2.09 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
-    13.7 µs ± 251 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
-    315 µs ± 10.7 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+**********
 
 Development
 ===========
@@ -156,14 +164,16 @@ To see the code or report a bug, please visit the `GitHub repository <https://gi
 
 Note that this program is provided with **NO WARRANTY OF ANY KIND**. Always double check the results.
 
+**********
+
 Acknowledgement
 ===============
 
 Several functions of AntroPy were adapted from:
 
-- MNE-features: https://github.com/mne-tools/mne-features
-- pyEntropy: https://github.com/nikdon/pyEntropy
-- pyrem: https://github.com/gilestrolab/pyrem
-- nolds: https://github.com/CSchoel/nolds
+- `MNE-features <https://github.com/mne-tools/mne-features>`_
+- `pyEntropy <https://github.com/nikdon/pyEntropy>`_
+- `pyrem <https://github.com/gilestrolab/pyrem>`_
+- `nolds <https://github.com/CSchoel/nolds>`_
 
-All the credit goes to the author of these excellent packages.
+All the credit goes to the authors of these excellent packages.

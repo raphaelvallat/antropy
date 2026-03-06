@@ -5,6 +5,8 @@
 API reference
 =============
 
+Full list of available functions in AntroPy. Click on any function name to see its detailed documentation.
+
 Entropy
 -------
 

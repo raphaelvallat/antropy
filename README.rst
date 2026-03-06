@@ -30,11 +30,9 @@
    :align: center
 
 **AntroPy** is a Python package for computing entropy and fractal dimension measures of
-time-series. It is designed for speed (Numba JIT compilation for the most expensive functions)
-and ease of use, and works on both 1-D and N-D arrays.
-
-Typical use cases include feature extraction from physiological signals (EEG, ECG, EMG),
-neuroscience, and signal processing research.
+time-series. It is designed for speed (Numba JIT compilation) and ease of use, and works on
+both 1-D and N-D arrays. Typical use cases include feature extraction from physiological signals
+(e.g. EEG, ECG, EMG), and signal processing research.
 
 - `Documentation <https://raphaelvallat.com/antropy/>`_
 - `Changelog <https://raphaelvallat.com/antropy/changelog.html>`_
@@ -56,27 +54,20 @@ Entropy
      - Description
    * - ``ant.perm_entropy``
      - Permutation entropy — captures ordinal patterns in the signal.
-       Supports multiple delays and N-D arrays.
    * - ``ant.spectral_entropy``
      - Spectral (power-spectrum) entropy via FFT or Welch method.
-       Supports N-D arrays.
    * - ``ant.svd_entropy``
      - Singular value decomposition entropy of the time-delay embedding matrix.
    * - ``ant.app_entropy``
-     - Approximate entropy (ApEn) — regularity measure sensitive to the
-       length of the signal.
+     - Approximate entropy (ApEn) — regularity measure sensitive to the length of the signal.
    * - ``ant.sample_entropy``
      - Sample entropy (SampEn) — less biased alternative to ApEn.
-       Numba-accelerated for short series (< 5000 samples).
    * - ``ant.lziv_complexity``
      - Lempel-Ziv complexity for symbolic / binary sequences.
-       Works with strings, lists, and arrays.
    * - ``ant.num_zerocross``
-     - Number of zero-crossings. Supports N-D arrays.
+     - Number of zero-crossings.
    * - ``ant.hjorth_params``
      - Hjorth mobility and complexity parameters.
-       Optional ``sf`` argument converts mobility to Hz.
-       Supports N-D arrays.
 
 Fractal dimension
 -----------------
@@ -88,16 +79,13 @@ Fractal dimension
    * - Function
      - Description
    * - ``ant.petrosian_fd``
-     - Petrosian fractal dimension — fast estimate based on zero-crossings
-       of the derivative. Supports N-D arrays.
+     - Petrosian fractal dimension.
    * - ``ant.katz_fd``
-     - Katz fractal dimension. Supports N-D arrays.
+     - Katz fractal dimension.
    * - ``ant.higuchi_fd``
-     - Higuchi fractal dimension — slope of log curve-length vs log interval,
-       Numba-accelerated.
+     - Higuchi fractal dimension — slope of log curve-length vs log interval.
    * - ``ant.detrended_fluctuation``
-     - Detrended fluctuation analysis (DFA) — estimates the Hurst / scaling
-       exponent, Numba-accelerated.
+     - Detrended fluctuation analysis (DFA) — estimates the Hurst / scaling exponent.
 
 ----------------
 
@@ -156,15 +144,15 @@ Entropy measures
 
 .. parsed-literal::
 
-    0.9995371694290869       # perm_entropy        (0 = regular, 1 = random)
-    0.9940882825422431       # spectral_entropy     (0 = pure tone, 1 = white noise)
-    0.9999110978316078       # svd_entropy
-    2.015221318528564        # app_entropy
-    2.198595813245399        # sample_entropy
-    (1.4313385010057378, 1.215335712274099)   # hjorth (mobility, complexity)
-    (143.13385010057377, 1.215335712274099)   # hjorth with sf=100 Hz
-    1531                     # num_zerocross
-    1.3597696150205727       # lziv_complexity (normalized)
+    0.9995              # perm_entropy        (0 = regular, 1 = random)
+    0.9941              # spectral_entropy     (0 = pure tone, 1 = white noise)
+    0.9999              # svd_entropy
+    2.0152              # app_entropy
+    2.1986              # sample_entropy
+    (1.4313, 1.2153)    # hjorth (mobility, complexity)
+    (143.1339, 1.2153)  # hjorth with sf=100 Hz
+    1531                # num_zerocross
+    1.3598              # lziv_complexity (normalized)
 
 Fractal dimension
 -----------------
@@ -178,10 +166,10 @@ Fractal dimension
 
 .. parsed-literal::
 
-    1.0310643385753608       # petrosian_fd
-    5.9542721566659225       # katz_fd
-    2.0036527058413816       # higuchi_fd     (≈ 2 for white noise)
-    0.47903505674015406      # DFA alpha      (≈ 0.5 for white noise)
+    1.0311    # petrosian_fd
+    5.9543    # katz_fd
+    2.0037    # higuchi_fd   (≈ 2 for white noise)
+    0.4790    # DFA alpha    (≈ 0.5 for white noise)
 
 N-D arrays
 ----------
@@ -207,44 +195,34 @@ multi-channel data in a single call:
 Performance
 ===========
 
-Benchmarks on a 1000-sample signal (MacBook Pro, 2020):
+Benchmarks on a 1000-sample signal (MacBook Pro M1 Max, 2021):
 
 .. list-table::
-   :widths: 45 30 25
+   :widths: 55 45
    :header-rows: 1
 
    * - Function
      - Time
-     - Backend
    * - ``ant.perm_entropy``
-     - 106 µs
-     - NumPy
+     - 53 µs
    * - ``ant.spectral_entropy``
-     - 138 µs
-     - NumPy / SciPy
+     - 113 µs
    * - ``ant.svd_entropy``
-     - 40.7 µs
-     - NumPy
+     - 24 µs
    * - ``ant.app_entropy``
-     - 2.44 ms
-     - NumPy (slow for long series)
+     - 1.4 ms
    * - ``ant.sample_entropy``
-     - 2.21 ms
-     - **Numba** (JIT)
+     - 910 µs
    * - ``ant.petrosian_fd``
-     - 23.5 µs
-     - NumPy
+     - 6 µs
    * - ``ant.katz_fd``
-     - 40.1 µs
-     - NumPy
+     - 9 µs
    * - ``ant.higuchi_fd``
-     - 13.7 µs
-     - **Numba** (JIT)
+     - 7 µs
    * - ``ant.detrended_fluctuation``
-     - 315 µs
-     - **Numba** (JIT)
+     - 100 µs
 
-Numba functions incur a one-time compilation cost on the first call.
+Numba functions (``sample_entropy``, ``higuchi_fd``, ``detrended_fluctuation``) incur a one-time compilation cost on the first call.
 
 ----------------
 

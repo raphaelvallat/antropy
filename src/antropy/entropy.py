@@ -199,22 +199,22 @@ def spectral_entropy(x, sf, method="fft", nperseg=None, normalize=False, axis=-1
     >>> import numpy as np
     >>> import antropy as ant
     >>> sf, f, dur = 100, 1, 4
-    >>> N = sf * dur # Total number of discrete samples
-    >>> t = np.arange(N) / sf # Time vector
+    >>> N = sf * dur  # Total number of discrete samples
+    >>> t = np.arange(N) / sf  # Time vector
     >>> x = np.sin(2 * np.pi * f * t)
-    >>> np.round(ant.spectral_entropy(x, sf, method='fft'), 2)
+    >>> np.round(ant.spectral_entropy(x, sf, method="fft"), 2)
     0.0
 
     Spectral entropy of a random signal using Welch's method
 
     >>> np.random.seed(42)
     >>> x = np.random.rand(3000)
-    >>> ant.spectral_entropy(x, sf=100, method='welch')
+    >>> ant.spectral_entropy(x, sf=100, method="welch")
     6.98004566237139
 
     Normalized spectral entropy
 
-    >>> ant.spectral_entropy(x, sf=100, method='welch', normalize=True)
+    >>> ant.spectral_entropy(x, sf=100, method="welch", normalize=True)
     0.9955526198316073
 
     Normalized spectral entropy of 2D data
@@ -782,7 +782,7 @@ def lziv_complexity(sequence, normalize=False):
     --------
     >>> from antropy import lziv_complexity
     >>> # Substrings = 1 / 0 / 01 / 1110 / 1100 / 0010
-    >>> s = '1001111011000010'
+    >>> s = "1001111011000010"
     >>> lziv_complexity(s)
     6
 
@@ -799,11 +799,11 @@ def lziv_complexity(sequence, normalize=False):
 
     This function also works with characters and words
 
-    >>> s = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    >>> s = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     >>> lziv_complexity(s), lziv_complexity(s, normalize=True)
     (26, 1.0)
 
-    >>> s = 'HELLO WORLD! HELLO WORLD! HELLO WORLD! HELLO WORLD!'
+    >>> s = "HELLO WORLD! HELLO WORLD! HELLO WORLD! HELLO WORLD!"
     >>> lziv_complexity(s), lziv_complexity(s, normalize=True)
     (11, 0.38596001132145313)
     """
@@ -886,8 +886,8 @@ def num_zerocross(x, normalize=False, axis=-1):
     >>> import numpy as np
     >>> import antropy as ant
     >>> sf, f, dur = 100, 1, 4
-    >>> N = sf * dur # Total number of discrete samples
-    >>> t = np.arange(N) / sf # Time vector
+    >>> N = sf * dur  # Total number of discrete samples
+    >>> t = np.arange(N) / sf  # Time vector
     >>> x = np.sin(2 * np.pi * f * t)
     >>> ant.num_zerocross(x)
     7
@@ -982,8 +982,8 @@ def hjorth_params(x, axis=-1):
     >>> import numpy as np
     >>> import antropy as ant
     >>> sf, f, dur = 100, 1, 4
-    >>> N = sf * dur # Total number of discrete samples
-    >>> t = np.arange(N) / sf # Time vector
+    >>> N = sf * dur  # Total number of discrete samples
+    >>> t = np.arange(N) / sf  # Time vector
     >>> x = np.sin(2 * np.pi * f * t)
     >>> np.round(ant.hjorth_params(x), 4)
     array([0.0627, 1.005 ])

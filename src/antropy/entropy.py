@@ -476,6 +476,7 @@ def app_entropy(x, order=2, tolerance=None, metric="chebyshev"):
         :py:class:`sklearn.neighbors.KDTree`. Default is to use the
         `Chebyshev <https://en.wikipedia.org/wiki/Chebyshev_distance>`_
         distance.
+
     Returns
     -------
     ae : float

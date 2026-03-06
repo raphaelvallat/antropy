@@ -367,12 +367,12 @@
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>alpha</strong><span class="classifier">float</span></dt><dd><p>the estimate alpha (<span class="math notranslate nohighlight">\(\alpha\)</span>) for the Hurst parameter.</p>
-<p><span class="math notranslate nohighlight">\(\alpha &lt; 1`\)</span> indicates a
-stationary process similar to fractional Gaussian noise with
-<span class="math notranslate nohighlight">\(H = \alpha\)</span>.</p>
-<p><span class="math notranslate nohighlight">\(\alpha &gt; 1`\)</span> indicates a non-stationary process similar to
-fractional Brownian motion with <span class="math notranslate nohighlight">\(H = \alpha - 1\)</span></p>
+<dt><strong>alpha</strong><span class="classifier">float</span></dt><dd><p>The estimated scaling exponent <span class="math notranslate nohighlight">\(\alpha\)</span> (related to the Hurst
+parameter).</p>
+<p><span class="math notranslate nohighlight">\(\alpha &lt; 1\)</span> indicates a stationary process similar to
+fractional Gaussian noise with <span class="math notranslate nohighlight">\(H = \alpha\)</span>.</p>
+<p><span class="math notranslate nohighlight">\(\alpha &gt; 1\)</span> indicates a non-stationary process similar to
+fractional Brownian motion with <span class="math notranslate nohighlight">\(H = \alpha - 1\)</span>.</p>
 </dd>
 </dl>
 </dd>
@@ -389,14 +389,14 @@ length factor <span class="math notranslate nohighlight">\(L\)</span> in a power
 <p>where <span class="math notranslate nohighlight">\(\text{std}(X, k)\)</span> is the standard deviation of the process
 <span class="math notranslate nohighlight">\(X\)</span> calculated over windows of size <span class="math notranslate nohighlight">\(k\)</span>. In this equation,
 <span class="math notranslate nohighlight">\(H\)</span> is called the Hurst parameter, which behaves indeed very similar
-to the Hurst exponant.</p>
+to the Hurst exponent.</p>
 <p>For more details, please refer to the excellent documentation of the
 <a class="reference external" href="https://cschoel.github.io/nolds/">nolds</a>
 Python package by Christopher Scholzel, from which this function is taken:
 <a class="reference external" href="https://cschoel.github.io/nolds/nolds.html#detrended-fluctuation-analysis">https://cschoel.github.io/nolds/nolds.html#detrended-fluctuation-analysis</a></p>
-<p>Note that the default subseries size is set to
-entropy.utils._log_n(4, 0.1 * len(x), 1.2)). The current implementation
-does not allow to manually specify the subseries size or use overlapping
+<p>Note that the subseries sizes range from 4 to 10% of the signal length,
+spaced geometrically by a factor of 1.2. The current implementation does
+not allow to manually specify the subseries sizes or use overlapping
 windows.</p>
 <p>The code is a faster (Numba) adaptation of the original code by Christopher
 Scholzel.</p>

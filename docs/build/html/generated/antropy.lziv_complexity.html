@@ -357,14 +357,14 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="antropy.lziv_complexity">
 <span class="sig-prename descclassname"><span class="pre">antropy.</span></span><span class="sig-name descname"><span class="pre">lziv_complexity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/antropy/entropy.html#lziv_complexity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#antropy.lziv_complexity" title="Link to this definition">#</a></dt>
-<dd><p>Lempel-Ziv (LZ) complexity of (binary) sequence.</p>
+<dd><p>Lempel-Ziv (LZ) complexity of a sequence.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 0.1.1.</span></p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>sequence</strong><span class="classifier">str or array</span></dt><dd><p>A sequence of character, e.g. <code class="docutils literal notranslate"><span class="pre">'1001111011000010'</span></code>,
+<dt><strong>sequence</strong><span class="classifier">str or array</span></dt><dd><p>A sequence of characters, e.g. <code class="docutils literal notranslate"><span class="pre">'1001111011000010'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">1]</span></code>, or <code class="docutils literal notranslate"><span class="pre">'Hello</span> <span class="pre">World!'</span></code>.</p>
 </dd>
 <dt><strong>normalize</strong><span class="classifier">bool</span></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, returns the normalized LZ (see Notes).</p>
@@ -383,7 +383,7 @@ integer (counts), otherwise the output is a float.</p>
 </dl>
 <p class="rubric">Notes</p>
 <p>LZ complexity is defined as the number of different substrings encountered
-as the sequence is viewed from begining to the end.</p>
+as the sequence is viewed from beginning to the end.</p>
 <p>Although the raw LZ is an important complexity indicator, it is heavily
 influenced by sequence length (longer sequence will result in higher LZ).
 Zhang and colleagues (2009) have therefore proposed the normalized LZ,

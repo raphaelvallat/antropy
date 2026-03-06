@@ -603,6 +603,25 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
+<span class="sd">    For each interval :math:`k` from 1 to ``kmax``, :math:`k` sub-series are</span>
+<span class="sd">    constructed from the signal :math:`x` of length :math:`N`. Letting</span>
+<span class="sd">    :math:`N_m = \\lfloor (N-m)/k \\rfloor`, the normalised length for each</span>
+<span class="sd">    sub-series starting at :math:`m` is:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        L_m(k) = \\frac{N-1}{k^2 \\cdot N_m}</span>
+<span class="sd">        \\sum_{j=1}^{N_m - 1} |x_{m+jk} - x_{m+(j-1)k}|</span>
+
+<span class="sd">    and the average length across all :math:`k` sub-series is:</span>
+
+<span class="sd">    .. math:: L(k) = \\frac{1}{k} \\sum_{m=1}^{k} L_m(k)</span>
+
+<span class="sd">    The fractal dimension is then estimated as the slope of the linear</span>
+<span class="sd">    regression of :math:`\\log L(k)` against :math:`\\log(1/k)`:</span>
+
+<span class="sd">    .. math:: \\text{FD} = \\frac{d \\log L(k)}{d \\log(1/k)}</span>
+
 <span class="sd">    Original code from the `mne-features &lt;https://mne.tools/mne-features/&gt;`_</span>
 <span class="sd">    package by Jean-Baptiste Schiratti and Alexandre Gramfort.</span>
 
@@ -613,6 +632,13 @@
 <span class="sd">    Higuchi, Tomoyuki. &quot;Approach to an irregular time series on the</span>
 <span class="sd">    basis of the fractal theory.&quot; Physica D: Nonlinear Phenomena 31.2</span>
 <span class="sd">    (1988): 277-283.</span>
+
+<span class="sd">    Esteller, R. et al. (2001). A comparison of waveform fractal dimension</span>
+<span class="sd">    algorithms. IEEE Transactions on Circuits and Systems I: Fundamental</span>
+<span class="sd">    Theory and Applications, 48(2), 177-183.</span>
+
+<span class="sd">    Paivinen, N. et al. (2005). Epileptic seizure detection: A nonlinear</span>
+<span class="sd">    viewpoint. Computer methods and programs in biomedicine, 79(2), 151-159.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -712,14 +738,14 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    alpha : float</span>
-<span class="sd">        the estimate alpha (:math:`\\alpha`) for the Hurst parameter.</span>
+<span class="sd">        The estimated scaling exponent :math:`\\alpha` (related to the Hurst</span>
+<span class="sd">        parameter).</span>
 
-<span class="sd">        :math:`\\alpha &lt; 1`` indicates a</span>
-<span class="sd">        stationary process similar to fractional Gaussian noise with</span>
-<span class="sd">        :math:`H = \\alpha`.</span>
+<span class="sd">        :math:`\\alpha &lt; 1` indicates a stationary process similar to</span>
+<span class="sd">        fractional Gaussian noise with :math:`H = \\alpha`.</span>
 
-<span class="sd">        :math:`\\alpha &gt; 1`` indicates a non-stationary process similar to</span>
-<span class="sd">        fractional Brownian motion with :math:`H = \\alpha - 1`</span>
+<span class="sd">        :math:`\\alpha &gt; 1` indicates a non-stationary process similar to</span>
+<span class="sd">        fractional Brownian motion with :math:`H = \\alpha - 1`.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -737,16 +763,16 @@
 <span class="sd">    where :math:`\\text{std}(X, k)` is the standard deviation of the process</span>
 <span class="sd">    :math:`X` calculated over windows of size :math:`k`. In this equation,</span>
 <span class="sd">    :math:`H` is called the Hurst parameter, which behaves indeed very similar</span>
-<span class="sd">    to the Hurst exponant.</span>
+<span class="sd">    to the Hurst exponent.</span>
 
 <span class="sd">    For more details, please refer to the excellent documentation of the</span>
 <span class="sd">    `nolds &lt;https://cschoel.github.io/nolds/&gt;`_</span>
 <span class="sd">    Python package by Christopher Scholzel, from which this function is taken:</span>
 <span class="sd">    https://cschoel.github.io/nolds/nolds.html#detrended-fluctuation-analysis</span>
 
-<span class="sd">    Note that the default subseries size is set to</span>
-<span class="sd">    entropy.utils._log_n(4, 0.1 * len(x), 1.2)). The current implementation</span>
-<span class="sd">    does not allow to manually specify the subseries size or use overlapping</span>
+<span class="sd">    Note that the subseries sizes range from 4 to 10% of the signal length,</span>
+<span class="sd">    spaced geometrically by a factor of 1.2. The current implementation does</span>
+<span class="sd">    not allow to manually specify the subseries sizes or use overlapping</span>
 <span class="sd">    windows.</span>
 
 <span class="sd">    The code is a faster (Numba) adaptation of the original code by Christopher</span>

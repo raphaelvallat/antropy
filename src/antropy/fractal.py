@@ -247,15 +247,18 @@ def higuchi_fd(x, kmax=10):
     Notes
     -----
     For each interval :math:`k` from 1 to ``kmax``, :math:`k` sub-series are
-    constructed from the signal :math:`x` of length :math:`N`. The average
-    length of these sub-series is:
+    constructed from the signal :math:`x` of length :math:`N`. Letting
+    :math:`N_m = \\lfloor (N-m)/k \\rfloor`, the normalised length for each
+    sub-series starting at :math:`m` is:
 
     .. math::
 
-        L(k) = \\frac{1}{k} \\sum_{m=1}^{k}
-        \\left[ \\frac{N-1}{\\lfloor (N-m)/k \\rfloor \\cdot k}
-        \\sum_{j=1}^{\\lfloor (N-m)/k \\rfloor} |x_{m+jk} - x_{m+(j-1)k}|
-        \\right]
+        L_m(k) = \\frac{N-1}{k^2 \\cdot N_m}
+        \\sum_{j=1}^{N_m - 1} |x_{m+jk} - x_{m+(j-1)k}|
+
+    and the average length across all :math:`k` sub-series is:
+
+    .. math:: L(k) = \\frac{1}{k} \\sum_{m=1}^{k} L_m(k)
 
     The fractal dimension is then estimated as the slope of the linear
     regression of :math:`\\log L(k)` against :math:`\\log(1/k)`:
@@ -272,6 +275,13 @@ def higuchi_fd(x, kmax=10):
     Higuchi, Tomoyuki. "Approach to an irregular time series on the
     basis of the fractal theory." Physica D: Nonlinear Phenomena 31.2
     (1988): 277-283.
+
+    Esteller, R. et al. (2001). A comparison of waveform fractal dimension
+    algorithms. IEEE Transactions on Circuits and Systems I: Fundamental
+    Theory and Applications, 48(2), 177-183.
+
+    Paivinen, N. et al. (2005). Epileptic seizure detection: A nonlinear
+    viewpoint. Computer methods and programs in biomedicine, 79(2), 151-159.
 
     Examples
     --------

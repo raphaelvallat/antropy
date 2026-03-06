@@ -372,10 +372,12 @@
 </ul>
 </dd>
 <dt><strong>nperseg</strong><span class="classifier">int or None</span></dt><dd><p>Length of each FFT segment for Welch method.
-If None (default), uses scipy default of 256 samples.</p>
+If None (default), uses scipy’s default (256 samples, or the length
+of the signal if shorter).</p>
 </dd>
-<dt><strong>normalize</strong><span class="classifier">bool</span></dt><dd><p>If True, divide by log2(psd.size) to normalize the spectral entropy
-between 0 and 1. Otherwise, return the spectral entropy in bit.</p>
+<dt><strong>normalize</strong><span class="classifier">bool</span></dt><dd><p>If True, divide by log2(number of frequency bins) to normalize the
+spectral entropy between 0 and 1. Otherwise, return the spectral
+entropy in bit.</p>
 </dd>
 <dt><strong>axis</strong><span class="classifier">int</span></dt><dd><p>The axis along which the entropy is calculated. Default is -1 (last).</p>
 </dd>

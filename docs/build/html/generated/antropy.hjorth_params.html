@@ -358,6 +358,9 @@
 <dt class="sig sig-object py" id="antropy.hjorth_params">
 <span class="sig-prename descclassname"><span class="pre">antropy.</span></span><span class="sig-name descname"><span class="pre">hjorth_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/antropy/entropy.html#hjorth_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#antropy.hjorth_params" title="Link to this definition">#</a></dt>
 <dd><p>Calculate Hjorth mobility and complexity on given axis.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 0.1.3.</span></p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -377,7 +380,7 @@
 <p class="rubric">Notes</p>
 <p>Hjorth Parameters are indicators of statistical properties used in signal
 processing in the time domain introduced by Bo Hjorth in 1970. The
-parameters are activity, mobility, and complexity. EntroPy only returns the
+parameters are activity, mobility, and complexity. AntroPy only returns the
 mobility and complexity parameters, since activity is simply the variance
 of <span class="math notranslate nohighlight">\(x\)</span>, which can be computed easily with <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.var.html#numpy.var" title="(in NumPy v2.4)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.var()</span></code></a>.</p>
 <p>The <strong>mobility</strong> parameter represents the mean frequency or the proportion

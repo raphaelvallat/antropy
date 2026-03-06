@@ -46,6 +46,7 @@
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=fd10adb8"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'generated/antropy.higuchi_fd';</script>
     <link rel="icon" href="../_static/antropy.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -374,6 +375,20 @@
 </dd>
 </dl>
 <p class="rubric">Notes</p>
+<p>For each interval <span class="math notranslate nohighlight">\(k\)</span> from 1 to <code class="docutils literal notranslate"><span class="pre">kmax</span></code>, <span class="math notranslate nohighlight">\(k\)</span> sub-series are
+constructed from the signal <span class="math notranslate nohighlight">\(x\)</span> of length <span class="math notranslate nohighlight">\(N\)</span>. Letting
+<span class="math notranslate nohighlight">\(N_m = \lfloor (N-m)/k \rfloor\)</span>, the normalised length for each
+sub-series starting at <span class="math notranslate nohighlight">\(m\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[L_m(k) = \frac{N-1}{k^2 \cdot N_m}
+\sum_{j=1}^{N_m - 1} |x_{m+jk} - x_{m+(j-1)k}|\]</div>
+<p>and the average length across all <span class="math notranslate nohighlight">\(k\)</span> sub-series is:</p>
+<div class="math notranslate nohighlight">
+\[L(k) = \frac{1}{k} \sum_{m=1}^{k} L_m(k)\]</div>
+<p>The fractal dimension is then estimated as the slope of the linear
+regression of <span class="math notranslate nohighlight">\(\log L(k)\)</span> against <span class="math notranslate nohighlight">\(\log(1/k)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\text{FD} = \frac{d \log L(k)}{d \log(1/k)}\]</div>
 <p>Original code from the <a class="reference external" href="https://mne.tools/mne-features/">mne-features</a>
 package by Jean-Baptiste Schiratti and Alexandre Gramfort.</p>
 <p>This function uses Numba to speed up the computation.</p>
@@ -381,6 +396,11 @@ package by Jean-Baptiste Schiratti and Alexandre Gramfort.</p>
 <p>Higuchi, Tomoyuki. “Approach to an irregular time series on the
 basis of the fractal theory.” Physica D: Nonlinear Phenomena 31.2
 (1988): 277-283.</p>
+<p>Esteller, R. et al. (2001). A comparison of waveform fractal dimension
+algorithms. IEEE Transactions on Circuits and Systems I: Fundamental
+Theory and Applications, 48(2), 177-183.</p>
+<p>Paivinen, N. et al. (2005). Epileptic seizure detection: A nonlinear
+viewpoint. Computer methods and programs in biomedicine, 79(2), 151-159.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">antropy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ant</span>

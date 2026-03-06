@@ -78,6 +78,8 @@ class TestEntropy(unittest.TestCase):
         self.assertEqual(np.round(detrended_fluctuation(RANDOM_TS), 4), 0.4976)
         self.assertEqual(np.round(detrended_fluctuation(PURE_SINE), 4), 1.5848)
         self.assertEqual(np.round(detrended_fluctuation(PPG_SIGNAL), 4), 0.0)
+        # Constant signal: all fluctuations zero → NaN
+        assert np.isnan(detrended_fluctuation(np.zeros(100)))
 
     def test_notwritable_dtypes(self):
         fractal_funcs = [petrosian_fd, katz_fd, higuchi_fd, detrended_fluctuation]

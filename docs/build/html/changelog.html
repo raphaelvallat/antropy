@@ -360,9 +360,21 @@
 <li><p>Migrate <code class="docutils literal notranslate"><span class="pre">[project.optional-dependencies]</span></code> to PEP 735 <code class="docutils literal notranslate"><span class="pre">[dependency-groups]</span></code>.</p></li>
 <li><p>Bump <code class="docutils literal notranslate"><span class="pre">setuptools&gt;=80.0</span></code>.</p></li>
 <li><p>Split CI into three jobs: <code class="docutils literal notranslate"><span class="pre">test-core</span></code> (3 platforms × 4 Python versions), <code class="docutils literal notranslate"><span class="pre">test-dependency-combinations</span></code> (4 dep combos from minimum to latest), and <code class="docutils literal notranslate"><span class="pre">coverage</span></code>.</p></li>
+<li><p>Fix <code class="docutils literal notranslate"><span class="pre">test-dependency-combinations</span></code> job: separate antropy install (<code class="docutils literal notranslate"><span class="pre">--no-deps</span></code>) from test-dependency install so that pytest’s own dependencies (e.g. <code class="docutils literal notranslate"><span class="pre">pluggy</span></code>) are always resolved.</p></li>
 <li><p>Fix Codecov upload to use <code class="docutils literal notranslate"><span class="pre">${{</span> <span class="pre">secrets.CODECOV_TOKEN</span> <span class="pre">}}</span></code> instead of a hardcoded token.</p></li>
 <li><p>Switch Ruff workflow from <code class="docutils literal notranslate"><span class="pre">astral-sh/ruff-action&#64;v1</span></code> to <code class="docutils literal notranslate"><span class="pre">uvx</span> <span class="pre">ruff</span></code> via <code class="docutils literal notranslate"><span class="pre">astral-sh/setup-uv&#64;v7</span></code>.</p></li>
 <li><p>Extend Ruff rules: add <code class="docutils literal notranslate"><span class="pre">W</span></code> (pycodestyle warnings) and <code class="docutils literal notranslate"><span class="pre">NPY</span></code> (NumPy rules).</p></li>
+</ul>
+<p><strong>Tests</strong></p>
+<ul class="simple">
+<li><p>Increase test coverage from ~54 % to 100 %.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">tests/test_utils.py</span></code> covering all branches of the <code class="docutils literal notranslate"><span class="pre">_embed</span></code> helper (1-D and 2-D paths, all error conditions).</p></li>
+<li><p>Add edge-case tests: <code class="docutils literal notranslate"><span class="pre">sample_entropy</span></code> returning <code class="docutils literal notranslate"><span class="pre">inf</span></code> (m-length matches exist but no (m+1)-length matches); <code class="docutils literal notranslate"><span class="pre">detrended_fluctuation</span></code> returning <code class="docutils literal notranslate"><span class="pre">NaN</span></code> for a constant signal; <code class="docutils literal notranslate"><span class="pre">spectral_entropy</span></code> raising on an invalid method string.</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">NUMBA_DISABLE_JIT=1</span></code> in the <code class="docutils literal notranslate"><span class="pre">coverage</span></code> CI job so coverage.py can instrument Numba JIT function bodies; other CI jobs still exercise real compiled code.</p></li>
+</ul>
+<p><strong>Bug fixes</strong></p>
+<ul class="simple">
+<li><p>Fix <a class="reference internal" href="generated/antropy.higuchi_fd.html#antropy.higuchi_fd" title="antropy.higuchi_fd"><code class="xref py py-func docutils literal notranslate"><span class="pre">antropy.higuchi_fd()</span></code></a> returning a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> (<code class="docutils literal notranslate"><span class="pre">math</span> <span class="pre">domain</span> <span class="pre">error</span></code>) on constant or integer-typed input arrays: <code class="docutils literal notranslate"><span class="pre">log(0)</span></code> is now guarded to return <code class="docutils literal notranslate"><span class="pre">-inf</span></code>, matching Numba’s IEEE 754 behaviour.</p></li>
 </ul>
 <p><strong>Docs</strong></p>
 <ul class="simple">

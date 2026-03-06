@@ -224,7 +224,7 @@ def _higuchi_fd(x, kmax):
         m_lm /= k
         lk[k - 1] = m_lm
         x_reg[k - 1] = log(1.0 / k)
-        y_reg[k - 1] = log(m_lm)
+        y_reg[k - 1] = log(m_lm) if m_lm > 0 else -np.inf
     higuchi, _ = _linear_regression(x_reg, y_reg)
     return higuchi
 

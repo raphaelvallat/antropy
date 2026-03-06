@@ -57,6 +57,9 @@ class TestEntropy(unittest.TestCase):
             aal(spectral_entropy, axis=1, arr=data, **params),
             spectral_entropy(data, **params),
         )
+        # Invalid method raises an error
+        with self.assertRaises((NameError, ValueError, UnboundLocalError)):
+            spectral_entropy(RANDOM_TS, SF_TS, method="invalid")
 
     def test_svd_entropy(self):
         svd_entropy(RANDOM_TS, order=3, delay=1, normalize=False)
@@ -77,6 +80,14 @@ class TestEntropy(unittest.TestCase):
         sample_entropy(RANDOM_TS, order=2, metric="euclidean")
         with self.assertRaises(ValueError):
             sample_entropy(RANDOM_TS, order=2, metric="wrong")
+        # Explicit tolerance
+        se_tol = sample_entropy(RANDOM_TS, order=2, tolerance=0.1)
+        assert isinstance(se_tol, float)
+        se_tol_long = sample_entropy(RANDOM_TS_LONG, order=2, tolerance=0.1)
+        assert isinstance(se_tol_long, float)
+        # Signal with m-length matches but no (m+1)-length matches → inf
+        x_inf = np.array([0.0, 10.0, 0.0, 20.0])
+        assert sample_entropy(x_inf, order=1, tolerance=0.1) == np.inf
 
     def test_app_entropy(self):
         ae = app_entropy(RANDOM_TS, order=2)
@@ -89,6 +100,9 @@ class TestEntropy(unittest.TestCase):
         app_entropy(RANDOM_TS, order=3)
         with self.assertRaises(ValueError):
             app_entropy(RANDOM_TS, order=2, metric="wrong")
+        # Explicit tolerance
+        ae_tol = app_entropy(RANDOM_TS, order=2, tolerance=0.1)
+        assert isinstance(ae_tol, float)
 
     def test_lziv_complexity(self):
         """Compare to:

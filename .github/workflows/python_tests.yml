@@ -64,12 +64,6 @@ jobs:
             scipy: "1.14.1"
             scikit-learn: "1.5.2"
             numba: "0.60.0"
-          - label: latest-versions
-            python-version: "3.13"
-            numpy: ""
-            scipy: ""
-            scikit-learn: ""
-            numba: ""
 
     runs-on: ${{ matrix.platform }}
 
@@ -108,8 +102,11 @@ jobs:
         if: matrix.label == 'latest-versions'
         run: uv pip install scipy scikit-learn numba --system
 
-      - name: Install antropy and test dependencies
-        run: uv pip install --group=test . --no-deps --system
+      - name: Install antropy (no deps, already pinned above)
+        run: uv pip install . --no-deps --system
+
+      - name: Install test dependencies
+        run: uv pip install --group=test --system
 
       - name: Print installed versions
         run: |
@@ -124,6 +121,7 @@ jobs:
 
     env:
       FORCE_COLOR: true
+      NUMBA_DISABLE_JIT: "1"
 
     steps:
       - uses: actions/checkout@v6

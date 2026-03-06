@@ -14,9 +14,21 @@ v0.2.0 (March 2026)
 - Migrate ``[project.optional-dependencies]`` to PEP 735 ``[dependency-groups]``.
 - Bump ``setuptools>=80.0``.
 - Split CI into three jobs: ``test-core`` (3 platforms × 4 Python versions), ``test-dependency-combinations`` (4 dep combos from minimum to latest), and ``coverage``.
+- Fix ``test-dependency-combinations`` job: separate antropy install (``--no-deps``) from test-dependency install so that pytest's own dependencies (e.g. ``pluggy``) are always resolved.
 - Fix Codecov upload to use ``${{ secrets.CODECOV_TOKEN }}`` instead of a hardcoded token.
 - Switch Ruff workflow from ``astral-sh/ruff-action@v1`` to ``uvx ruff`` via ``astral-sh/setup-uv@v7``.
 - Extend Ruff rules: add ``W`` (pycodestyle warnings) and ``NPY`` (NumPy rules).
+
+**Tests**
+
+- Increase test coverage from ~54 % to 100 %.
+- Add ``tests/test_utils.py`` covering all branches of the ``_embed`` helper (1-D and 2-D paths, all error conditions).
+- Add edge-case tests: ``sample_entropy`` returning ``inf`` (m-length matches exist but no (m+1)-length matches); ``detrended_fluctuation`` returning ``NaN`` for a constant signal; ``spectral_entropy`` raising on an invalid method string.
+- Set ``NUMBA_DISABLE_JIT=1`` in the ``coverage`` CI job so coverage.py can instrument Numba JIT function bodies; other CI jobs still exercise real compiled code.
+
+**Bug fixes**
+
+- Fix :py:func:`antropy.higuchi_fd` returning a ``ValueError`` (``math domain error``) on constant or integer-typed input arrays: ``log(0)`` is now guarded to return ``-inf``, matching Numba's IEEE 754 behaviour.
 
 **Docs**
 

@@ -91,12 +91,7 @@ jobs:
 
       - name: Install pinned dependencies
         if: matrix.label != 'latest-versions'
-        run: |
-          uv pip install \
-            "scipy==${{ matrix.scipy }}" \
-            "scikit-learn==${{ matrix.scikit-learn }}" \
-            "numba==${{ matrix.numba }}" \
-            --system
+        run: uv pip install "scipy==${{ matrix.scipy }}" "scikit-learn==${{ matrix.scikit-learn }}" "numba==${{ matrix.numba }}" --system
 
       - name: Install latest dependencies
         if: matrix.label == 'latest-versions'

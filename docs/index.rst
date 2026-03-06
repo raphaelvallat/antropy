@@ -32,6 +32,7 @@
 
     API <api>
     What's new <changelog>
+    Contribute <contributing>
 
 .. figure:: /pictures/logo.png
    :align: center

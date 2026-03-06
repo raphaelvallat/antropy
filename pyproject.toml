@@ -43,12 +43,10 @@ test = [
 ]
 docs = [
     "sphinx>7.0.0",
-    # "pydata_sphinx_theme",
+    "pydata-sphinx-theme",
     "numpydoc",
     "sphinx-copybutton",
     "sphinx-design",
-    "stochastic",  # for doctests
-    # "sphinx-notfound-page",
 ]
 
 [project.urls]

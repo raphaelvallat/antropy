@@ -50,7 +50,7 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
 
     The permutation entropy of a signal :math:`x` is defined as:
 
-    .. math:: H = -\\sum p(\\pi)\\log_2(\\pi)
+    .. math:: H = -\\sum p(\\pi)\\log_2 p(\\pi)
 
     where the sum runs over all :math:`n!` permutations :math:`\\pi` of order
     :math:`n`. This is the information contained in comparing :math:`n`
@@ -160,10 +160,12 @@ def spectral_entropy(x, sf, method="fft", nperseg=None, normalize=False, axis=-1
         * ``'welch'`` : Welch periodogram (:py:func:`scipy.signal.welch`)
     nperseg : int or None
         Length of each FFT segment for Welch method.
-        If None (default), uses scipy default of 256 samples.
+        If None (default), uses scipy's default (256 samples, or the length
+        of the signal if shorter).
     normalize : bool
-        If True, divide by log2(psd.size) to normalize the spectral entropy
-        between 0 and 1. Otherwise, return the spectral entropy in bit.
+        If True, divide by log2(number of frequency bins) to normalize the
+        spectral entropy between 0 and 1. Otherwise, return the spectral
+        entropy in bit.
     axis : int
         The axis along which the entropy is calculated. Default is -1 (last).
 
@@ -272,8 +274,8 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
     delay : int
         Time delay (lag). Default is 1.
     normalize : bool
-        If True, divide by log2(order!) to normalize the entropy between 0
-        and 1. Otherwise, return the permutation entropy in bit.
+        If True, divide by log2(order) to normalize the entropy between 0
+        and 1. Otherwise, return the SVD entropy in bit.
 
     Returns
     -------
@@ -600,8 +602,8 @@ def sample_entropy(x, order=2, tolerance=None, metric="chebyshev"):
     :math:`C(m + 1, r)` is the number of embedded vectors of length
     :math:`m + 1` having a
     `Chebyshev distance <https://en.wikipedia.org/wiki/Chebyshev_distance>`_
-    inferior to :math:`r` and :math:`C(m, r)` is the number of embedded
-    vectors of length :math:`m` having a Chebyshev distance inferior to
+    less than :math:`r` and :math:`C(m, r)` is the number of embedded
+    vectors of length :math:`m` having a Chebyshev distance less than
     :math:`r`.
 
     Note that if ``metric == 'chebyshev'`` and ``len(x) < 5000`` points,
@@ -731,14 +733,14 @@ def _lz_complexity(binary_string):
 
 def lziv_complexity(sequence, normalize=False):
     """
-    Lempel-Ziv (LZ) complexity of (binary) sequence.
+    Lempel-Ziv (LZ) complexity of a sequence.
 
     .. versionadded:: 0.1.1
 
     Parameters
     ----------
     sequence : str or array
-        A sequence of character, e.g. ``'1001111011000010'``,
+        A sequence of characters, e.g. ``'1001111011000010'``,
         ``[0, 1, 0, 1, 1]``, or ``'Hello World!'``.
     normalize : bool
         If ``True``, returns the normalized LZ (see Notes).
@@ -754,7 +756,7 @@ def lziv_complexity(sequence, normalize=False):
     Notes
     -----
     LZ complexity is defined as the number of different substrings encountered
-    as the sequence is viewed from begining to the end.
+    as the sequence is viewed from beginning to the end.
 
     Although the raw LZ is an important complexity indicator, it is heavily
     influenced by sequence length (longer sequence will result in higher LZ).
@@ -852,7 +854,7 @@ def lziv_complexity(sequence, normalize=False):
 def num_zerocross(x, normalize=False, axis=-1):
     """Number of zero-crossings.
 
-    .. versionadded: 0.1.3
+    .. versionadded:: 0.1.3
 
     Parameters
     ----------
@@ -938,7 +940,7 @@ def num_zerocross(x, normalize=False, axis=-1):
 def hjorth_params(x, axis=-1):
     """Calculate Hjorth mobility and complexity on given axis.
 
-    .. versionadded: 0.1.3
+    .. versionadded:: 0.1.3
 
     Parameters
     ----------
@@ -956,7 +958,7 @@ def hjorth_params(x, axis=-1):
     -----
     Hjorth Parameters are indicators of statistical properties used in signal
     processing in the time domain introduced by Bo Hjorth in 1970. The
-    parameters are activity, mobility, and complexity. EntroPy only returns the
+    parameters are activity, mobility, and complexity. AntroPy only returns the
     mobility and complexity parameters, since activity is simply the variance
     of :math:`x`, which can be computed easily with :py:func:`numpy.var`.
 

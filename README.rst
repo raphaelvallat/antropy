@@ -152,7 +152,7 @@ Functions
     0.47903505674073327
 
 Execution time
-~~~~~~~~~~~~~~
+--------------
 
 Here are some benchmarks computed on a MacBook Pro (2020).
 

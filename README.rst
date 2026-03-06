@@ -2,6 +2,12 @@
 
 |
 
+.. image:: https://badge.fury.io/py/antropy.svg
+  :target: https://badge.fury.io/py/antropy
+
+.. image:: https://img.shields.io/conda/vn/conda-forge/antropy.svg
+  :target: https://anaconda.org/conda-forge/antropy
+
 .. image:: https://img.shields.io/github/license/raphaelvallat/antropy.svg
   :target: https://github.com/raphaelvallat/antropy/blob/master/LICENSE
 
@@ -11,23 +17,56 @@
 .. image:: https://codecov.io/gh/raphaelvallat/antropy/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/raphaelvallat/antropy
 
+.. image:: https://static.pepy.tech/badge/antropy
+  :target: https://pepy.tech/projects/antropy
+
+.. image:: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
+  :target: https://github.com/astral-sh/ruff
+  :alt: Ruff
+
 ----------------
 
-.. figure::  https://github.com/raphaelvallat/antropy/blob/master/docs/pictures/logo.png?raw=true
-   :align:   center
+.. figure:: https://raw.githubusercontent.com/raphaelvallat/antropy/master/docs/pictures/logo.png
+   :align: center
 
-AntroPy is a Python 3 package providing several time-efficient algorithms for computing the complexity of time-series.
-It can be used for example to extract features from EEG signals.
+**AntroPy** is a Python 3 package providing several time-efficient algorithms for computing
+the complexity of time-series. It can be used for example to extract features from EEG signals.
 
 Documentation
 =============
 
-- `Link to documentation <https://raphaelvallat.com/antropy/build/html/index.html>`_
+- `Link to documentation <https://raphaelvallat.com/antropy/>`_
+
+Chat
+====
+
+If you have questions, please ask them in `GitHub Discussions <https://github.com/raphaelvallat/antropy/discussions>`_.
 
 Installation
 ============
 
-AntroPy can be installed with pip
+Dependencies
+------------
+
+AntroPy is a Python 3 package and is currently tested for Python 3.10+.
+
+The main dependencies of AntroPy are:
+
+* `NumPy <https://numpy.org/>`_ >= 1.22.4
+* `SciPy <https://scipy.org/>`_ >= 1.8.0
+* `scikit-learn <https://scikit-learn.org/>`_ >= 1.2.0
+* `Numba <https://numba.readthedocs.io/>`_ >= 0.57
+
+User installation
+-----------------
+
+AntroPy can be easily installed using `uv <https://docs.astral.sh/uv/>`_
+
+.. code-block:: shell
+
+  uv pip install antropy
+
+pip
 
 .. code-block:: shell
 
@@ -37,25 +76,21 @@ or conda
 
 .. code-block:: shell
 
-  conda config --add channels conda-forge
-  conda config --set channel_priority strict
-  conda install antropy
+  conda install -c conda-forge antropy
 
-To build and install from source, clone this repository or download the source archive and decompress the files
+Development
+-----------
+
+To build and install from source, clone this repository and install in editable mode with `uv <https://docs.astral.sh/uv/>`_
 
 .. code-block:: shell
 
+  git clone https://github.com/raphaelvallat/antropy.git
   cd antropy
-  pip install ".[test]"     # install the package
-  pip install -e ".[test]"  # or editable install
-  pytest
+  uv pip install --group=test --editable .
 
-**Dependencies**
-
-- `numpy <https://numpy.org/>`_
-- `scipy <https://www.scipy.org/>`_
-- `scikit-learn <https://scikit-learn.org/>`_
-- `numba <http://numba.pydata.org/>`_
+  # test the package
+  pytest --verbose
 
 Functions
 =========
@@ -165,9 +200,9 @@ Acknowledgement
 
 Several functions of AntroPy were adapted from:
 
-- MNE-features: https://github.com/mne-tools/mne-features
-- pyEntropy: https://github.com/nikdon/pyEntropy
-- pyrem: https://github.com/gilestrolab/pyrem
-- nolds: https://github.com/CSchoel/nolds
+- `MNE-features <https://github.com/mne-tools/mne-features>`_
+- `pyEntropy <https://github.com/nikdon/pyEntropy>`_
+- `pyrem <https://github.com/gilestrolab/pyrem>`_
+- `nolds <https://github.com/CSchoel/nolds>`_
 
-All the credit goes to the author of these excellent packages.
+All the credit goes to the authors of these excellent packages.

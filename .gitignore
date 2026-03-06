@@ -102,7 +102,7 @@ venv.bak/
 # mypy
 .mypy_cache/
 desktop.ini
-docs/build/doctrees/
+docs/build/
 docs/generated/
 .DS_Store
 push_pypi.md

@@ -48,6 +48,34 @@ Submitting a pull request
 
 6. Open a pull request against the ``master`` branch.
 
+Updating the documentation
+--------------------------
+
+The documentation is built with `Sphinx <https://www.sphinx-doc.org/>`_. To build it locally:
+
+1. Install the documentation dependencies:
+
+   .. code-block:: shell
+
+       uv pip install --group=docs --editable .
+
+2. Build the HTML docs:
+
+   .. code-block:: shell
+
+       make -C docs clean
+       make -C docs html
+
+3. Open ``docs/build/html/index.html`` in your browser to preview the result.
+
+When you open a pull request, a ``docs`` CI job automatically builds the documentation and
+uploads the result as a GitHub Actions artifact. To verify the rendered docs from a PR:
+
+1. Go to the PR on GitHub and click on the **Checks** tab.
+2. Open the **Build documentation and upload as artifact to GitHub Actions** workflow run.
+3. Click **Summary** in the left sidebar, then scroll down to the **Artifacts** section.
+4. Download the ``docs-artifact`` zip file and open ``index.html`` in your browser.
+
 Questions
 ---------
 

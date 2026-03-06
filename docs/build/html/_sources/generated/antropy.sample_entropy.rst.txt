@@ -1,6 +1,0 @@
-﻿antropy.sample\_entropy
-=======================
-
-.. currentmodule:: antropy
-
-.. autofunction:: sample_entropy

@@ -1,6 +1,0 @@
-﻿antropy.app\_entropy
-====================
-
-.. currentmodule:: antropy
-
-.. autofunction:: app_entropy

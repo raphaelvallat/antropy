@@ -1,6 +1,0 @@
-﻿antropy.katz\_fd
-================
-
-.. currentmodule:: antropy
-
-.. autofunction:: katz_fd

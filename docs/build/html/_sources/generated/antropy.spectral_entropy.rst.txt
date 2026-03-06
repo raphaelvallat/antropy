@@ -1,6 +1,0 @@
-﻿antropy.spectral\_entropy
-=========================
-
-.. currentmodule:: antropy
-
-.. autofunction:: spectral_entropy

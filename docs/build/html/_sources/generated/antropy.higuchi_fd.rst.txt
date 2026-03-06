@@ -1,6 +1,0 @@
-﻿antropy.higuchi\_fd
-===================
-
-.. currentmodule:: antropy
-
-.. autofunction:: higuchi_fd

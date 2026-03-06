@@ -1,6 +1,0 @@
-﻿antropy.num\_zerocross
-======================
-
-.. currentmodule:: antropy
-
-.. autofunction:: num_zerocross

@@ -1,6 +1,0 @@
-﻿antropy.svd\_entropy
-====================
-
-.. currentmodule:: antropy
-
-.. autofunction:: svd_entropy

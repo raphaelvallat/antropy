@@ -1,6 +1,0 @@
-﻿antropy.detrended\_fluctuation
-==============================
-
-.. currentmodule:: antropy
-
-.. autofunction:: detrended_fluctuation

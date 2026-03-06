@@ -1,6 +1,0 @@
-﻿antropy.lziv\_complexity
-========================
-
-.. currentmodule:: antropy
-
-.. autofunction:: lziv_complexity

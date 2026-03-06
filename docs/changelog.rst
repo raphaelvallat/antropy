@@ -3,6 +3,50 @@
 What's new
 ##########
 
+v0.2.1 (March 2026)
+--------------------
+
+**Bug fixes**
+
+- Fix off-by-one in :py:func:`antropy.higuchi_fd`: the inner loop summed
+  :math:`N_m - 1` differences per sub-series instead of the correct :math:`N_m`,
+  causing a systematic underestimate of curve length. Verified against the
+  NeuroKit2 reference implementation.
+- :py:func:`antropy.sample_entropy` now returns ``np.nan`` (instead of ``0``)
+  when no template of length *m* matches within the tolerance, since the entropy
+  is mathematically undefined in that case.
+- Fix silent ``epsilon = 10e-9`` (= 1e-8) typo in ``utils.py``; corrected to
+  ``1e-9``. This constant guards against division-by-zero in the Numba linear
+  regression used by :py:func:`antropy.detrended_fluctuation`.
+- Fix ``all = [...]`` → ``__all__ = [...]`` in all three source modules, which
+  previously leaked imported names (``np``, ``jit``, ``KDTree``, …) into the
+  public namespace on ``from antropy import *``.
+
+**New features**
+
+- :py:func:`antropy.hjorth_params` gains an optional ``sf`` parameter. When
+  provided, mobility is returned in Hz instead of samples⁻¹ (multiplied by
+  ``sf``); complexity is unaffected.
+
+**Validation**
+
+- User-facing ``assert`` statements replaced with proper ``ValueError`` /
+  ``TypeError`` raises throughout (asserts are silently stripped by
+  ``python -O``): ``perm_entropy(delay=0)``, ``spectral_entropy(method=…)``,
+  ``app_entropy``/``sample_entropy(tolerance=…)``, and
+  ``lziv_complexity(sequence=…, normalize=…)``.
+
+**Docs**
+
+- Docstring formula for :py:func:`antropy.higuchi_fd` corrected to match the
+  fix above (:math:`\sum_{j=1}^{N_m}` not :math:`\sum_{j=1}^{N_m-1}`).
+- Added notes to :py:func:`antropy.lziv_complexity` (float arrays are truncated
+  to ``uint32``, not discretised — binarise continuous signals first),
+  :py:func:`antropy.num_zerocross` (``signbit(0) == False`` behaviour),
+  :py:func:`antropy.spectral_entropy` (DC component included),
+  :py:func:`antropy.detrended_fluctuation` (:math:`\alpha \approx 1` is
+  ambiguous), and :py:func:`antropy.hjorth_params` (mobility units).
+
 v0.2.0 (March 2026)
 --------------------
 

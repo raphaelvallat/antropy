@@ -3,16 +3,19 @@ name: Python tests
 on:
   push:
     branches: [master]
+    paths: ['src/**', 'tests/**', 'pyproject.toml']
   pull_request:
     branches: [master]
+    paths: ['src/**', 'tests/**', 'pyproject.toml']
 
 jobs:
-  build:
+  test-core:
+    name: ${{ matrix.platform }} / Python ${{ matrix.python-version }}
     strategy:
       fail-fast: false
       matrix:
         platform: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
 
     runs-on: ${{ matrix.platform }}
 
@@ -20,25 +23,128 @@ jobs:
       FORCE_COLOR: true
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install ".[test]"
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
 
-    - name: Test with pytest
-      run: |
-        pytest --cov --cov-report=xml --verbose
+      - name: Install dependencies
+        run: uv pip install --group=test . --system
 
-    - name: Upload coverage report
-      if: ${{ matrix.platform == 'ubuntu-latest' && matrix.python-version == 3.9 }}
-      uses: codecov/codecov-action@v4
-      with:
-        token: d5ef1de8-d1c4-4d89-b304-4d8fffdf9906
-        file: ./coverage.xml
+      - name: Test with pytest
+        run: pytest --verbose --no-cov
+
+  test-dependency-combinations:
+    name: Dep combo / ${{ matrix.platform }} / ${{ matrix.label }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-latest, windows-latest]
+        include:
+          - label: minimum-versions
+            python-version: "3.10"
+            numpy: "1.22.4"
+            scipy: "1.8.0"
+            scikit-learn: "1.2.0"
+            numba: "0.57.0"
+          - label: old-versions
+            python-version: "3.11"
+            numpy: "1.25.2"
+            scipy: "1.11.4"
+            scikit-learn: "1.4.2"
+            numba: "0.59.0"
+          - label: mid-versions
+            python-version: "3.12"
+            numpy: "2.0.2"
+            scipy: "1.14.1"
+            scikit-learn: "1.5.2"
+            numba: "0.60.0"
+          - label: latest-versions
+            python-version: "3.13"
+            numpy: ""
+            scipy: ""
+            scikit-learn: ""
+            numba: ""
+
+    runs-on: ${{ matrix.platform }}
+
+    env:
+      FORCE_COLOR: true
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install numpy (pinned)
+        if: matrix.numpy != ''
+        run: uv pip install "numpy==${{ matrix.numpy }}" --system
+
+      - name: Install numpy (latest)
+        if: matrix.numpy == ''
+        run: uv pip install numpy --system
+
+      - name: Install pinned dependencies
+        if: matrix.label != 'latest-versions'
+        run: |
+          uv pip install \
+            "scipy==${{ matrix.scipy }}" \
+            "scikit-learn==${{ matrix.scikit-learn }}" \
+            "numba==${{ matrix.numba }}" \
+            --system
+
+      - name: Install latest dependencies
+        if: matrix.label == 'latest-versions'
+        run: uv pip install scipy scikit-learn numba --system
+
+      - name: Install antropy and test dependencies
+        run: uv pip install --group=test . --no-deps --system
+
+      - name: Print installed versions
+        run: |
+          python -c "import numpy, scipy, sklearn, numba; print(f'numpy={numpy.__version__}, scipy={scipy.__version__}, sklearn={sklearn.__version__}, numba={numba.__version__}')"
+
+      - name: Test with pytest
+        run: pytest --verbose --no-cov
+
+  coverage:
+    name: Coverage (Ubuntu)
+    runs-on: ubuntu-latest
+
+    env:
+      FORCE_COLOR: true
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install dependencies
+        run: uv pip install --group=test . --system
+
+      - name: Test with pytest and coverage
+        run: pytest --cov --cov-report=xml --verbose
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
+          fail_ci_if_error: true

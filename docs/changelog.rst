@@ -3,6 +3,31 @@
 What's new
 ##########
 
+v0.2.0 (March 2026)
+--------------------
+
+**Build & CI**
+
+- Drop Python 3.9 (EOL), add Python 3.13 support. Minimum is now Python 3.10.
+- Switch from ``pip`` to ``uv`` in all GitHub Actions workflows.
+- Add explicit minimum versions for core dependencies: ``numpy>=1.22.4``, ``scipy>=1.8.0``, ``scikit-learn>=1.2.0``.
+- Migrate ``[project.optional-dependencies]`` to PEP 735 ``[dependency-groups]``.
+- Bump ``setuptools>=80.0``.
+- Split CI into three jobs: ``test-core`` (3 platforms × 4 Python versions), ``test-dependency-combinations`` (4 dep combos from minimum to latest), and ``coverage``.
+- Fix Codecov upload to use ``${{ secrets.CODECOV_TOKEN }}`` instead of a hardcoded token.
+- Switch Ruff workflow from ``astral-sh/ruff-action@v1`` to ``uvx ruff`` via ``astral-sh/setup-uv@v7``.
+- Extend Ruff rules: add ``W`` (pycodestyle warnings) and ``NPY`` (NumPy rules).
+
+**Docs**
+
+- Switch documentation theme from ``sphinx_bootstrap_theme`` to ``pydata-sphinx-theme`` (dark/light toggle, GitHub icon, improved layout).
+- Fix three broken ``intersphinx`` URLs: NumPy, SciPy, and MNE-Python.
+- Add ``sphinx.ext.mathjax`` for LaTeX math rendering in docstrings.
+- Add ``contributing.rst`` guide.
+- Fix stale ``:py:func:`` cross-references in changelog entries v0.1.1–v0.1.3 (``entropy.XXX`` → ``antropy.XXX``).
+- Fix typo in v0.1.6 changelog ("Fox for KDTree" → "Fix for KDTree").
+- Modernize ``README.rst`` and ``docs/index.rst``: add PyPI, conda-forge, downloads, and Ruff badges; add ``uv`` installation instructions; fix broken links.
+
 v0.1.9 (February 2025)
 ----------------------
 

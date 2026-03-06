@@ -32,15 +32,7 @@
 **AntroPy** is a Python 3 package providing several time-efficient algorithms for computing
 the complexity of time-series. It can be used for example to extract features from EEG signals.
 
-Documentation
-=============
-
 - `Link to documentation <https://raphaelvallat.com/antropy/>`_
-
-Chat
-====
-
-If you have questions, please ask them in `GitHub Discussions <https://github.com/raphaelvallat/antropy/discussions>`_.
 
 Installation
 ============

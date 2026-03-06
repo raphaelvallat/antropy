@@ -38,8 +38,7 @@ class TestEmbed(unittest.TestCase):
 
     def test_embed_2d_values(self):
         # Construct a simple 2-signal array for easy manual verification
-        x = np.array([[1.0, 2.0, 3.0, 4.0, 5.0],
-                      [10.0, 20.0, 30.0, 40.0, 50.0]])
+        x = np.array([[1.0, 2.0, 3.0, 4.0, 5.0], [10.0, 20.0, 30.0, 40.0, 50.0]])
         result = _embed(x, order=3, delay=1)
         # shape: (2, 3, 3)
         assert result.shape == (2, 3, 3)

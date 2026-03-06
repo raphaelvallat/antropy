@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=80.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -18,28 +18,28 @@ classifiers = [
     "Operating System :: MacOS",
     "Operating System :: POSIX",
     "Operating System :: Unix",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Mathematics",
 ]
 dynamic = ["version"]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
-    "numpy",
-    "scipy",
-    "scikit-learn",
+    "numpy>=1.22.4",
+    "scipy>=1.8.0",
+    "scikit-learn>=1.2.0",
     "numba>=0.57",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
+dev = ["ruff>=0.9"]
 test = [
     "pytest>=6",
     "pytest-cov",
     # Ensure coverage is new enough for `source_pkgs`.
     "coverage[toml]>=5.3",
-    "ruff"
 ]
 docs = [
     "sphinx>7.0.0",
@@ -94,21 +94,19 @@ show_missing = true
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
-# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
-# McCabe complexity (`C901`) by default.
-lint.select = ["E4", "E7", "E9", "F", "I", "NPY201"]
 exclude = [
     "notebooks",  # Skip jupyter notebook examples
     "docs",
+    "__init__.py",  # Ignore star and unused import violations for __init__.py files
 ]
 
-[tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["F401", "F403"]  # Ignore star and unused import violations for __init__.py files
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "W", "NPY"]
+ignore = ["NPY002"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"
 
 [tool.ruff.format]
-docstring-code-format = false
+docstring-code-format = true
 docstring-code-line-length = 90

@@ -8,7 +8,7 @@ from numba import jit, types
 from .entropy import num_zerocross
 from .utils import _linear_regression, _log_n
 
-all = ["petrosian_fd", "katz_fd", "higuchi_fd", "detrended_fluctuation"]
+__all__ = ["petrosian_fd", "katz_fd", "higuchi_fd", "detrended_fluctuation"]
 
 
 def petrosian_fd(x, axis=-1):
@@ -386,6 +386,9 @@ def detrended_fluctuation(x):
 
         :math:`\\alpha > 1` indicates a non-stationary process similar to
         fractional Brownian motion with :math:`H = \\alpha - 1`.
+
+        :math:`\\alpha \\approx 1` is ambiguous (boundary between the two
+        regimes).
 
     Notes
     -----

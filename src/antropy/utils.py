@@ -5,8 +5,8 @@ from math import floor, log
 import numpy as np
 from numba import jit
 
-all = ["_embed", "_linear_regression", "_log_n", "_xlogx"]
-epsilon = 10e-9
+__all__ = []
+epsilon = 1e-9
 
 
 def _embed(x, order=3, delay=1):
@@ -15,7 +15,8 @@ def _embed(x, order=3, delay=1):
     Parameters
     ----------
     x : array_like
-        1D-array of shape (n_times) or 2D-array of shape (signal_indice, n_times)
+        1D-array of shape (n_times) or 2D-array of shape (signal_indice,
+        n_times).
     order : int
         Embedding dimension (order).
     delay : int

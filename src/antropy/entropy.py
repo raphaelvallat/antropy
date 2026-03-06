@@ -9,7 +9,7 @@ from sklearn.neighbors import KDTree
 
 from .utils import _embed, _xlogx
 
-all = [
+__all__ = [
     "perm_entropy",
     "spectral_entropy",
     "svd_entropy",
@@ -129,15 +129,15 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     x = np.array(x)
     ran_order = range(order)
     hashmult = np.power(order, ran_order)
-    assert delay > 0, "delay must be greater than zero."
+    if delay <= 0:
+        raise ValueError("delay must be greater than zero.")
     # Embed x and sort the order of permutations
     sorted_idx = _embed(x, order=order, delay=delay).argsort(kind="quicksort")
     # Associate unique integer to each permutations
     hashval = (np.multiply(sorted_idx, hashmult)).sum(1)
     # Return the counts
     _, c = np.unique(hashval, return_counts=True)
-    # Use np.true_divide for Python 2 compatibility
-    p = np.true_divide(c, c.sum())
+    p = c / c.sum()
     pe = -_xlogx(p).sum()
     if normalize:
         pe /= np.log2(factorial(order))
@@ -183,6 +183,9 @@ def spectral_entropy(x, sf, method="fft", nperseg=None, normalize=False, axis=-1
 
     Where :math:`P` is the normalised PSD, and :math:`f_s` is the sampling
     frequency.
+
+    .. note::
+        The DC component (:math:`f = 0`) is included in the sum.
 
     References
     ----------
@@ -254,6 +257,8 @@ def spectral_entropy(x, sf, method="fft", nperseg=None, normalize=False, axis=-1
         _, psd = periodogram(x, sf, axis=axis)
     elif method == "welch":
         _, psd = welch(x, sf, nperseg=nperseg, axis=axis)
+    else:
+        raise ValueError("method must be 'fft' or 'welch', got '%s'." % method)
     psd_norm = psd / psd.sum(axis=axis, keepdims=True)
     se = -_xlogx(psd_norm).sum(axis=axis)
     if normalize:
@@ -275,7 +280,8 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
         Time delay (lag). Default is 1.
     normalize : bool
         If True, divide by log2(order) to normalize the entropy between 0
-        and 1. Otherwise, return the SVD entropy in bit.
+        and 1 (the maximum is reached when all ``order`` singular values are
+        equal). Otherwise, return the SVD entropy in bit.
 
     Returns
     -------
@@ -367,7 +373,7 @@ def svd_entropy(x, order=3, delay=1, normalize=False):
     mat = _embed(x, order=order, delay=delay)
     W = np.linalg.svd(mat, compute_uv=False)
     # Normalize the singular values
-    W /= sum(W)
+    W /= np.sum(W)
     svd_e = -_xlogx(W).sum()
     if normalize:
         svd_e /= np.log2(order)
@@ -454,7 +460,7 @@ def _numba_sampen(sequence, order, r):
                 denominator += 1
 
     if denominator == 0:
-        return 0  # use 0/0 == 0
+        return np.nan  # undefined: no templates of length m matched within r
     elif numerator == 0:
         return np.inf
     else:
@@ -556,7 +562,8 @@ def app_entropy(x, order=2, tolerance=None, metric="chebyshev"):
     if tolerance is None:
         r = 0.2 * np.std(x, ddof=0)
     else:
-        assert isinstance(tolerance, (float, int))
+        if not isinstance(tolerance, (float, int)):
+            raise TypeError("tolerance must be a float or int, got %s." % type(tolerance).__name__)
         r = tolerance
     phi = _app_samp_entropy(x, order=order, r=r, metric=metric, approximate=True)
     return np.subtract(phi[0], phi[1])
@@ -611,7 +618,12 @@ def sample_entropy(x, order=2, tolerance=None, metric="chebyshev"):
     For other distance metric or longer time-series, the sample entropy is
     computed using a code from the
     `mne-features <https://mne.tools/mne-features/>`_ package by Jean-Baptiste
-    Schiratti and Alexandre Gramfort (requires sklearn).
+    Schiratti and Alexandre Gramfort (requires sklearn). Both code paths should
+    produce equivalent results.
+
+    When no template of length ``order`` matches within ``tolerance``
+    (denominator = 0), the function returns ``np.nan`` rather than an
+    arbitrary value, as the entropy is mathematically undefined in that case.
 
     References
     ----------
@@ -674,7 +686,8 @@ def sample_entropy(x, order=2, tolerance=None, metric="chebyshev"):
     if tolerance is None:
         r = 0.2 * np.std(x, ddof=0)
     else:
-        assert isinstance(tolerance, (float, int))
+        if not isinstance(tolerance, (float, int)):
+            raise TypeError("tolerance must be a float or int, got %s." % type(tolerance).__name__)
         r = tolerance
     x = np.asarray(x, dtype=np.float64)
     if metric == "chebyshev" and x.size < 5000:
@@ -768,6 +781,13 @@ def lziv_complexity(sequence, normalize=False):
     where :math:`n` is the length of the sequence and :math:`b` the number of
     unique characters in the sequence.
 
+    .. warning::
+        Float and integer arrays are cast to ``uint32`` before processing
+        (values are truncated, not discretized into bins). For
+        continuous-valued signals, binarize the sequence first, e.g.::
+
+            (x >= np.median(x)).astype(int)
+
     References
     ----------
     * Lempel, A., & Ziv, J. (1976). On the Complexity of Finite Sequences.
@@ -810,8 +830,10 @@ def lziv_complexity(sequence, normalize=False):
     >>> lziv_complexity(s), lziv_complexity(s, normalize=True)
     (11, 0.38596001132145313)
     """
-    assert isinstance(sequence, (str, list, np.ndarray))
-    assert isinstance(normalize, bool)
+    if not isinstance(sequence, (str, list, np.ndarray)):
+        raise TypeError("sequence must be a str, list, or np.ndarray.")
+    if not isinstance(normalize, bool):
+        raise TypeError("normalize must be a bool.")
     if isinstance(sequence, (list, np.ndarray)):
         sequence = np.asarray(sequence)
         if sequence.dtype.kind in "bfi":
@@ -827,17 +849,6 @@ def lziv_complexity(sequence, normalize=False):
         s = np.fromiter(map(ord, sequence), dtype="uint32")
 
     if normalize:
-        # 1) Timmermann et al. 2019
-        # The sequence is randomly shuffled, and the normalized LZ
-        # is calculated as the ratio of the LZ of the original sequence
-        # divided by the LZ of the randomly shuffled LZ. However, the final
-        # output is dependent on the random seed.
-        # sl_shuffled = list(s)
-        # rng = np.random.RandomState(None)
-        # rng.shuffle(sl_shuffled)
-        # s_shuffled = ''.join(sl_shuffled)
-        # return _lz_complexity(s) / _lz_complexity(s_shuffled)
-        # 2) Zhang et al. 2009
         n = len(s)
         base = sum(np.bincount(s) > 0)  # Number of unique characters
         base = 2 if base < 2 else base
@@ -871,6 +882,13 @@ def num_zerocross(x, normalize=False, axis=-1):
     -------
     nzc : int or float
         Number of zero-crossings.
+
+    Notes
+    -----
+    Zero-crossings are detected via :py:func:`numpy.signbit`. A sample that
+    is exactly ``0`` is treated as positive (``signbit(0) == False``), so a
+    transition ``..., -1, 0, 1, ...`` counts as **one** crossing (at the
+    ``-1 → 0`` boundary), not two.
 
     Examples
     --------
@@ -937,7 +955,7 @@ def num_zerocross(x, normalize=False, axis=-1):
     return nzc
 
 
-def hjorth_params(x, axis=-1):
+def hjorth_params(x, sf=None, axis=-1):
     """Calculate Hjorth mobility and complexity on given axis.
 
     .. versionadded:: 0.1.3
@@ -946,13 +964,18 @@ def hjorth_params(x, axis=-1):
     ----------
     x : list or np.array
         1D or N-D data.
+    sf : float or None
+        Sampling frequency in Hz. If provided, mobility is returned in Hz
+        instead of samples⁻¹. Default is None (mobility in samples⁻¹).
     axis : int
         The axis along which to perform the computation. Default is -1 (last).
 
     Returns
     -------
     mobility, complexity : float
-        Mobility and complexity parameters.
+        Mobility and complexity parameters. Mobility is in samples⁻¹ when
+        ``sf`` is None, or in Hz when ``sf`` is provided. Complexity is
+        dimensionless in both cases.
 
     Notes
     -----
@@ -973,6 +996,12 @@ def hjorth_params(x, axis=-1):
     the mobility of the first derivative of :math:`x` to the mobility of
     :math:`x`.
 
+    .. note::
+        Without a sampling frequency, mobility is expressed in units of
+        **samples⁻¹**. Pass ``sf`` to convert to Hz (multiplies mobility by
+        ``sf``). Complexity is unaffected because it is a ratio of two
+        mobilities.
+
     References
     ----------
     - https://en.wikipedia.org/wiki/Hjorth_parameters
@@ -980,7 +1009,7 @@ def hjorth_params(x, axis=-1):
 
     Examples
     --------
-    Hjorth parameters of a pure sine
+    Hjorth parameters of a pure sine (mobility in samples⁻¹)
 
     >>> import numpy as np
     >>> import antropy as ant
@@ -990,6 +1019,11 @@ def hjorth_params(x, axis=-1):
     >>> x = np.sin(2 * np.pi * f * t)
     >>> np.round(ant.hjorth_params(x), 4)
     array([0.0627, 1.005 ])
+
+    Same signal with sf provided: mobility is now in Hz
+
+    >>> np.round(ant.hjorth_params(x, sf=sf), 4)
+    array([6.2736, 1.005 ])
 
     Random 2D data
 
@@ -1024,6 +1058,8 @@ def hjorth_params(x, axis=-1):
     >>> np.round(ant.hjorth_params(x), 4)
     array([1.6917, 1.0717])
     """
+    if sf is not None and not isinstance(sf, (int, float)):
+        raise TypeError("sf must be a numeric value (int or float), got %s." % type(sf).__name__)
     x = np.asarray(x)
     # Calculate derivatives
     dx = np.diff(x, axis=axis)
@@ -1035,4 +1071,6 @@ def hjorth_params(x, axis=-1):
     # Mobility and complexity
     mob = np.sqrt(dx_var / x_var)
     com = np.sqrt(ddx_var / dx_var) / mob
+    if sf is not None:
+        mob = mob * sf
     return mob, com

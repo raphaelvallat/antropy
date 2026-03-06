@@ -212,7 +212,7 @@ def _higuchi_fd(x, kmax):
             ll = 0
             n_max = floor((n_times - m - 1) / k)
             n_max = int(n_max)
-            for j in range(1, n_max):
+            for j in range(1, n_max + 1):
                 ll += abs(x[m + j * k] - x[m + (j - 1) * k])
             ll /= k
             ll *= (n_times - 1) / (k * n_max)
@@ -254,7 +254,7 @@ def higuchi_fd(x, kmax=10):
     .. math::
 
         L_m(k) = \\frac{N-1}{k^2 \\cdot N_m}
-        \\sum_{j=1}^{N_m - 1} |x_{m+jk} - x_{m+(j-1)k}|
+        \\sum_{j=1}^{N_m} |x_{m+jk} - x_{m+(j-1)k}|
 
     and the average length across all :math:`k` sub-series is:
 
@@ -291,39 +291,39 @@ def higuchi_fd(x, kmax=10):
     >>> rng = np.random.default_rng(seed=42)
     >>> x = sn.FractionalGaussianNoise(hurst=0.5, rng=rng).sample(10000)
     >>> print(f"{ant.higuchi_fd(x):.4f}")
-    1.9983
+    1.9980
 
     Fractional Gaussian noise with H = 0.9
 
     >>> rng = np.random.default_rng(seed=42)
     >>> x = sn.FractionalGaussianNoise(hurst=0.9, rng=rng).sample(10000)
     >>> print(f"{ant.higuchi_fd(x):.4f}")
-    1.8517
+    1.8512
 
     Fractional Gaussian noise with H = 0.1
 
     >>> rng = np.random.default_rng(seed=42)
     >>> x = sn.FractionalGaussianNoise(hurst=0.1, rng=rng).sample(10000)
     >>> print(f"{ant.higuchi_fd(x):.4f}")
-    2.0581
+    2.0575
 
     Random
 
     >>> rng = np.random.default_rng(seed=42)
     >>> print(f"{ant.higuchi_fd(rng.random(1000)):.4f}")
-    2.0013
+    1.9975
 
     Pure sine wave
 
     >>> x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
     >>> print(f"{ant.higuchi_fd(x):.4f}")
-    1.0091
+    1.0074
 
     Linearly-increasing time-series
 
     >>> x = np.arange(1000)
     >>> print(f"{ant.higuchi_fd(x):.4f}")
-    1.0040
+    1.0000
     """
     x = np.asarray(x, dtype=np.float64)
     kmax = int(kmax)

@@ -65,7 +65,7 @@ class TestEntropy(unittest.TestCase):
         Results have been tested against the MNE-features and pyrem packages.
         """
         # Compare with MNE-features
-        self.assertEqual(np.round(higuchi_fd(RANDOM_TS), 8), 1.9914198)
+        self.assertEqual(np.round(higuchi_fd(RANDOM_TS), 8), 1.99030363)
         higuchi_fd(list(RANDOM_TS), kmax=20)
 
     def test_detrended_fluctuation(self):

@@ -36,7 +36,7 @@ dependencies = [
 [dependency-groups]
 dev = ["ruff>=0.9"]
 test = [
-    "pytest>=6",
+    "pytest>=7.0",
     "pytest-cov",
     # Ensure coverage is new enough for `source_pkgs`.
     "coverage[toml]>=5.3",
@@ -54,7 +54,6 @@ Homepage = "https://github.com/raphaelvallat/antropy/"
 Downloads = "https://github.com/raphaelvallat/antropy/"
 
 [tool.setuptools]
-py-modules = ["antropy"]
 include-package-data = false
 
 [tool.setuptools.packages.find]
@@ -65,8 +64,10 @@ where = ["src"]
 version = {attr = "antropy.__version__"}
 
 [tool.pytest.ini_options]
-minversion = "6.0"
+minversion = "7.0"
 addopts = "--showlocals --durations=10"  # --cov
+testpaths = ["tests"]
+pythonpath = ["tests"]
 doctest_optionflags= ["NORMALIZE_WHITESPACE", "IGNORE_EXCEPTION_DETAIL"]
 filterwarnings = [
     "ignore::UserWarning",

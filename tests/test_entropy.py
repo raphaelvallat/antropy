@@ -24,12 +24,17 @@ BANDT_PERM = [4, 7, 9, 10, 6, 11, 3]
 
 
 def _perm_entropy_orig(x, order=3, delay=1, normalize=False):
-    """Original argsort-based implementation with no fast path, used as reference."""
+    """Original argsort-based implementation with no fast path, used as reference.
+
+    Uses kind='stable' so that ties are broken by position (earlier index ranks
+    lower), matching the behaviour of the positional epsilon jitter in the fast
+    path.  For tie-free data stable and quicksort give identical results.
+    """
     from math import factorial
 
     x = np.asarray(x)
     hashmult = np.power(order, np.arange(order))
-    sorted_idx = _embed(x, order=order, delay=delay).argsort(kind="quicksort")
+    sorted_idx = _embed(x, order=order, delay=delay).argsort(kind="stable")
     hashval = (np.multiply(sorted_idx, hashmult)).sum(1)
     _, counts = np.unique(hashval, return_counts=True)
     p = counts / counts.sum()

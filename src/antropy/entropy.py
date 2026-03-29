@@ -282,7 +282,7 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
         strides=(x.strides[0], x.strides[0] * delay),
     )
     hashmult = np.power(order, np.arange(order))
-    hashval = embedded.argsort(axis=1, kind="quicksort") @ hashmult
+    hashval = embedded.argsort(axis=1, kind="stable") @ hashmult
     _, counts = np.unique(hashval, return_counts=True)
     p = counts / counts.sum()
     pe = -_xlogx(p).sum()

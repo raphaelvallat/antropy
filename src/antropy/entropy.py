@@ -195,6 +195,18 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     **3–7×** for 2D input. Higher orders fall back to a standard ``argsort``
     implementation (1D only).
 
+    .. warning::
+        When the signal contains **duplicate values** (ties), the fast path
+        uses strict ``<`` comparisons, which map all tied elements to the same
+        ordinal pattern regardless of their position. This reduces the number
+        of distinct patterns and results in **artificially lower entropy**.
+        For **integer-dtype** arrays this is handled automatically via a
+        positional jitter that breaks ties by column index, matching the
+        behaviour of ``argsort``. For **float arrays** no tie correction is
+        applied, so float signals with exact duplicate values (e.g. quantized
+        data stored as ``float``) may return lower entropy than expected.
+        Cast such arrays to an integer dtype before calling this function.
+
     References
     ----------
     Bandt, Christoph, and Bernd Pompe. "Permutation entropy: a

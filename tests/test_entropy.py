@@ -74,6 +74,45 @@ class TestEntropy(unittest.TestCase):
         pe = perm_entropy(RANDOM_TS, order=5, normalize=True)
         assert 0.0 <= pe <= 1.0
 
+    def test_perm_entropy_ties(self):
+        """Fast path must agree with the original argsort implementation on signals with ties.
+
+        For integer-dtype inputs, a positional epsilon jitter is applied to each
+        delayed column before comparing, so ties are broken by column index —
+        exactly matching argsort's position-based tiebreaking.
+        """
+        # All values equal: entropy = 0 for both approaches
+        x_const = np.array([2, 2, 2, 2, 2])
+        self.assertEqual(perm_entropy(x_const, order=3), 0.0)
+        np.testing.assert_equal(
+            perm_entropy(x_const, order=3), _perm_entropy_orig(x_const, order=3)
+        )
+
+        # Ties at different window positions: without jitter the fast path would
+        # collapse both tied windows to the same pattern; with jitter it matches argsort.
+        # x = [3, 2, 2, 1, 3]:
+        #   window [3,2,2] → argsort [1,2,0]  (b<c<a, tie broken by position)
+        #   window [2,2,1] → argsort [2,0,1]  (c<a<b, tie broken by position)
+        x_ties = np.array([3, 2, 2, 1, 3])
+        np.testing.assert_allclose(
+            perm_entropy(x_ties, order=3),
+            _perm_entropy_orig(x_ties, order=3),
+            atol=1e-12,
+        )
+
+        # Integer-valued quantized signal (256 bins, 1500 samples)
+        rng = np.random.default_rng(0)
+        t = np.linspace(0, 10 * 2 * np.pi, 1500)
+        sig = np.sin(t) + 0.3 * np.sin(2 * t) + 0.1 * rng.standard_normal(1500)
+        x_q = np.round((sig - sig.min()) / (sig.max() - sig.min()) * 255).astype(int)
+        for order in [3, 4]:
+            np.testing.assert_allclose(
+                perm_entropy(x_q, order=order, normalize=True),
+                _perm_entropy_orig(x_q, order=order, normalize=True),
+                atol=1e-12,
+                err_msg=f"Mismatch on quantized signal for order={order}",
+            )
+
     def test_perm_entropy_fast_path(self):
         """Fast paths (order=3/4) must match the original argsort implementation for 1D input."""
         rng = np.random.default_rng(0)

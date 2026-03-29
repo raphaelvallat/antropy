@@ -77,9 +77,10 @@ class TestEntropy(unittest.TestCase):
     def test_perm_entropy_ties(self):
         """Fast path must agree with the original argsort implementation on signals with ties.
 
-        For integer-dtype inputs, a positional epsilon jitter is applied to each
-        delayed column before comparing, so ties are broken by column index —
-        exactly matching argsort's position-based tiebreaking.
+        A positional epsilon jitter is applied to all inputs so ties are broken
+        by column index, exactly matching argsort's position-based tiebreaking.
+        This applies to integer arrays, float arrays with duplicate values,
+        zero-padded signals, and quantized data stored as float.
         """
         # All values equal: entropy = 0 for both approaches
         x_const = np.array([2, 2, 2, 2, 2])
@@ -100,7 +101,23 @@ class TestEntropy(unittest.TestCase):
             atol=1e-12,
         )
 
-        # Integer-valued quantized signal (256 bins, 1500 samples)
+        # Same signal stored as float — jitter must apply regardless of dtype
+        x_ties_float = x_ties.astype(float)
+        np.testing.assert_allclose(
+            perm_entropy(x_ties_float, order=3),
+            _perm_entropy_orig(x_ties_float, order=3),
+            atol=1e-12,
+        )
+
+        # Zero-padded float signal
+        x_zeros = np.array([0.0, 0.0, 1.0, 2.0, 0.0, 0.0, 3.0])
+        np.testing.assert_allclose(
+            perm_entropy(x_zeros, order=3),
+            _perm_entropy_orig(x_zeros, order=3),
+            atol=1e-12,
+        )
+
+        # Quantized signal as integer dtype (256 bins, 1500 samples)
         rng = np.random.default_rng(0)
         t = np.linspace(0, 10 * 2 * np.pi, 1500)
         sig = np.sin(t) + 0.3 * np.sin(2 * t) + 0.1 * rng.standard_normal(1500)
@@ -110,7 +127,17 @@ class TestEntropy(unittest.TestCase):
                 perm_entropy(x_q, order=order, normalize=True),
                 _perm_entropy_orig(x_q, order=order, normalize=True),
                 atol=1e-12,
-                err_msg=f"Mismatch on quantized signal for order={order}",
+                err_msg=f"Mismatch on quantized int signal for order={order}",
+            )
+
+        # Same quantized signal stored as float
+        x_q_float = x_q.astype(float)
+        for order in [3, 4]:
+            np.testing.assert_allclose(
+                perm_entropy(x_q_float, order=order, normalize=True),
+                _perm_entropy_orig(x_q_float, order=order, normalize=True),
+                atol=1e-12,
+                err_msg=f"Mismatch on quantized float signal for order={order}",
             )
 
     def test_perm_entropy_fast_path(self):

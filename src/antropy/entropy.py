@@ -87,18 +87,16 @@ def _perm_entropy_fast(x, order, delay, normalize):
     n, m = x.shape
     n_embed = m - (order - 1) * delay
 
-    # Integer-valued signals (e.g. quantized data) routinely produce exact ties
-    # across windows.  Detect this via dtype and apply a positional epsilon
-    # jitter — adding i*eps to column i — so ties are broken by column index,
-    # exactly matching argsort's behaviour.  Floating-point signals are assumed
-    # to be continuous and are never jittered.
-    if np.issubdtype(x.dtype, np.integer):
-        eps = np.finfo(np.float64).eps * (float(np.abs(x).max()) + 1)
-        cols = [
-            x[:, i * delay : i * delay + n_embed].astype(np.float64) + i * eps for i in range(order)
-        ]
-    else:
-        cols = [x[:, i * delay : i * delay + n_embed] for i in range(order)]
+    # Apply a positional epsilon jitter — adding i*eps to column i — so that
+    # any tied values are broken by column index, exactly matching argsort's
+    # behaviour.  This handles integer signals, quantized data, zero-padded
+    # epochs, and any other input with exact duplicate values.
+    # eps is scaled to the signal magnitude so the jitter never affects the
+    # ordering of distinct values.
+    eps = np.finfo(np.float64).eps * (float(np.abs(x).max()) + 1)
+    cols = [
+        x[:, i * delay : i * delay + n_embed].astype(np.float64) + i * eps for i in range(order)
+    ]
 
     if order == 3:
         col0, col1, col2 = cols
@@ -191,21 +189,9 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     .. math:: Y=[y(1),y(2),...,y(N-(\\text{order}-1))*\\text{delay})]^T
 
     For ``order ∈ {3, 4}``, a fast vectorised path based on lookup tables is
-    used instead of ``argsort``, giving a **2–6× speed-up** for 1D input and
-    **3–7×** for 2D input. Higher orders fall back to a standard ``argsort``
+    used instead of ``argsort``, giving a **1.5–5× speed-up** for 1D input and
+    **2–6×** for 2D input. Higher orders fall back to a standard ``argsort``
     implementation (1D only).
-
-    .. warning::
-        When the signal contains **duplicate values** (ties), the fast path
-        uses strict ``<`` comparisons, which map all tied elements to the same
-        ordinal pattern regardless of their position. This reduces the number
-        of distinct patterns and results in **artificially lower entropy**.
-        For **integer-dtype** arrays this is handled automatically via a
-        positional jitter that breaks ties by column index, matching the
-        behaviour of ``argsort``. For **float arrays** no tie correction is
-        applied, so float signals with exact duplicate values (e.g. quantized
-        data stored as ``float``) may return lower entropy than expected.
-        Cast such arrays to an integer dtype before calling this function.
 
     References
     ----------
@@ -241,7 +227,7 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
 
     >>> x = np.sin(2 * np.pi * 1 * np.arange(3000) / 100)
     >>> print(f"{ant.perm_entropy(x, normalize=True):.4f}")
-    0.4477
+    0.4441
 
     Linearly-increasing time-series (minimum entropy):
 

@@ -17,10 +17,27 @@ from antropy import (
     spectral_entropy,
     svd_entropy,
 )
-from antropy.utils import _xlogx
+from antropy.utils import _embed, _xlogx
 
 SF_TS = 100
 BANDT_PERM = [4, 7, 9, 10, 6, 11, 3]
+
+
+def _perm_entropy_orig(x, order=3, delay=1, normalize=False):
+    """Original argsort-based implementation with no fast path, used as reference."""
+    from math import factorial
+
+    x = np.asarray(x)
+    hashmult = np.power(order, np.arange(order))
+    sorted_idx = _embed(x, order=order, delay=delay).argsort(kind="quicksort")
+    hashval = (np.multiply(sorted_idx, hashmult)).sum(1)
+    _, counts = np.unique(hashval, return_counts=True)
+    p = counts / counts.sum()
+    pe = -(p * np.log2(p)).sum()
+    if normalize:
+        pe /= np.log2(factorial(order))
+    return pe
+
 
 # Concatenate 2D data
 data = np.vstack((RANDOM_TS, NORMAL_TS, PURE_SINE, ARANGE))
@@ -47,6 +64,56 @@ class TestEntropy(unittest.TestCase):
         # delay=0 must raise ValueError (not AssertionError)
         with self.assertRaises(ValueError):
             perm_entropy(BANDT_PERM, order=2, delay=0)
+        # 3D input must raise ValueError
+        with self.assertRaises(ValueError):
+            perm_entropy(np.ones((2, 3, 4)), order=3)
+        # 2D input with order > 4 must raise ValueError
+        with self.assertRaises(ValueError):
+            perm_entropy(np.ones((2, 100)), order=5)
+        # normalize=True for general path (order > 4)
+        pe = perm_entropy(RANDOM_TS, order=5, normalize=True)
+        assert 0.0 <= pe <= 1.0
+
+    def test_perm_entropy_fast_path(self):
+        """Fast paths (order=3/4) must match the original argsort implementation for 1D input."""
+        rng = np.random.default_rng(0)
+        x = rng.random(500)
+
+        for order in [3, 4]:
+            for delay in [1, 2, 3]:
+                for normalize in [False, True]:
+                    ref = _perm_entropy_orig(x, order=order, delay=delay, normalize=normalize)
+                    got = perm_entropy(x, order=order, delay=delay, normalize=normalize)
+                    np.testing.assert_allclose(
+                        got,
+                        ref,
+                        atol=1e-12,
+                        err_msg=f"Fast path mismatch: order={order}, delay={delay}, normalize={normalize}",
+                    )
+
+    def test_perm_entropy_2d(self):
+        """perm_entropy on a 2D array (order=3/4) must match apply_along_axis of the original 1D implementation."""
+        rng = np.random.default_rng(0)
+        x = rng.random((20, 500))
+
+        for order in [3, 4]:
+            for delay in [1, 2, 3]:
+                for normalize in [False, True]:
+                    ref = aal(
+                        _perm_entropy_orig,
+                        axis=1,
+                        arr=x,
+                        order=order,
+                        delay=delay,
+                        normalize=normalize,
+                    )
+                    got = perm_entropy(x, order=order, delay=delay, normalize=normalize)
+                    np.testing.assert_allclose(
+                        got,
+                        ref,
+                        atol=1e-12,
+                        err_msg=f"2D mismatch: order={order}, delay={delay}, normalize={normalize}",
+                    )
 
     def test_spectral_entropy(self):
         spectral_entropy(RANDOM_TS, SF_TS, method="fft")

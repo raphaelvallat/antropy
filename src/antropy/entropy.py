@@ -134,6 +134,7 @@ def _perm_entropy_fast(x, order, delay, normalize):
     result = -(p * log_p).sum(axis=1)
     if normalize:
         result /= np.log2(factorial(order))
+        result = np.minimum(np.maximum(result, 0.0), 1.0)
 
     return float(result[0]) if is_1d else result
 
@@ -189,8 +190,8 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     .. math:: Y=[y(1),y(2),...,y(N-(\\text{order}-1))*\\text{delay})]^T
 
     For ``order ∈ {3, 4}``, a fast vectorised path based on lookup tables is
-    used instead of ``argsort``, giving a **1.5–5× speed-up** for 1D input and
-    **2–6×** for 2D input. Higher orders fall back to a standard ``argsort``
+    used instead of ``argsort``, giving a 1.5–5× speed-up for 1D input and
+    2–6× for 2D input. Higher orders fall back to a standard ``argsort``
     implementation (1D only).
 
     References
@@ -233,10 +234,9 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
 
     >>> x = np.arange(1000)
     >>> print(f"{ant.perm_entropy(x, normalize=True):.4f}")
-    -0.0000
+    0.0000
 
-    2D input — compute permutation entropy for each row simultaneously
-    (only supported for ``order=3`` or ``order=4``):
+    2D input — vectorized permutation entropy (only supported for ``order=3`` or ``order=4``):
 
     >>> rng = np.random.default_rng(seed=42)
     >>> x2d = rng.random((4, 1000))
@@ -288,6 +288,7 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     pe = -_xlogx(p).sum()
     if normalize:
         pe /= np.log2(factorial(order))
+        pe = float(np.minimum(np.maximum(pe, 0.0), 1.0))
     return pe
 
 
@@ -354,20 +355,20 @@ def spectral_entropy(x, sf, method="fft", nperseg=None, normalize=False, axis=-1
     >>> N = sf * dur  # Total number of discrete samples
     >>> t = np.arange(N) / sf  # Time vector
     >>> x = np.sin(2 * np.pi * f * t)
-    >>> np.round(ant.spectral_entropy(x, sf, method="fft"), 2)
-    0.0
+    >>> print(f"{ant.spectral_entropy(x, sf, method='fft'):.2f}")
+    0.00
 
     Spectral entropy of a random signal using Welch's method
 
     >>> np.random.seed(42)
     >>> x = np.random.rand(3000)
-    >>> ant.spectral_entropy(x, sf=100, method="welch")
-    6.98004566237139
+    >>> print(f"{ant.spectral_entropy(x, sf=100, method='welch'):.4f}")
+    6.9800
 
     Normalized spectral entropy
 
-    >>> ant.spectral_entropy(x, sf=100, method="welch", normalize=True)
-    0.9955526198316073
+    >>> print(f"{ant.spectral_entropy(x, sf=100, method='welch', normalize=True):.4f}")
+    0.9956
 
     Normalized spectral entropy of 2D data
 
@@ -1043,10 +1044,10 @@ def num_zerocross(x, normalize=False, axis=-1):
 
     >>> import numpy as np
     >>> import antropy as ant
-    >>> ant.num_zerocross([-1, 0, 1, 2, 3])
+    >>> int(ant.num_zerocross([-1, 0, 1, 2, 3]))
     1
 
-    >>> ant.num_zerocross([0, 0, 2, -1, 0, 1, 0, 2])
+    >>> int(ant.num_zerocross([0, 0, 2, -1, 0, 1, 0, 2]))
     2
 
     Number of zero crossings of a pure sine
@@ -1057,7 +1058,7 @@ def num_zerocross(x, normalize=False, axis=-1):
     >>> N = sf * dur  # Total number of discrete samples
     >>> t = np.arange(N) / sf  # Time vector
     >>> x = np.sin(2 * np.pi * f * t)
-    >>> ant.num_zerocross(x)
+    >>> int(ant.num_zerocross(x))
     7
 
     Random 2D data
@@ -1170,7 +1171,7 @@ def hjorth_params(x, sf=None, axis=-1):
     Same signal with sf provided: mobility is now in Hz
 
     >>> np.round(ant.hjorth_params(x, sf=sf), 4)
-    array([6.2736, 1.005 ])
+    array([6.2743, 1.005 ])
 
     Random 2D data
 

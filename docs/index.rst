@@ -37,143 +37,236 @@
 .. figure:: /pictures/logo.png
    :align: center
 
-**AntroPy** is a Python 3 package providing several time-efficient algorithms for computing
-the complexity of time-series. It can be used for example to extract features from EEG signals.
+**AntroPy** is a Python package for computing entropy and fractal dimension measures of
+time-series. It is designed for speed (Numba JIT compilation) and ease of use, and works on
+both 1-D and N-D arrays. Typical use cases include feature extraction from physiological signals
+(e.g. EEG, ECG, EMG), and signal processing research.
 
 **********
 
 Installation
 ============
 
-AntroPy is a Python 3 package and is currently tested for Python 3.10+.
-
-Dependencies
-------------
-
-The main dependencies of AntroPy are:
-
-* `NumPy <https://numpy.org/>`_ >= 1.22.4
-* `SciPy <https://scipy.org/>`_ >= 1.8.0
-* `scikit-learn <https://scikit-learn.org/>`_ >= 1.2.0
-* `Numba <https://numba.readthedocs.io/>`_ >= 0.57
-
-User installation
------------------
-
-AntroPy can be easily installed using `uv <https://docs.astral.sh/uv/>`_
+AntroPy requires Python 3.10+ and depends on NumPy (≥ 1.22.4), SciPy (≥ 1.8.0),
+scikit-learn (≥ 1.2.0), and Numba (≥ 0.57).
 
 .. code-block:: shell
 
-  uv pip install antropy
+    # pip
+    pip install antropy
 
-pip
+    # uv
+    uv pip install antropy
 
-.. code-block:: shell
+    # conda
+    conda install -c conda-forge antropy
 
-  pip install antropy
-
-or conda
-
-.. code-block:: shell
-
-  conda install -c conda-forge antropy
-
-Development
------------
-
-To build and install from source, clone this repository and install in editable mode with `uv <https://docs.astral.sh/uv/>`_
+Development installation
+------------------------
 
 .. code-block:: shell
 
-  git clone https://github.com/raphaelvallat/antropy.git
-  cd antropy
-  uv pip install --group=test --editable .
-
-  # test the package
-  pytest --verbose
+    git clone https://github.com/raphaelvallat/antropy.git
+    cd antropy
+    uv pip install --group=test --editable .
+    pytest --verbose
 
 **********
 
 Functions
 =========
 
-**Entropy**
+Entropy
+-------
+
+.. list-table::
+   :widths: 35 65
+   :header-rows: 1
+
+   * - Function
+     - Description
+   * - ``ant.perm_entropy``
+     - Permutation entropy — captures ordinal patterns in the signal.
+   * - ``ant.spectral_entropy``
+     - Spectral (power-spectrum) entropy via FFT or Welch method.
+   * - ``ant.svd_entropy``
+     - Singular value decomposition entropy of the time-delay embedding matrix.
+   * - ``ant.app_entropy``
+     - Approximate entropy (ApEn) — regularity measure sensitive to the length of the signal.
+   * - ``ant.sample_entropy``
+     - Sample entropy (SampEn) — less biased alternative to ApEn.
+   * - ``ant.lziv_complexity``
+     - Lempel-Ziv complexity for symbolic / binary sequences.
+   * - ``ant.num_zerocross``
+     - Number of zero-crossings.
+   * - ``ant.hjorth_params``
+     - Hjorth mobility and complexity parameters.
+
+Fractal dimension
+-----------------
+
+.. list-table::
+   :widths: 35 65
+   :header-rows: 1
+
+   * - Function
+     - Description
+   * - ``ant.petrosian_fd``
+     - Petrosian fractal dimension.
+   * - ``ant.katz_fd``
+     - Katz fractal dimension.
+   * - ``ant.higuchi_fd``
+     - Higuchi fractal dimension — slope of log curve-length vs log interval.
+   * - ``ant.detrended_fluctuation``
+     - Detrended fluctuation analysis (DFA) — estimates the Hurst / scaling exponent.
+
+**********
+
+Quick start
+===========
+
+Entropy measures
+----------------
 
 .. code-block:: python
 
     import numpy as np
     import antropy as ant
+
     np.random.seed(1234567)
     x = np.random.normal(size=3000)
-    # Permutation entropy
+
     print(ant.perm_entropy(x, normalize=True))
-    # Spectral entropy
     print(ant.spectral_entropy(x, sf=100, method='welch', normalize=True))
-    # Singular value decomposition entropy
     print(ant.svd_entropy(x, normalize=True))
-    # Approximate entropy
     print(ant.app_entropy(x))
-    # Sample entropy
     print(ant.sample_entropy(x))
-    # Hjorth mobility and complexity
-    print(ant.hjorth_params(x))
-    # Number of zero-crossings
+    print(ant.hjorth_params(x))             # mobility in samples⁻¹
+    print(ant.hjorth_params(x, sf=100))     # mobility in Hz
     print(ant.num_zerocross(x))
-    # Lempel-Ziv complexity
     print(ant.lziv_complexity('01111000011001', normalize=True))
 
 .. parsed-literal::
 
-    0.9995371694290871
-    0.9940882825422431
-    0.9999110978316078
-    2.015221318528564
-    2.198595813245399
-    (1.4313385010057378, 1.215335712274099)
-    1531
-    1.3597696150205727
+    0.9995              # perm_entropy        (0 = regular, 1 = random)
+    0.9941              # spectral_entropy     (0 = pure tone, 1 = white noise)
+    0.9999              # svd_entropy
+    2.0152              # app_entropy
+    2.1986              # sample_entropy
+    (1.4313, 1.2153)    # hjorth (mobility, complexity)
+    (143.1339, 1.2153)  # hjorth with sf=100 Hz
+    1531                # num_zerocross
+    1.3598              # lziv_complexity (normalized)
 
-**Fractal dimension**
+Fractal dimension
+-----------------
 
 .. code-block:: python
 
-    # Petrosian fractal dimension
     print(ant.petrosian_fd(x))
-    # Katz fractal dimension
     print(ant.katz_fd(x))
-    # Higuchi fractal dimension
     print(ant.higuchi_fd(x))
-    # Detrended fluctuation analysis
     print(ant.detrended_fluctuation(x))
 
 .. parsed-literal::
 
-    1.0310643385753608
-    5.954272156665926
-    2.005040632258251
-    0.47903505674073327
+    1.0311    # petrosian_fd
+    5.9543    # katz_fd
+    2.0037    # higuchi_fd   (≈ 2 for white noise)
+    0.4790    # DFA alpha    (≈ 0.5 for white noise)
+
+N-D arrays
+----------
+
+Some functions accept N-D arrays and an ``axis`` argument, making it easy to process
+multi-channel data in a single call:
+
+.. code-block:: python
+
+    import numpy as np
+    import antropy as ant
+
+    # 4 channels × 3000 samples
+    X = np.random.normal(size=(4, 3000))
+
+    pe   = ant.perm_entropy(X, normalize=True, axis=-1)          # shape (4,)
+    mob, com = ant.hjorth_params(X, sf=256, axis=-1)             # shape (4,) each
+    nzc  = ant.num_zerocross(X, normalize=True, axis=-1)         # shape (4,)
+    se   = ant.spectral_entropy(X, sf=256, normalize=True)       # shape (4,)
+
+**********
+
+Performance
+===========
+
+Benchmarks on a MacBook Pro M1 Max (2021):
+
+.. list-table::
+   :widths: 40 30 30
+   :header-rows: 1
+
+   * - Function
+     - 1 000 samples
+     - 10 000 samples
+   * - ``ant.perm_entropy``
+     - 24 µs
+     - 87 µs
+   * - ``ant.spectral_entropy``
+     - 141 µs
+     - 863 µs
+   * - ``ant.svd_entropy``
+     - 35 µs
+     - 140 µs
+   * - ``ant.app_entropy``
+     - 1.5 ms
+     - 45.9 ms
+   * - ``ant.sample_entropy``
+     - 917 µs
+     - 46.0 ms
+   * - ``ant.lziv_complexity``
+     - 241 µs
+     - 25.2 ms
+   * - ``ant.num_zerocross``
+     - 2.5 µs
+     - 6 µs
+   * - ``ant.hjorth_params``
+     - 19 µs
+     - 44 µs
+   * - ``ant.petrosian_fd``
+     - 6 µs
+     - 14 µs
+   * - ``ant.katz_fd``
+     - 9 µs
+     - 22 µs
+   * - ``ant.higuchi_fd``
+     - 7 µs
+     - 92 µs
+   * - ``ant.detrended_fluctuation``
+     - 99 µs
+     - 1.4 ms
+
+Numba functions (``sample_entropy``, ``higuchi_fd``, ``detrended_fluctuation``) incur a one-time compilation cost on the first call.
 
 **********
 
 Development
 ===========
 
-AntroPy was created and is maintained by `Raphael Vallat <https://raphaelvallat.com>`_. Contributions are more than welcome so feel free to contact me, open an issue or submit a pull request!
+AntroPy was created and is maintained by `Raphael Vallat <https://raphaelvallat.com>`_.
+Contributions are welcome — feel free to open an issue or submit a pull request on
+`GitHub <https://github.com/raphaelvallat/antropy>`_.
 
-To see the code or report a bug, please visit the `GitHub repository <https://github.com/raphaelvallat/antropy>`_.
-
-Note that this program is provided with **NO WARRANTY OF ANY KIND**. Always double check the results.
+**Note:** this program is provided with **NO WARRANTY OF ANY KIND**. Always validate
+results against known references.
 
 **********
 
-Acknowledgement
-===============
+Acknowledgements
+================
 
-Several functions of AntroPy were adapted from:
+Several functions in AntroPy were adapted from:
 
-- `MNE-features <https://github.com/mne-tools/mne-features>`_
-- `pyEntropy <https://github.com/nikdon/pyEntropy>`_
-- `pyrem <https://github.com/gilestrolab/pyrem>`_
-- `nolds <https://github.com/CSchoel/nolds>`_
-
-All the credit goes to the authors of these excellent packages.
+- `MNE-features <https://github.com/mne-tools/mne-features>`_ — Jean-Baptiste Schiratti & Alexandre Gramfort
+- `pyEntropy <https://github.com/nikdon/pyEntropy>`_ — Nikolay Donets
+- `pyrem <https://github.com/gilestrolab/pyrem>`_ — Quentin Geissmann
+- `nolds <https://github.com/CSchoel/nolds>`_ — Christopher Scholzel

@@ -174,7 +174,7 @@ Fractal dimension
 N-D arrays
 ----------
 
-Most functions accept N-D arrays and an ``axis`` argument, making it easy to process
+Some functions accept N-D arrays and an ``axis`` argument, making it easy to process
 multi-channel data in a single call:
 
 .. code-block:: python
@@ -195,32 +195,51 @@ multi-channel data in a single call:
 Performance
 ===========
 
-Benchmarks on a 1000-sample signal (MacBook Pro M1 Max, 2021):
+Benchmarks on a MacBook Pro M1 Max (2021):
 
 .. list-table::
-   :widths: 55 45
+   :widths: 40 30 30
    :header-rows: 1
 
    * - Function
-     - Time
+     - 1 000 samples
+     - 10 000 samples
    * - ``ant.perm_entropy``
-     - 53 µs
-   * - ``ant.spectral_entropy``
-     - 113 µs
-   * - ``ant.svd_entropy``
      - 24 µs
+     - 87 µs
+   * - ``ant.spectral_entropy``
+     - 141 µs
+     - 863 µs
+   * - ``ant.svd_entropy``
+     - 35 µs
+     - 140 µs
    * - ``ant.app_entropy``
-     - 1.4 ms
+     - 1.5 ms
+     - 45.9 ms
    * - ``ant.sample_entropy``
-     - 910 µs
+     - 917 µs
+     - 46.0 ms
+   * - ``ant.lziv_complexity``
+     - 241 µs
+     - 25.2 ms
+   * - ``ant.num_zerocross``
+     - 2.5 µs
+     - 6 µs
+   * - ``ant.hjorth_params``
+     - 19 µs
+     - 44 µs
    * - ``ant.petrosian_fd``
      - 6 µs
+     - 14 µs
    * - ``ant.katz_fd``
      - 9 µs
+     - 22 µs
    * - ``ant.higuchi_fd``
      - 7 µs
+     - 92 µs
    * - ``ant.detrended_fluctuation``
-     - 100 µs
+     - 99 µs
+     - 1.4 ms
 
 Numba functions (``sample_entropy``, ``higuchi_fd``, ``detrended_fluctuation``) incur a one-time compilation cost on the first call.
 

@@ -3,6 +3,53 @@
 What's new
 ##########
 
+v0.2.2 (April 2026)
+--------------------
+
+**Performance**
+
+- :py:func:`antropy.perm_entropy` gains a fast path for ``order`` ∈ {3, 4}: ordinal
+  patterns are encoded via pairwise comparison bit-keys and counted with
+  ``np.bincount`` rather than ``argsort`` + ``np.unique``, giving a major speed-up
+  compared to the previous implementation.
+- The general path (``order`` > 4) is also improved: the embedded matrix is now
+  built as a zero-copy ``as_strided`` view and the hash is computed via a single
+  BLAS ``@`` product instead of an element-wise multiply + sum.
+
+**New features**
+
+- :py:func:`antropy.perm_entropy` now accepts 2-D arrays of shape
+  ``(n_channels, n_times)`` for ``order`` ∈ {3, 4}, computing entropy for every
+  row in a single vectorised call.
+
+**Bug fixes**
+
+- :py:func:`antropy.perm_entropy` now always applies a small positional epsilon
+  jitter before sorting, making results fully deterministic across platforms and
+  dtypes. Previously, integer-typed signals (and some float signals with exact
+  ties) could produce different outputs depending on the platform's unstable-sort
+  tie-breaking behaviour.
+- Normalized :py:func:`antropy.perm_entropy` output is now clipped to ``[0, 1]``
+  to prevent returning ``-0.0`` for perfectly regular signals (IEEE 754 artefact
+  from ``-(1.0 * log2(1.0))``).
+
+**Docs**
+
+- Fixed doctest failures in :py:func:`antropy.spectral_entropy`,
+  :py:func:`antropy.num_zerocross`, and :py:func:`antropy.hjorth_params` caused by
+  NumPy's new scalar ``repr`` (``np.float64(x)`` / ``np.int64(x)`` instead of
+  bare literals in newer NumPy).
+- Added a Big O complexity column to the performance tables in ``README.rst`` and
+  ``docs/index.rst``.
+- Performance tables now show timings at both 1000 and 10000 samples.
+- Added ``benchmarks/benchmark_all.py`` script to reproduce all table timings.
+- Rewrote ``docs/index.rst`` to match ``README.rst`` in content and style.
+
+**Maintenance**
+
+- Clean up ``docs/conf.py`` (remove redundant ``sys.path`` manipulation) and
+  tighten ``pyproject.toml`` (remove stale extras, fix editable-install metadata).
+
 v0.2.1 (March 2026)
 --------------------
 

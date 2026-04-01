@@ -64,7 +64,7 @@ def main():
         for n in LENGTHS:
             t = results[n][fn]
             if t >= 1000:
-                row += f"  {t/1000:>{col_w}.2f} ms   "
+                row += f"  {t / 1000:>{col_w}.2f} ms   "
             else:
                 row += f"  {t:>{col_w}.1f} µs   "
         print(row)

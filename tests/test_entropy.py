@@ -186,6 +186,32 @@ class TestEntropy(unittest.TestCase):
                         err_msg=f"2D mismatch: order={order}, delay={delay}, normalize={normalize}",
                     )
 
+    def test_perm_entropy_2d_multiple_delays(self):
+        x = np.array(
+            [
+                [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8],
+                [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+            ]
+        )
+        for order in [3, 4]:
+            for normalize in [False, True]:
+                for delays in [[1, 2, 3], np.array([1, 2, 3]), range(1, 4)]:
+                    reference = [
+                        np.mean(
+                            [_perm_entropy_orig(row, order, delay, normalize) for delay in delays]
+                        )
+                        for row in x
+                    ]
+                    result = perm_entropy(x, order, delays, normalize)
+                    self.assertEqual(result.shape, (2,))
+                    np.testing.assert_allclose(result, reference)
+                    single_epoch = perm_entropy(x[:1], order, delays, normalize)
+                    self.assertEqual(single_epoch.shape, (1,))
+                    np.testing.assert_allclose(single_epoch, reference[:1])
+                    scalar = perm_entropy(x[0], order, delays, normalize)
+                    self.assertEqual(np.ndim(scalar), 0)
+                    np.testing.assert_allclose(scalar, reference[0])
+
     def test_spectral_entropy(self):
         spectral_entropy(RANDOM_TS, SF_TS, method="fft")
         spectral_entropy(RANDOM_TS, SF_TS, method="welch")

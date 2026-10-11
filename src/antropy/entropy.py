@@ -248,7 +248,9 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     """
     # If multiple delays are passed, return the average across all of them
     if isinstance(delay, (list, np.ndarray, range)):
-        return np.mean([perm_entropy(x, order=order, delay=d, normalize=normalize) for d in delay])
+        return np.mean(
+            [perm_entropy(x, order=order, delay=d, normalize=normalize) for d in delay], axis=0
+        )
     x = np.asarray(x)
     if x.ndim not in (1, 2):
         raise ValueError("x must be 1D or 2D.")

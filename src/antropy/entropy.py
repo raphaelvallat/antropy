@@ -31,9 +31,8 @@ __all__ = [
 # the ordinal index from a small pre-computed table.  This avoids the O(m
 # log m) sort and replaces it with O(m) bitwise operations.
 #
-# Note: equal values (ties) are encoded as False by '<', which may assign
-# them to a different ordinal pattern than argsort would.  For the typical
-# case of continuous data this never occurs in practice.
+# Comparisons use '<=' because the left column always has the earlier
+# position. This breaks ties by position, matching stable argsort.
 # ---------------------------------------------------------------------------
 
 # order=3 — key bits: bit2=(a<b), bit1=(a<c), bit0=(b<c)
@@ -87,24 +86,17 @@ def _perm_entropy_fast(x, order, delay, normalize):
     n, m = x.shape
     n_embed = m - (order - 1) * delay
 
-    # Apply a positional epsilon jitter — adding i*eps to column i — so that
-    # any tied values are broken by column index, exactly matching argsort's
-    # behaviour.  This handles integer signals, quantized data, zero-padded
-    # epochs, and any other input with exact duplicate values.
-    # eps is scaled to the signal magnitude so the jitter never affects the
-    # ordering of distinct values.
-    eps = np.finfo(np.float64).eps * (float(np.abs(x).max()) + 1)
-    cols = [
-        x[:, i * delay : i * delay + n_embed].astype(np.float64) + i * eps for i in range(order)
-    ]
+    # Keep the original values: a numeric jitter can reorder close values,
+    # and conversion to float64 can lose differences between large integers.
+    cols = [x[:, i * delay : i * delay + n_embed] for i in range(order)]
 
     if order == 3:
         col0, col1, col2 = cols
         # Encode the 3 pairwise comparisons as bits of an integer key
         bit_key = (
-            ((col0 < col1).astype(np.uint8) << 2)
-            | ((col0 < col2).astype(np.uint8) << 1)
-            | (col1 < col2).astype(np.uint8)
+            ((col0 <= col1).astype(np.uint8) << 2)
+            | ((col0 <= col2).astype(np.uint8) << 1)
+            | (col1 <= col2).astype(np.uint8)
         )
         keys = _PE3_REMAP[_PE3_LOOKUP[bit_key]]  # ordinal indices 0..5
         n_perms = 6
@@ -113,12 +105,12 @@ def _perm_entropy_fast(x, order, delay, normalize):
         col0, col1, col2, col3 = cols
         # Encode the 6 pairwise comparisons as bits of an integer key
         bit_key = (
-            ((col0 < col1).astype(np.uint8) << 5)
-            | ((col0 < col2).astype(np.uint8) << 4)
-            | ((col0 < col3).astype(np.uint8) << 3)
-            | ((col1 < col2).astype(np.uint8) << 2)
-            | ((col1 < col3).astype(np.uint8) << 1)
-            | (col2 < col3).astype(np.uint8)
+            ((col0 <= col1).astype(np.uint8) << 5)
+            | ((col0 <= col2).astype(np.uint8) << 4)
+            | ((col0 <= col3).astype(np.uint8) << 3)
+            | ((col1 <= col2).astype(np.uint8) << 2)
+            | ((col1 <= col3).astype(np.uint8) << 1)
+            | (col2 <= col3).astype(np.uint8)
         )
         keys = _PE4_LOOKUP[bit_key]  # ordinal indices 0..23
         n_perms = 24

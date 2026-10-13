@@ -174,6 +174,31 @@ class TestEntropy(unittest.TestCase):
                         atol=1e-14,
                     )
 
+    def test_perm_entropy_nan_epoch_isolation(self):
+        values = np.array([1, 0, 2, 3, 5, 4, 1, 2.0])
+        missing = values.copy()
+        missing[1] = np.nan
+        for order in [3, 4]:
+            for normalize in [False, True]:
+                self.assertTrue(np.isnan(perm_entropy(missing, order, normalize=normalize)))
+                self.assertTrue(np.isnan(perm_entropy(np.vstack([missing, missing]), order)).all())
+                expected = _perm_entropy_orig(values, order, normalize=normalize)
+                for position in [0, 1, 2]:
+                    batch = np.vstack([values, values, values])
+                    batch[position] = missing
+                    before = batch.copy()
+                    actual = perm_entropy(batch, order, normalize=normalize)
+                    self.assertTrue(np.isnan(actual[position]))
+                    np.testing.assert_allclose(np.delete(actual, position), expected)
+                    np.testing.assert_array_equal(batch, before)
+
+                infinite = values.copy()
+                infinite[:2] = [-np.inf, np.inf]
+                np.testing.assert_allclose(
+                    perm_entropy(infinite, order, normalize=normalize),
+                    _perm_entropy_orig(infinite, order, normalize=normalize),
+                )
+
     def test_perm_entropy_fast_path(self):
         """Fast paths (order=3/4) must match the original argsort implementation for 1D input."""
         rng = np.random.default_rng(0)

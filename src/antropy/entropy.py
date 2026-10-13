@@ -88,7 +88,8 @@ def _perm_entropy_fast(x, order, delay, normalize):
 
     # NaN comparisons do not define an ordering and can produce invalid keys.
     # Process valid epochs separately so a missing sample cannot affect them.
-    valid_epochs = ~np.isnan(x).any(axis=1)
+    # Self-comparison detects NaN without requiring a float dtype.
+    valid_epochs = (x == x).all(axis=1)
     if not valid_epochs.all():
         result = np.full(n, np.nan)
         result[valid_epochs] = _perm_entropy_fast(x[valid_epochs], order, delay, normalize)

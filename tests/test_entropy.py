@@ -149,6 +149,7 @@ class TestEntropy(unittest.TestCase):
             x,
             x + 2**60,
             x.astype(np.uint64) + 2**63,
+            np.array([int(value) + 2**100 for value in x], dtype=object),
             x * 1e-18,
             1.0 + x * np.finfo(float).eps,
         ]
@@ -181,6 +182,9 @@ class TestEntropy(unittest.TestCase):
         for order in [3, 4]:
             for normalize in [False, True]:
                 self.assertTrue(np.isnan(perm_entropy(missing, order, normalize=normalize)))
+                self.assertTrue(
+                    np.isnan(perm_entropy(missing.astype(object), order, normalize=normalize))
+                )
                 self.assertTrue(np.isnan(perm_entropy(np.vstack([missing, missing]), order)).all())
                 expected = _perm_entropy_orig(values, order, normalize=normalize)
                 for position in [0, 1, 2]:

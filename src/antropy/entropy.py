@@ -150,10 +150,11 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
         2D input is only supported for ``order=3`` or ``order=4``.
     order : int
         Order of permutation entropy. Default is 3.
-    delay : int, list, np.ndarray or range
+    delay : int, list, tuple, np.ndarray or range
         Time delay (lag). Default is 1. If multiple values are passed
         (e.g. ``[1, 2, 3]``), AntroPy will calculate the average permutation
-        entropy across all these delays.
+        entropy across all these delays. For 2D input, the average is taken
+        separately for each epoch. Delay sequences must be nonempty and 1D.
     normalize : bool
         If True, divide by log2(order!) to normalize the entropy between 0
         and 1. Otherwise, return the permutation entropy in bits.
@@ -245,17 +246,32 @@ def perm_entropy(x, order=3, delay=1, normalize=False):
     (4,)
     >>> print(np.round(pe, 4))
     [0.9997 0.9991 0.9988 0.9988]
+
+    Multiple delays retain one average per epoch:
+
+    >>> pe_delays = ant.perm_entropy(x2d, delay=(1, 2, 3), normalize=True)
+    >>> pe_delays.shape
+    (4,)
+    >>> single_delays = [ant.perm_entropy(x2d, delay=d, normalize=True) for d in (1, 2, 3)]
+    >>> np.allclose(pe_delays, np.mean(single_delays, axis=0))
+    True
     """
-    # If multiple delays are passed, return the average across all of them
-    if isinstance(delay, (list, np.ndarray, range)):
-        return np.mean(
-            [perm_entropy(x, order=order, delay=d, normalize=normalize) for d in delay], axis=0
-        )
     x = np.asarray(x)
     if x.ndim not in (1, 2):
         raise ValueError("x must be 1D or 2D.")
     if order < 2:
         raise ValueError("Order has to be at least 2.")
+    # If multiple delays are passed, return the average across all of them
+    delays = np.asarray(delay)
+    if delays.ndim > 1:
+        raise ValueError("delay must be a scalar or a 1D sequence.")
+    if delays.ndim == 1:
+        if not delays.size:
+            raise ValueError("delay sequence must not be empty.")
+        return np.mean(
+            [perm_entropy(x, order=order, delay=d, normalize=normalize) for d in delays], axis=0
+        )
+    delay = delays.item()
     if delay < 1:
         raise ValueError("delay must be greater than zero.")
     delay = int(delay)

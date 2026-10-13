@@ -186,6 +186,18 @@ class TestEntropy(unittest.TestCase):
                         err_msg=f"2D mismatch: order={order}, delay={delay}, normalize={normalize}",
                     )
 
+    def test_perm_entropy_delay_shapes(self):
+        batch = np.random.default_rng(0).random((3, 30))
+        for values in [batch[0], batch]:
+            np.testing.assert_allclose(
+                perm_entropy(values, delay=np.array(2)), perm_entropy(values, delay=2)
+            )
+            for empty in [[], (), range(0), np.array([])]:
+                with self.assertRaisesRegex(ValueError, "delay sequence must not be empty"):
+                    perm_entropy(values, delay=empty)
+            with self.assertRaisesRegex(ValueError, "scalar or a 1D sequence"):
+                perm_entropy(values, delay=np.array([[1, 2]]))
+
     def test_perm_entropy_2d_multiple_delays(self):
         x = np.array(
             [
@@ -195,7 +207,7 @@ class TestEntropy(unittest.TestCase):
         )
         for order in [3, 4]:
             for normalize in [False, True]:
-                for delays in [[1, 2, 3], np.array([1, 2, 3]), range(1, 4)]:
+                for delays in [[1, 2, 3], (1, 2, 3), np.array([1, 2, 3]), range(1, 4)]:
                     reference = [
                         np.mean(
                             [_perm_entropy_orig(row, order, delay, normalize) for delay in delays]

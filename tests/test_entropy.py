@@ -27,8 +27,8 @@ def _perm_entropy_orig(x, order=3, delay=1, normalize=False):
     """Original argsort-based implementation with no fast path, used as reference.
 
     Uses kind='stable' so that ties are broken by position (earlier index ranks
-    lower), matching the behaviour of the positional epsilon jitter in the fast
-    path.  For tie-free data stable and quicksort give identical results.
+    lower), matching the position-based comparisons in the fast path.
+    For tie-free data stable and quicksort give identical results.
     """
     from math import factorial
 
@@ -82,8 +82,7 @@ class TestEntropy(unittest.TestCase):
     def test_perm_entropy_ties(self):
         """Fast path must agree with the original argsort implementation on signals with ties.
 
-        A positional epsilon jitter is applied to all inputs so ties are broken
-        by column index, exactly matching argsort's position-based tiebreaking.
+        Ties are broken by column index, matching stable argsort.
         This applies to integer arrays, float arrays with duplicate values,
         zero-padded signals, and quantized data stored as float.
         """
@@ -94,8 +93,7 @@ class TestEntropy(unittest.TestCase):
             perm_entropy(x_const, order=3), _perm_entropy_orig(x_const, order=3)
         )
 
-        # Ties at different window positions: without jitter the fast path would
-        # collapse both tied windows to the same pattern; with jitter it matches argsort.
+        # Ties at different window positions must remain distinct patterns.
         # x = [3, 2, 2, 1, 3]:
         #   window [3,2,2] → argsort [1,2,0]  (b<c<a, tie broken by position)
         #   window [2,2,1] → argsort [2,0,1]  (c<a<b, tie broken by position)
@@ -106,7 +104,7 @@ class TestEntropy(unittest.TestCase):
             atol=1e-12,
         )
 
-        # Same signal stored as float — jitter must apply regardless of dtype
+        # Same signal stored as float: tie handling is independent of dtype.
         x_ties_float = x_ties.astype(float)
         np.testing.assert_allclose(
             perm_entropy(x_ties_float, order=3),
@@ -144,6 +142,66 @@ class TestEntropy(unittest.TestCase):
                 atol=1e-12,
                 err_msg=f"Mismatch on quantized float signal for order={order}",
             )
+
+    def test_perm_entropy_preserves_ordering(self):
+        x = np.array([2, 0, 3, 1, 4, 1, 5, 2, 3, 0, 1, 4], dtype=np.int64)
+        examples = [
+            x,
+            x + 2**60,
+            x.astype(np.uint64) + 2**63,
+            np.array([int(value) + 2**100 for value in x], dtype=object),
+            x * 1e-18,
+            1.0 + x * np.finfo(float).eps,
+        ]
+        for order in [3, 4]:
+            for delay in [1, 2, 3]:
+                for normalize in [False, True]:
+                    # All examples preserve x's ordinal patterns. The original
+                    # embedding helper casts integers to float64, so use x as
+                    # the reference before adding large offsets.
+                    reference = _perm_entropy_orig(x, order, delay, normalize)
+                    for values in examples:
+                        np.testing.assert_allclose(
+                            perm_entropy(values, order, delay, normalize),
+                            reference,
+                            rtol=0,
+                            atol=1e-14,
+                        )
+                    batch = np.vstack([x, x + 2**60])
+                    np.testing.assert_allclose(
+                        perm_entropy(batch, order, delay, normalize),
+                        [reference, reference],
+                        rtol=0,
+                        atol=1e-14,
+                    )
+
+    def test_perm_entropy_nan_epoch_isolation(self):
+        values = np.array([1, 0, 2, 3, 5, 4, 1, 2.0])
+        missing = values.copy()
+        missing[1] = np.nan
+        for order in [3, 4]:
+            for normalize in [False, True]:
+                self.assertTrue(np.isnan(perm_entropy(missing, order, normalize=normalize)))
+                self.assertTrue(
+                    np.isnan(perm_entropy(missing.astype(object), order, normalize=normalize))
+                )
+                self.assertTrue(np.isnan(perm_entropy(np.vstack([missing, missing]), order)).all())
+                expected = _perm_entropy_orig(values, order, normalize=normalize)
+                for position in [0, 1, 2]:
+                    batch = np.vstack([values, values, values])
+                    batch[position] = missing
+                    before = batch.copy()
+                    actual = perm_entropy(batch, order, normalize=normalize)
+                    self.assertTrue(np.isnan(actual[position]))
+                    np.testing.assert_allclose(np.delete(actual, position), expected)
+                    np.testing.assert_array_equal(batch, before)
+
+                infinite = values.copy()
+                infinite[:2] = [-np.inf, np.inf]
+                np.testing.assert_allclose(
+                    perm_entropy(infinite, order, normalize=normalize),
+                    _perm_entropy_orig(infinite, order, normalize=normalize),
+                )
 
     def test_perm_entropy_fast_path(self):
         """Fast paths (order=3/4) must match the original argsort implementation for 1D input."""

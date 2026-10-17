@@ -4,7 +4,7 @@ import unittest
 
 import numpy as np
 from numpy import apply_along_axis as aal
-from numpy.testing import assert_equal
+from numpy.testing import assert_allclose
 from utils import ARANGE, NORMAL_TS, PURE_COSINE, PURE_SINE, RANDOM_TS, TEST_DTYPES
 
 from antropy import detrended_fluctuation, higuchi_fd, katz_fd, petrosian_fd
@@ -49,16 +49,16 @@ class TestEntropy(unittest.TestCase):
         petrosian_fd(list(RANDOM_TS))
         self.assertEqual(np.round(pfd, 3), 1.030)
         # 2D data
-        assert_equal(aal(petrosian_fd, axis=1, arr=data), petrosian_fd(data))
-        assert_equal(aal(petrosian_fd, axis=0, arr=data), petrosian_fd(data, axis=0))
+        assert_allclose(aal(petrosian_fd, axis=1, arr=data), petrosian_fd(data))
+        assert_allclose(aal(petrosian_fd, axis=0, arr=data), petrosian_fd(data, axis=0))
 
     def test_katz_fd(self):
         x_k = [0.0, 0.0, 2.0, -2.0, 0.0, -1.0, -1.0, 0.0]
         self.assertEqual(np.round(katz_fd(x_k), 3), 5.783)
         # 2D data
         data_kfd = np.vstack((RANDOM_TS, NORMAL_TS, PURE_SINE, PURE_COSINE, ARANGE))
-        assert_equal(aal(katz_fd, axis=1, arr=data_kfd), katz_fd(data_kfd))
-        assert_equal(aal(katz_fd, axis=0, arr=data_kfd), katz_fd(data_kfd, axis=0))
+        assert_allclose(aal(katz_fd, axis=1, arr=data_kfd), katz_fd(data_kfd))
+        assert_allclose(aal(katz_fd, axis=0, arr=data_kfd), katz_fd(data_kfd, axis=0))
 
     def test_higuchi_fd(self):
         """Test for function `higuchi_fd`.

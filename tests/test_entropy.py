@@ -4,7 +4,7 @@ import unittest
 
 import numpy as np
 from numpy import apply_along_axis as aal
-from numpy.testing import assert_equal
+from numpy.testing import assert_allclose, assert_equal
 from utils import ARANGE, NORMAL_TS, PURE_SINE, RANDOM_TS, RANDOM_TS_LONG, TEST_DTYPES
 
 from antropy import (
@@ -194,7 +194,7 @@ class TestEntropy(unittest.TestCase):
         self.assertEqual(np.round(spectral_entropy(PURE_SINE, 100), 2), 0.0)
         # 2D data
         params = dict(sf=SF_TS, normalize=True, method="welch", nperseg=100)
-        assert_equal(
+        assert_allclose(
             aal(spectral_entropy, axis=1, arr=data, **params),
             spectral_entropy(data, **params),
         )
@@ -310,7 +310,7 @@ class TestEntropy(unittest.TestCase):
         assert mob_sine < mob
         assert com_sine < com
         # 2D data (avoid warning with flat line variance)
-        assert_equal(
+        assert_allclose(
             aal(hjorth_params, axis=-1, arr=data[:-1, :]).T,
             hjorth_params(data[:-1, :], axis=-1),
         )

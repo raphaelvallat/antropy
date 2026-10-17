@@ -3,6 +3,24 @@
 What's new
 ##########
 
+v0.2.3 (October 2026)
+---------------------
+
+**Bug fixes**
+
+- :py:func:`antropy.perm_entropy` with several delays on a 2-D array now returns
+  one value per row (averaged across delays) instead of a single value for the
+  whole array. Invalid ``delay`` inputs, such as an empty list, now raise a clear
+  error.
+- :py:func:`antropy.perm_entropy` (``order`` 3 or 4) now compares the original
+  values directly, so very large integers or very close floats are no longer
+  mixed up. Rows containing NaN now return NaN without affecting the other rows.
+
+**Tests**
+
+- Made tests that compare 2-D and 1-D results robust to tiny floating-point
+  differences across platforms.
+
 v0.2.2 (April 2026)
 --------------------
 

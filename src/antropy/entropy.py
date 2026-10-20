@@ -1004,7 +1004,7 @@ def lziv_complexity(sequence, normalize=False):
         raise TypeError("normalize must be a bool.")
     if isinstance(sequence, (list, np.ndarray)):
         sequence = np.asarray(sequence)
-        if sequence.dtype.kind in "bfi":
+        if sequence.dtype.kind in "bfiu":
             # Convert [True, False] or [1., 0.] to [1, 0]
             s = sequence.astype("uint32")
         else:

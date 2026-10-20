@@ -327,7 +327,7 @@ def higuchi_fd(x, kmax=10):
     """
     x = np.asarray(x, dtype=np.float64)
     kmax = int(kmax)
-    return _higuchi_fd(x, kmax)
+    return _higuchi_fd(np.ascontiguousarray(x), kmax)
 
 
 @jit((types.Array(types.float64, 1, "C", readonly=True),), nopython=True)
@@ -477,4 +477,4 @@ def detrended_fluctuation(x):
     2.0390
     """
     x = np.asarray(x, dtype=np.float64)
-    return _dfa(x)
+    return _dfa(np.ascontiguousarray(x))

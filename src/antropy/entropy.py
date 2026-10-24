@@ -859,7 +859,7 @@ def sample_entropy(x, order=2, tolerance=None, metric="chebyshev"):
         r = tolerance
     x = np.asarray(x, dtype=np.float64)
     if metric == "chebyshev" and x.size < 5000:
-        return _numba_sampen(x, order=order, r=r)
+        return _numba_sampen(np.ascontiguousarray(x), order=order, r=r)
     else:
         phi = _app_samp_entropy(x, order=order, r=r, metric=metric, approximate=False)
         return -np.log(np.divide(phi[1], phi[0]))

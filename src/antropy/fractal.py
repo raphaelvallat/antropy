@@ -11,6 +11,15 @@ from .utils import _linear_regression, _log_n
 __all__ = ["petrosian_fd", "katz_fd", "higuchi_fd", "detrended_fluctuation"]
 
 
+def _abs_integer_difference(x, y):
+    """Compute integer magnitudes before converting them to floating point."""
+    high = np.maximum(x, y).astype(np.uint64)
+    low = np.minimum(x, y).astype(np.uint64)
+    # uint64 subtraction is modulo 2**64. Even when signed values straddle
+    # zero, the ordered difference fits in uint64 and is recovered exactly.
+    return (high - low).astype(np.float64)
+
+
 def petrosian_fd(x, axis=-1):
     """Petrosian fractal dimension.
 
@@ -134,6 +143,9 @@ def katz_fd(x, axis=-1):
     Original code from the `mne-features <https://mne.tools/mne-features/>`_
     package by Jean-Baptiste Schiratti and Alexandre Gramfort.
 
+    Integer and boolean distances are computed before conversion to floating
+    point, avoiding integer overflow and loss of nearby large integer values.
+
     References
     ----------
     * https://ieeexplore.ieee.org/abstract/document/904882
@@ -186,15 +198,21 @@ def katz_fd(x, axis=-1):
     """
     x = np.asarray(x)
 
+    if x.dtype.kind in "biu":
+        samples = np.moveaxis(x, axis, -1)
+        dists = _abs_integer_difference(samples[..., 1:], samples[..., :-1])
+        d = np.max(_abs_integer_difference(samples, samples[..., :1]), axis=-1)
+        axis = -1
+    else:
+        dists = np.abs(np.diff(x, axis=axis))
+        d = np.max(np.abs(x - x.take([0], axis=axis)), axis=axis)
+
     # Define total length of curve
-    dists = np.abs(np.diff(x, axis=axis))
     L = np.sum(dists, axis=axis)
 
     # Average distance between successive points
     a = np.mean(dists, axis=axis)
 
-    # Compute the farthest distance between starting point and any other point
-    d = np.max(np.abs(x - x.take([0], axis=axis)), axis=axis)
     kfd_val = np.log10(L / a) / (np.log10(d / a))
     return kfd_val
 

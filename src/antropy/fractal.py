@@ -96,7 +96,13 @@ def petrosian_fd(x, axis=-1):
     x = np.asarray(x)
     N = x.shape[axis]
     # Number of sign changes in the first derivative of the signal
-    nzc_deriv = num_zerocross(np.diff(x, axis=axis), axis=axis)
+    if np.issubdtype(x.dtype, np.integer) or x.dtype == np.bool_:
+        # Comparing neighbors avoids overflow and preserves 64-bit integers.
+        values = np.moveaxis(x, axis, -1)
+        falling = values[..., 1:] < values[..., :-1]
+        nzc_deriv = np.count_nonzero(falling[..., 1:] != falling[..., :-1], axis=-1)
+    else:
+        nzc_deriv = num_zerocross(np.diff(x, axis=axis), axis=axis)
     pfd = np.log10(N) / (np.log10(N) + np.log10(N / (N + 0.4 * nzc_deriv)))
     return pfd
 

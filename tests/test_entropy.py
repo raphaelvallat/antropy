@@ -464,3 +464,41 @@ class TestEntropy(unittest.TestCase):
         np.testing.assert_allclose(
             _xlogx(np.array([0, 1, 3, 9, -1]), base=3), np.array([0, 0, 3, 18, np.nan])
         )
+
+
+def test_hjorth_integer_differences():
+    import statistics
+
+    for dtype in (
+        np.uint8,
+        np.int8,
+        np.uint16,
+        np.int16,
+        np.uint32,
+        np.int32,
+        np.uint64,
+        np.int64,
+        np.bool_,
+    ):
+        if dtype == np.bool_:
+            rows = np.array([[0, 1, 0, 0, 1, 0, 1]], dtype=dtype)
+        else:
+            maximum = min(np.iinfo(dtype).max, 65535)
+            minimum = max(np.iinfo(dtype).min, -32768)
+            rows = np.array(
+                [[minimum, maximum, minimum, 1, 1, maximum, 0], [10, 4, 9, 3, 8, 2, 7]], dtype=dtype
+            )
+        expected = []
+        for row in rows:
+            x = [int(v) for v in row]
+            dx = [b - a for a, b in zip(x, x[1:])]
+            ddx = [b - a for a, b in zip(dx, dx[1:])]
+            mob = (statistics.pvariance(dx) / statistics.pvariance(x)) ** 0.5
+            com = (statistics.pvariance(ddx) / statistics.pvariance(dx)) ** 0.5 / mob
+            expected.append((mob, com))
+        expected = np.array(expected).T
+        assert_allclose(hjorth_params(rows), expected)
+        assert_allclose(hjorth_params(rows.T, axis=0), expected)
+        scaled = expected.copy()
+        scaled[0] *= 128
+        assert_allclose(hjorth_params(rows, sf=128), scaled)

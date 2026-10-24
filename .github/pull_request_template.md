@@ -5,6 +5,7 @@ https://raphaelvallat.com/antropy/contributing.html
 Every PR must state its user impact (P1-P3). P4 changes (refactors, type hints, style,
 test-only changes, edge cases nobody hits) are not accepted as standalone PRs.
 If you used an AI tool, also follow the guidelines for AI-assisted pull requests.
+Short version of both: https://github.com/raphaelvallat/antropy/issues/61
 PRs that don't follow these guidelines may be closed without review.
 -->
 

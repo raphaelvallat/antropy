@@ -52,6 +52,10 @@ class TestEntropy(unittest.TestCase):
         assert_allclose(aal(petrosian_fd, axis=1, arr=data), petrosian_fd(data))
         assert_allclose(aal(petrosian_fd, axis=0, arr=data), petrosian_fd(data, axis=0))
 
+    def test_petrosian_integer_differences(self):
+        x = np.array([0, 255, 0, 255], dtype=np.uint8)
+        assert_allclose(petrosian_fd(x), petrosian_fd(x.astype(float)))
+
     def test_katz_fd(self):
         x_k = [0.0, 0.0, 2.0, -2.0, 0.0, -1.0, -1.0, 0.0]
         self.assertEqual(np.round(katz_fd(x_k), 3), 5.783)

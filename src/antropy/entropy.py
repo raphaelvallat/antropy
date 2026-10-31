@@ -1229,6 +1229,8 @@ def hjorth_params(x, sf=None, axis=-1):
     if sf is not None and not isinstance(sf, (int, float)):
         raise TypeError("sf must be a numeric value (int or float), got %s." % type(sf).__name__)
     x = np.asarray(x)
+    if x.dtype.kind in "biu":
+        x = x.astype(np.float64)
     # Calculate derivatives
     dx = np.diff(x, axis=axis)
     ddx = np.diff(dx, axis=axis)

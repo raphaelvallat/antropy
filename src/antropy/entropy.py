@@ -2,6 +2,7 @@
 
 import itertools
 from math import factorial, log
+from numbers import Real
 
 import numpy as np
 from numba import jit, types
@@ -730,7 +731,7 @@ def app_entropy(x, order=2, tolerance=None, metric="chebyshev"):
     if tolerance is None:
         r = 0.2 * np.std(x, ddof=0)
     else:
-        if not isinstance(tolerance, (float, int)):
+        if not isinstance(tolerance, Real):
             raise TypeError("tolerance must be a float or int, got %s." % type(tolerance).__name__)
         r = tolerance
     phi = _app_samp_entropy(x, order=order, r=r, metric=metric, approximate=True)
@@ -854,7 +855,7 @@ def sample_entropy(x, order=2, tolerance=None, metric="chebyshev"):
     if tolerance is None:
         r = 0.2 * np.std(x, ddof=0)
     else:
-        if not isinstance(tolerance, (float, int)):
+        if not isinstance(tolerance, Real):
             raise TypeError("tolerance must be a float or int, got %s." % type(tolerance).__name__)
         r = tolerance
     x = np.asarray(x, dtype=np.float64)
@@ -1226,7 +1227,7 @@ def hjorth_params(x, sf=None, axis=-1):
     >>> np.round(ant.hjorth_params(x), 4)
     array([1.6917, 1.0717])
     """
-    if sf is not None and not isinstance(sf, (int, float)):
+    if sf is not None and not isinstance(sf, Real):
         raise TypeError("sf must be a numeric value (int or float), got %s." % type(sf).__name__)
     x = np.asarray(x)
     # Calculate derivatives

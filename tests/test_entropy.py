@@ -325,6 +325,12 @@ class TestEntropy(unittest.TestCase):
         # Invalid tolerance type raises TypeError (not AssertionError)
         with self.assertRaises(TypeError):
             sample_entropy(RANDOM_TS, order=2, tolerance="bad")
+        # NumPy scalars are valid tolerances, e.g. 0.2 * np.std(float32 data)
+        for tol in (np.float32(0.1), np.float64(0.1), np.int64(1)):
+            np.testing.assert_allclose(
+                sample_entropy(RANDOM_TS, order=2, tolerance=tol),
+                sample_entropy(RANDOM_TS, order=2, tolerance=float(tol)),
+            )
         # Signal with m-length matches but no (m+1)-length matches → inf
         x_inf = np.array([0.0, 10.0, 0.0, 20.0])
         assert sample_entropy(x_inf, order=1, tolerance=0.1) == np.inf
@@ -349,6 +355,11 @@ class TestEntropy(unittest.TestCase):
         # Invalid tolerance type raises TypeError (not AssertionError)
         with self.assertRaises(TypeError):
             app_entropy(RANDOM_TS, order=2, tolerance="bad")
+        # NumPy scalars are valid tolerances
+        np.testing.assert_allclose(
+            app_entropy(RANDOM_TS, order=2, tolerance=np.float32(0.1)),
+            app_entropy(RANDOM_TS, order=2, tolerance=float(np.float32(0.1))),
+        )
 
     def test_lziv_complexity(self):
         """Compare to:
@@ -421,6 +432,9 @@ class TestEntropy(unittest.TestCase):
         # Invalid sf type raises TypeError
         with self.assertRaises(TypeError):
             hjorth_params(RANDOM_TS, sf="100")
+        # NumPy scalars are valid sampling frequencies
+        mob_np, _ = hjorth_params(RANDOM_TS, sf=np.int64(100))
+        np.testing.assert_allclose(mob_np, mob * 100)
 
     def test_notwritable_dtypes(self):
         entropy_funcs = [
